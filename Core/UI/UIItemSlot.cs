@@ -134,7 +134,6 @@ namespace Disarray.Core.UI
 				item.SetDefaults(heldItem.type);
 				item = item.CloneWithModdedDataFrom(heldItem);
 				item.modItem?.SetDefaults();
-
 				expressedItem = expressedItem.CloneWithModdedDataFrom(heldItem);
 
 				if (Main.mouseItem.IsAir)
@@ -176,8 +175,9 @@ namespace Disarray.Core.UI
 
 			if (!item.IsAir)
 			{
-				Texture2D texture = Main.itemTexture[expressedItem.type];
-				if (expressedItem.modItem is ForgeItem forgeItem)
+				Item refItem = expressedItem.IsAir ? item : expressedItem;
+				Texture2D texture = Main.itemTexture[refItem.type];
+				if (refItem.modItem is ForgeItem forgeItem)
 				{
 					if (forgeItem.ForgedTemplate != null)
 					{

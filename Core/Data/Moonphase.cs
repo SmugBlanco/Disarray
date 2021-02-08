@@ -88,12 +88,5 @@ namespace Disarray.Core.Data
 
 			return PhasesOfMoon.WaningCrescent;
 		}
-
-		public double GetMoonphase2()
-		{
-			TimeSpan difference = refTime.Subtract(refNewMoon);
-			double HoursIntoMoonCycle = difference.TotalHours % MoonPhaseCycleInHour;
-			return HoursIntoMoonCycle;
-		}
 	}
 }

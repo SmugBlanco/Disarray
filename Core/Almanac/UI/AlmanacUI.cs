@@ -334,6 +334,7 @@ namespace Disarray.Core.Almanac.UI
 				StatisticTextbox.CurrentText = "Statistics:\nInsert an item into the Item Slot to view it's statistics!";
 				ObtainingTextbox.CurrentText = "Obtaining:\nInsert an item into the Item Slot to view it's obtained!";
 				MiscellaneousTextbox.CurrentText = "Miscellaneous Information:\nInsert an item into the Item Slot to view it's miscellaneous information!";
+				SlotItemData.Clear();
 			}
 
 			if (ItemSlot.expressedItem.modItem != null && ItemSlot.expressedItem.modItem is ForgeBase forgeBase)
@@ -343,16 +344,12 @@ namespace Disarray.Core.Almanac.UI
 				StatisticTextbox.CurrentText = "Statistics:\n" + forgeBase.ItemStatistics();
 				ObtainingTextbox.CurrentText = "Obtaining:\n" + forgeBase.ObtainingDetails();
 				MiscellaneousTextbox.CurrentText = "Miscellaneous Information:\n" + forgeBase.MiscDetails();
+				SlotItemData.Clear();
 
 				if (forgeBase is ForgeItem forgeItem)
                 {
-					SlotItemData = new List<ForgeBase>();
 					SlotItemData = forgeItem.UniqueBases.ToList();
 					SlotItemData.Insert(0, ItemSlot.item.modItem as ForgeBase);
-				}
-				else
-                {
-					SlotItemData = new List<ForgeBase>();
 				}
 			}
 		}
@@ -438,6 +435,7 @@ namespace Disarray.Core.Almanac.UI
         public override void OnDeactivate()
 		{
 			SecondPage = null;
+			ItemSlot.ReleaseItem();
 			ItemSlot = null;
 		}
 

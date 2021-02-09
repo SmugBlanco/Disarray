@@ -11,6 +11,7 @@ using System.Reflection;
 using Terraria.ModLoader.IO;
 using System.Linq;
 using Disarray.Core.Almanac;
+using Microsoft.Xna.Framework.Input;
 
 namespace Disarray.Core.Forge.Items
 {
@@ -34,6 +35,7 @@ namespace Disarray.Core.Forge.Items
 			newItem.ForgedComponents = oldItem.ForgedComponents.ToList();
 			newItem.ForgedModifiers = oldItem.ForgedModifiers.ToList();
 			newItem.AllBases = oldItem.AllBases.ToList();
+			newItem.UniqueBases = new HashSet<ForgeBase>(oldItem.UniqueBases);
 			return newItem;
 		}
 
@@ -44,6 +46,7 @@ namespace Disarray.Core.Forge.Items
 			ForgedComponents.Clear();
 			ForgedModifiers.Clear();
 			AllBases.Clear();
+			UniqueBases.Clear();
 		}
 
 		public override string ItemStatistics()

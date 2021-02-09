@@ -134,7 +134,10 @@ namespace Disarray.Core.UI
 				item.SetDefaults(heldItem.type);
 				item = item.CloneWithModdedDataFrom(heldItem);
 				item.modItem?.SetDefaults();
+
+				expressedItem.SetDefaults(heldItem.type);
 				expressedItem = expressedItem.CloneWithModdedDataFrom(heldItem);
+				expressedItem.modItem?.SetDefaults();
 
 				if (Main.mouseItem.IsAir)
 				{

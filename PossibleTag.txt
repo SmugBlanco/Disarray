@@ -1,4 +1,0 @@
-.tag add partners Hey there! We noticed you were asking questions about another mod and we wanted to inform you that this server is not the best place to ask these questions. Counter to your intuitions, this server is not regarding the mods utilising the tModLoader API, but rather the API itself.
-
-Now, where is the correct place to ask then?
-Most large mods are partnered and you can find their discord server invites in #partners. If the mod in question is not there, you can try getting their homepage in game; or through #botworld by using the command `.mod internalname]`.

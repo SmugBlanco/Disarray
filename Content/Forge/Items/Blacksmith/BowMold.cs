@@ -11,10 +11,26 @@ namespace Disarray.Content.Forge.Items.Blacksmith
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bow Mold");
-			Tooltip.SetDefault("Serves as a basic template for creating a custom staff");
 		}
 
-		public override void NonProductDefaults()
+		public override string ItemDescription() => "Serves as one of the most basic templates to create a custom item.";
+
+        public override string ItemStatistics()
+        {
+			string Damage = "Damage: " + (item.damage + DamageFlat);
+			string CritChance = "Crit Chance: " + item.crit + "%";
+			string UseTime = "Use Time: " + item.useTime;
+			string UseAnimation = "Use Animation: " + item.useAnimation;
+			string ShootSpeed = "Shoot Speed: " + item.shootSpeed;
+			string Ammunition = "Uses arrows as ammunition";
+			return Damage + "\n" + CritChance + "\n" + UseTime + "\n" + UseAnimation + "\n" + ShootSpeed + "\n" + Ammunition;
+		}
+
+        public override string ObtainingDetails() => "Purchasable from your local Blacksmith.";
+
+		public override string MiscDetails() => "Most materials and components effects are boosted on molds";
+
+        public override void NonProductDefaults()
 		{
 			item.width = 36;
 			item.height = 36;
@@ -40,5 +56,5 @@ namespace Disarray.Content.Forge.Items.Blacksmith
 			item.shootSpeed = 7;
 			item.useAmmo = AmmoID.Arrow;
 		}
-	}
+    }
 }

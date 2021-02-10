@@ -144,7 +144,7 @@ namespace Disarray.Core.Forge.UI
 				ItemSlots[RedSlotIndex].item.SetDefaults();
 				ItemSlots[RedSlotIndex].item.SetDefaults(ModContent.ItemType<ForgeItem>());
 				ForgeItem newItem = ItemSlots[RedSlotIndex].item.modItem as ForgeItem;
-				newItem.ForgedTemplate = ModContent.GetModItem(TemplateType) as Templates;
+				newItem.AllBases.Add(ModContent.GetModItem(TemplateType) as Templates);
 
 				bool BasicItemCheck(Item item)
                 {
@@ -155,29 +155,11 @@ namespace Disarray.Core.Forge.UI
 					return false;
                 }
 
-				for (int Indexer = 0; Indexer < 5; Indexer++)
+				for (int Indexer = 0; Indexer < RedSlotIndex; Indexer++)
 				{
 					if (BasicItemCheck(ItemSlots[Indexer].item))
 					{
-						newItem.ForgedMaterials.Add(ItemSlots[Indexer].item.modItem as Materials);
-						ItemSlots[Indexer].item.SetDefaults();
-					}
-				}
-
-				for (int Indexer = 5; Indexer < 10; Indexer++)
-				{
-					if (BasicItemCheck(ItemSlots[Indexer].item))
-					{
-						newItem.ForgedComponents.Add(ItemSlots[Indexer].item.modItem as Components);
-						ItemSlots[Indexer].item.SetDefaults();
-					}
-				}
-
-				for (int Indexer = 10; Indexer < 14; Indexer++)
-				{
-					if (BasicItemCheck(ItemSlots[Indexer].item))
-					{
-						newItem.ForgedModifiers.Add(ItemSlots[Indexer].item.modItem as Modifiers);
+						newItem.AllBases.Add(ModLoader.GetMod("Disarray").GetItem(ItemSlots[Indexer].item.modItem?.Name) as ForgeBase);
 						ItemSlots[Indexer].item.SetDefaults();
 					}
 				}
@@ -191,6 +173,7 @@ namespace Disarray.Core.Forge.UI
 			Background = null;
 			for (int Index = 0; Index < ItemSlots.Length; Index++)
 			{
+				ItemSlots[Index].ReleaseItem();
 				ItemSlots[Index] = null;
 			}
 		}

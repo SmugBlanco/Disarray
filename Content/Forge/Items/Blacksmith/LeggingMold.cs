@@ -1,13 +1,12 @@
-using Disarray.Core.Forge.Items;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace Disarray.Content.Forge.Items.Blacksmith
 {
-	public class LeggingMold : Templates
+	public class LeggingMold : BlacksmithItem
 	{
-		public override bool Autoload(ref string name) => AutoloadArmor(name, item, EquipType.Legs, item.modItem.Texture + "LeggingMold_Item");
+		public override bool Autoload(ref string name) => AutoloadArmor(name, item, EquipType.Legs, (GetType().Namespace + "." + GetType().Name).Replace('.', '/') + "_Item");
 
 		public override void SetStaticDefaults()
 		{
@@ -23,13 +22,17 @@ namespace Disarray.Content.Forge.Items.Blacksmith
 			item.maxStack = 999;
 		}
 
-		public override void SafeDefaults(Item newItem)
+		public override string ItemStatistics() => "Defense: " + Defense;
+
+		public override void SafeDefaults(Item item)
 		{
-			newItem.width = 22;
-			newItem.height = 18;
-			newItem.rare = ItemRarityID.Blue;
-			SlotData.TryGetValue(item.type, out int slot);
-			newItem.legSlot = slot;
+			item.width = 22;
+			item.height = 18;
+			item.rare = ItemRarityID.Blue;
+            SlotData.TryGetValue(base.item.type, out int slot);
+			item.legSlot = slot;
+
+			Defense = 1;
 		}
 	}
 }

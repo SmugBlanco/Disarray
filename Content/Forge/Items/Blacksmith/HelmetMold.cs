@@ -1,19 +1,20 @@
-using Disarray.Core.Forge.Items;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace Disarray.Content.Forge.Items.Blacksmith
 {
-	public class HelmetMold : Templates
+	public class HelmetMold : BlacksmithItem
 	{
-		public override bool Autoload(ref string name) => AutoloadArmor(name, item, EquipType.Head, item.modItem.Texture + "HelmetMold_Item");
+		public override bool Autoload(ref string name) => AutoloadArmor(name, item, EquipType.Head, (GetType().Namespace + "." + GetType().Name).Replace('.', '/') + "_Item");
 
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Helmet Mold");
 			Tooltip.SetDefault("Serves as a basic template for creating a custom helmet");
 		}
+
+		public override string ItemStatistics() => "Defense: " + Defense;
 
 		public override void NonProductDefaults()
 		{
@@ -23,13 +24,15 @@ namespace Disarray.Content.Forge.Items.Blacksmith
 			item.maxStack = 999;
 		}
 
-		public override void SafeDefaults(Item newItem)
+		public override void SafeDefaults(Item item)
 		{
-			newItem.width = 20;
-			newItem.height = 18;
-			newItem.rare = ItemRarityID.Blue;
-			SlotData.TryGetValue(item.type, out int slot);
-			newItem.headSlot = slot;
+			item.width = 20;
+			item.height = 18;
+			item.rare = ItemRarityID.Blue;
+            SlotData.TryGetValue(base.item.type, out int slot);
+			item.headSlot = slot;
+
+			Defense = 1;
 		}
     }
 }

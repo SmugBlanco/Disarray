@@ -6,8 +6,6 @@ using Terraria.UI;
 using System;
 using System.Collections.Generic;
 using Disarray.Core.Forge.Items;
-using Disarray.Content.Forge.Items.Blacksmith;
-using Terraria.ID;
 
 namespace Disarray.Core.UI
 {
@@ -15,60 +13,41 @@ namespace Disarray.Core.UI
 	{
 		public Texture2D ImageBG;
 		public Item item = new Item();
-		public Item expressedItem = new Item();
 		public Type ValidItemType = typeof(ModItem);
 		public List<UIItemSlot> OthersToAccountFor = new List<UIItemSlot>();
 
-		private Player player => Main.LocalPlayer;
+		public Player player => Main.LocalPlayer;
 
-		private Item heldItem => Main.mouseItem.IsAir ? player.HeldItem : Main.mouseItem;
+		public Item heldItem => Main.mouseItem.IsAir ? player.HeldItem : Main.mouseItem;
 
 		public event Action ItemChanged;
-		public event Action ExpressedItemChanged;
 
 		public UIItemSlot(Texture2D image, Type validItemType, List<UIItemSlot> Others = null)
 		{
 			ImageBG = image;
 			item.SetDefaults();
-			expressedItem.SetDefaults();
 			ValidItemType = validItemType;
 			OthersToAccountFor = Others;
 		}
 
 		public void ReleaseItem()
 		{
-			//Nothing appears in logs or in game chat when this breaks. Somehow one variant works perfectly normal while another just breaks?
 			Item newestItem = item.CloneWithModdedDataFrom(item); // DO NOT REMOVE. REMOVAL CAUSES EVERYTHING TO BREAK.
 
-			//Main.mouseItem = ModContent.GetModItem(ModContent.ItemType<RevolverMold>()).item.Clone();
-			//Main.mouseItem.SetDefaults(); //Does nothing
-
-			//Main.NewText("Check for sanity"); // Gets called whenever the first condition is not met
-
-			//if (Main.mouseItem == null) Main.NewText("Mouse item is null"); // Does not get called 
-
-			//if (Main.mouseItem.modItem == null) Main.NewText("Mouse item's moditem is null"); // Does not get called 
-
-			//string NewString = Main.mouseItem?.ToString();
-			//Main.NewText("string" + (string.IsNullOrEmpty(NewString) ? "Is NullOrEmpty" : "Perfectly Normal :)") + " | " + (string.IsNullOrWhiteSpace(NewString) ? "Is NullOrWhiteSpace" : "Perfectly Normal :)")); // Nothing gets printed when the first condition is met
-
-			if (Main.mouseItem.IsAir) // If this condition is satisfied, nothing happens
+			if (Main.mouseItem.IsAir)
 			{
-				//Main.NewText("Testing");
 				Main.mouseItem.SetDefaults(item.type);
 				Item mouseSpawnedItem = Main.mouseItem;
 				mouseSpawnedItem = mouseSpawnedItem.CloneWithModdedDataFrom(item);
 				mouseSpawnedItem.modItem?.SetDefaults();
 				return;
 			}
-			else if (Main.mouseItem.type == item.type && Main.mouseItem.stack < Main.mouseItem.maxStack && !(Main.mouseItem.modItem is ForgeItem)) // Works as intended
+			else if (Main.mouseItem.type == item.type && Main.mouseItem.stack < Main.mouseItem.maxStack && !(Main.mouseItem.modItem is ForgeItem))
 			{
-				//Main.NewText("Test 2");
 				Main.mouseItem.stack++;
 				return;
 			}
 
-			//Main.NewText("Test 3"); //Works as normal 
 			Item spawnedItem = Main.item[Item.NewItem(player.getRect(), item.type)];
 			spawnedItem = spawnedItem.CloneWithModdedDataFrom(item);
 			spawnedItem.modItem?.SetDefaults();
@@ -110,12 +89,22 @@ namespace Disarray.Core.UI
 			ItemChanged?.Invoke();
 		}
 
-		public void ChangeExpressed(Item refItem)
+		public void InvokeItemChanged() => ItemChanged?.Invoke();
+
+		public void HandleConsuming()
         {
-			expressedItem.SetDefaults(refItem.type);
-			expressedItem = expressedItem.CloneWithModdedDataFrom(refItem);
-			expressedItem.modItem?.SetDefaults();
-			ExpressedItemChanged?.Invoke();
+			if (Main.mouseItem.IsAir)
+			{
+				player.ConsumeItem(heldItem.type, true);
+			}
+			else
+			{
+				Main.mouseItem.stack--;
+				if (Main.mouseItem.stack <= 0)
+				{
+					Main.mouseItem.SetDefaults();
+				}
+			}
 		}
 
 		public override void Click(UIMouseEvent evt)
@@ -124,7 +113,6 @@ namespace Disarray.Core.UI
 			{
 				ReleaseItem();
 				item.SetDefaults();
-				expressedItem.SetDefaults();
 				ItemChanged?.Invoke();
 				return;
 			}
@@ -135,22 +123,7 @@ namespace Disarray.Core.UI
 				item = item.CloneWithModdedDataFrom(heldItem);
 				item.modItem?.SetDefaults();
 
-				expressedItem.SetDefaults(heldItem.type);
-				expressedItem = expressedItem.CloneWithModdedDataFrom(heldItem);
-				expressedItem.modItem?.SetDefaults();
-
-				if (Main.mouseItem.IsAir)
-				{
-					player.ConsumeItem(heldItem.type, true);
-				}
-				else
-                {
-					Main.mouseItem.stack--;
-					if (Main.mouseItem.stack <= 0)
-					{
-						Main.mouseItem.SetDefaults();
-					}
-				}
+				HandleConsuming();
 
 				ItemChanged?.Invoke();
 			}
@@ -178,9 +151,8 @@ namespace Disarray.Core.UI
 
 			if (!item.IsAir)
 			{
-				Item refItem = expressedItem.IsAir ? item : expressedItem;
-				Texture2D texture = Main.itemTexture[refItem.type];
-				if (refItem.modItem is ForgeItem forgeItem)
+				Texture2D texture = Main.itemTexture[item.type];
+				if (item.modItem is ForgeItem forgeItem)
 				{
 					if (forgeItem.ForgedTemplate != null)
 					{

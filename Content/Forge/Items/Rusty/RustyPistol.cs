@@ -1,16 +1,15 @@
 using Terraria;
 using Terraria.ID;
 
-namespace Disarray.Content.Forge.Items.Blacksmith
+namespace Disarray.Content.Forge.Items.Rusty
 {
-	public class RevolverMold : BlacksmithItem
+	public class RustyPistol : RustyItem
 	{
 		public override bool Autoload(ref string name) => AutoloadWeapon(name, item, string.Empty, (GetType().Namespace + "." + GetType().Name).Replace('.', '/') + "_Weapon");
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Revolver Mold");
-			Tooltip.SetDefault("Serves as a basic template for creating a custom staff");
+			DisplayName.SetDefault("Rusty Pistol");
 		}
 
 		public override string ItemStatistics()
@@ -27,8 +26,8 @@ namespace Disarray.Content.Forge.Items.Blacksmith
 
 		public override void NonProductDefaults()
 		{
-			item.width = 36;
-			item.height = 36;
+			item.width = 30;
+			item.height = 22;
 			item.maxStack = 999;
 
 			item.useStyle = 0;
@@ -39,19 +38,19 @@ namespace Disarray.Content.Forge.Items.Blacksmith
 
 		public override void SafeDefaults(Item item)
 		{
-			item.width = 38;
-			item.height = 24;
-			item.rare = ItemRarityID.Blue;
+			item.width = 36;
+			item.height = 22;
+			item.rare = ItemRarityID.White;
 			item.UseSound = SoundID.Item11;
 
 			item.ranged = true;
-			item.damage = 12;
-			item.crit = 4;
-			item.knockBack = 1f;
+			item.damage = 10;
+			item.crit = 6;
+			item.knockBack = 0.8f;
 
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useTime = 45;
-			item.useAnimation = 45;
+			item.useTime = 42;
+			item.useAnimation = 42;
 
 			item.shoot = ProjectileID.Bullet;
 			item.shootSpeed = 12;

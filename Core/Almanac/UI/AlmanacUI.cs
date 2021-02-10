@@ -61,9 +61,9 @@ namespace Disarray.Core.Almanac.UI
 
 		public UIImage SecondPage;
 		public string ItemName = string.Empty;
-		public UIItemSlot ItemSlot;
+		public ExpressableItemSlot ItemSlot;
 		public int CurrentSlot;
-		public List<ForgeBase> SlotItemData = new List<ForgeBase>();
+		public IList<ForgeBase> SlotItemData = new List<ForgeBase>();
 		public UIImageButton SlotCycleLeft;
 		public UIImageButton SlotCycleRight;
 
@@ -210,7 +210,7 @@ namespace Disarray.Core.Almanac.UI
 			SecondPage.Height.Set(bgTexture.Height, 0);
 
 			Texture2D itemSlotTexture = ModContent.GetTexture(AssetDirectory + "_ItemSlot");
-			ItemSlot = new UIItemSlot(itemSlotTexture, typeof(ForgeBase), null);
+			ItemSlot = new ExpressableItemSlot(itemSlotTexture, typeof(ForgeBase), null);
 			ItemSlot.Left.Set(318, 0f);
 			ItemSlot.Top.Set(50, 0f);
 			ItemSlot.Width.Set(itemSlotTexture.Width, 0);
@@ -327,7 +327,7 @@ namespace Disarray.Core.Almanac.UI
 
 		private void ItemSlot_ItemChanged()
 		{
-			if (ItemSlot.expressedItem.IsAir || ItemSlot.expressedItem.modItem == null)
+			if (ItemSlot.item.IsAir || ItemSlot.item.modItem == null)
 			{
 				ItemName = string.Empty;
 				DescriptionTextbox.CurrentText = "Description:\nInsert an item into the Item Slot to view it's description!";
@@ -337,7 +337,7 @@ namespace Disarray.Core.Almanac.UI
 				SlotItemData.Clear();
 			}
 
-			if (ItemSlot.expressedItem.modItem != null && ItemSlot.expressedItem.modItem is ForgeBase forgeBase)
+			if (ItemSlot.item.modItem != null && ItemSlot.item.modItem is ForgeBase forgeBase)
 			{
 				ItemName = ItemSlot.item.Name;
 				DescriptionTextbox.CurrentText = "Description:\n" + forgeBase.ItemDescription();
@@ -348,6 +348,7 @@ namespace Disarray.Core.Almanac.UI
 
 				if (forgeBase is ForgeItem forgeItem)
                 {
+					ItemSlot.item.modItem?.SetDefaults();
 					SlotItemData = forgeItem.UniqueBases.ToList();
 					SlotItemData.Insert(0, ItemSlot.item.modItem as ForgeBase);
 				}

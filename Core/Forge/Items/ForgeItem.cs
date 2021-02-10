@@ -12,17 +12,17 @@ using Terraria.ModLoader.IO;
 using System.Linq;
 using Disarray.Core.Almanac;
 using Microsoft.Xna.Framework.Input;
+using Disarray.Core.Extensions;
 
 namespace Disarray.Core.Forge.Items
 {
 	public class ForgeItem : ForgeBase
 	{
-		public Templates ForgedTemplate;
-		public List<Materials> ForgedMaterials = new List<Materials>();
-		public List<Components> ForgedComponents = new List<Components>();
-		public List<Modifiers> ForgedModifiers = new List<Modifiers>();
-		public List<ForgeBase> AllBases = new List<ForgeBase>();
-		public HashSet<ForgeBase> UniqueBases = new HashSet<ForgeBase>();
+		public Templates ForgedTemplate => AllBases.First(template => template is Templates) as Templates;
+
+		public ICollection<ForgeBase> AllBases = new List<ForgeBase>();
+
+		public IEnumerable<ForgeBase> UniqueBases => AllBases.Distinct();
 
 		public override bool CloneNewInstances => true;
 
@@ -30,23 +30,13 @@ namespace Disarray.Core.Forge.Items
         {
 			ForgeItem newItem = item.modItem as ForgeItem ?? MemberwiseClone() as ForgeItem;
 			ForgeItem oldItem = this;
-			newItem.ForgedTemplate = oldItem.ForgedTemplate;
-			newItem.ForgedMaterials = oldItem.ForgedMaterials.ToList();
-			newItem.ForgedComponents = oldItem.ForgedComponents.ToList();
-			newItem.ForgedModifiers = oldItem.ForgedModifiers.ToList();
 			newItem.AllBases = oldItem.AllBases.ToList();
-			newItem.UniqueBases = new HashSet<ForgeBase>(oldItem.UniqueBases);
 			return newItem;
 		}
 
 		public void Reset()
         {
-			ForgedTemplate = null;
-			ForgedMaterials.Clear();
-			ForgedComponents.Clear();
-			ForgedModifiers.Clear();
 			AllBases.Clear();
-			UniqueBases.Clear();
 		}
 
 		public override string ItemStatistics()
@@ -71,7 +61,7 @@ namespace Disarray.Core.Forge.Items
 
         public override void SetDefaults()
 		{
-			if (ForgedTemplate == null)
+			if (AllBases.Count <= 0)
 			{
 				item.width = 32;
 				item.height = 32;
@@ -81,30 +71,6 @@ namespace Disarray.Core.Forge.Items
 
 			ForgedTemplate.SafeDefaults(item);
 
-			if (AllBases.Count == 0)
-			{
-				AllBases.Add(ForgedTemplate);
-				UniqueBases.Add(ForgedTemplate);
-
-				foreach (Materials materials in ForgedMaterials)
-				{
-					AllBases.Add(materials);
-					UniqueBases.Add(materials);
-				}
-
-				foreach (Components components in ForgedComponents)
-				{
-					AllBases.Add(components);
-					UniqueBases.Add(components);
-				}
-
-				foreach (Modifiers modifiers in ForgedModifiers)
-				{
-					AllBases.Add(modifiers);
-					UniqueBases.Add(modifiers);
-				}
-			}
-		
 			item.maxStack = 1;
 			item.consumable = false;
 		}
@@ -167,6 +133,8 @@ namespace Disarray.Core.Forge.Items
 			{
 				forgeBase.HoldItem(player);
 			}
+
+			ImplementStats(player);
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -250,6 +218,8 @@ namespace Disarray.Core.Forge.Items
 			{
 				forgeBase.UpdateEquip(player);
 			}
+
+			ImplementStats(player);
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
@@ -258,6 +228,8 @@ namespace Disarray.Core.Forge.Items
 			{
 				forgeBase.UpdateAccessory(player, hideVisual);
 			}
+
+			ImplementStats(player);
 		}
 
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
@@ -275,68 +247,37 @@ namespace Disarray.Core.Forge.Items
 
 		public override TagCompound Save()
 		{
-			if (ForgedTemplate == null)
+			if (AllBases.Count <= 0)
             {
 				return null;
             }
 
-			List<string>[] SavedForgedMaterials = new List<string>[3];
-			for (int Indexer = 0; Indexer < SavedForgedMaterials.Length; Indexer++)
-			{
-				SavedForgedMaterials[Indexer] = new List<string>();
-			}
+			List<string> SavedData = new List<string>();
+			foreach (ForgeBase bases in AllBases)
+            {
+				SavedData.Add(bases.Name);
+            }
 
-			foreach (Materials materials in ForgedMaterials)
-			{
-				SavedForgedMaterials[0].Add(materials.Name);
-			}
-
-			foreach (Components components in ForgedComponents)
-			{
-				SavedForgedMaterials[1].Add(components.Name);
-			}
-
-			foreach (Modifiers modifiers in ForgedModifiers)
-			{
-				SavedForgedMaterials[2].Add(modifiers.Name);
-			}
-
-			mod.Logger.InfoFormat("Saving: " + SavedForgedMaterials[0].Count + " items", mod.Name);
 			return new TagCompound
 			{
-				{ "ForgedTemplate", ForgedTemplate.Name },
-				{ "ForgedMaterials", SavedForgedMaterials[0] },
-				{ "ForgedComponents", SavedForgedMaterials[1] },
-				{ "ForgedModifiers", SavedForgedMaterials[2] },
+				{ "ForgedBases", SavedData },
 			};
 		}
 
 		public override void Load(TagCompound tag)
 		{
-			ForgedTemplate = (Templates)mod.GetItem(tag.Get<string>("ForgedTemplate"));
-
-			List<string> ThisList = tag.Get<List<string>>("ForgedMaterials");
-			mod.Logger.InfoFormat("Loading: " + ThisList.Count + " items", mod.Name);
-			foreach (string item in ThisList)
-            {
-				mod.Logger.InfoFormat(item, mod.Name);
-				ForgedMaterials.Add((Materials)mod.GetItem(item));
-			}
-
-			foreach (string item in tag.Get<List<string>>("ForgedComponents"))
+			List<string> SavedData = tag.Get<List<string>>("ForgedBases");
+			List<ForgeBase> allBases = new List<ForgeBase>();
+			foreach (string bases in SavedData)
 			{
-				ForgedComponents.Add((Components)mod.GetItem(item));
+				allBases.Add(mod.GetItem(bases) as ForgeBase);
 			}
-
-			foreach (string item in tag.Get<List<string>>("ForgedModifiers"))
-			{
-				ForgedModifiers.Add((Modifiers)mod.GetItem(item));
-			}
-
+			AllBases = allBases.ToList();
+			allBases.Clear();
 			SetDefaults();
 		}
 
-		public override void NetSend(BinaryWriter writer)
+		/*public override void NetSend(BinaryWriter writer)
 		{
 			List<string>[] SavedForgedMaterials = new List<string>[3];
 			for (int Indexer = 0; Indexer < SavedForgedMaterials.Length; Indexer++)
@@ -396,41 +337,6 @@ namespace Disarray.Core.Forge.Items
 			{
 				ForgedModifiers.Add((Modifiers)mod.GetItem(reader.ReadString()));
 			}
-		}
+		}*/
     }
-
-	/*public class ChangingTownNPCShop : GlobalNPC
-	{
-		class ReverseSort : IComparer<int>
-		{
-			public int Compare(int x, int y)
-			{
-				return 1;
-			}
-		}
-
-		public override void SetupShop(int type, Chest shop, ref int nextSlot)
-		{
-			if (type == NPCID.ArmsDealer)
-			{
-				List<int> ArmsDealerShop = new List<int>(); //depends on your preference. Alternatively from this you can just initialize the list by shop.item.ToList();
-				for (int Indexer = 0; Indexer < nextSlot; Indexer++)
-				{
-					ArmsDealerShop.Add(shop.item[Indexer].type); //not needed if you plan on shop.item.ToList();
-					shop.item[Indexer].SetDefaults();
-				}
-
-				ReverseSort sort = new ReverseSort();
-				ArmsDealerShop.Sort(sort); //simple comparitor that flips the shop, i suppose you could just manually move the data
-
-				int newNextSlot = 0;
-				foreach(int ShopItems in ArmsDealerShop)
-                {
-					shop.item[newNextSlot].SetDefaults(ShopItems); //readds shop data from square 0
-					newNextSlot++;
-				}
-				nextSlot = newNextSlot; //ensures not breaking
-			}
-		}
-	}*/
 }

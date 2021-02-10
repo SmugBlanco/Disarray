@@ -1,16 +1,15 @@
 using Terraria;
 using Terraria.ID;
 
-namespace Disarray.Content.Forge.Items.Blacksmith
+namespace Disarray.Content.Forge.Items.Rusty
 {
-	public class RevolverMold : BlacksmithItem
+	public class RustyBow : RustyItem
 	{
 		public override bool Autoload(ref string name) => AutoloadWeapon(name, item, string.Empty, (GetType().Namespace + "." + GetType().Name).Replace('.', '/') + "_Weapon");
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Revolver Mold");
-			Tooltip.SetDefault("Serves as a basic template for creating a custom staff");
+			DisplayName.SetDefault("Rusty Bow");
 		}
 
 		public override string ItemStatistics()
@@ -21,14 +20,14 @@ namespace Disarray.Content.Forge.Items.Blacksmith
 			string UseTime = "Use Time: " + item.useTime;
 			string UseAnimation = "Use Animation: " + item.useAnimation;
 			string ShootSpeed = "Shoot Speed: " + item.shootSpeed;
-			string Ammunition = "Uses bullets as ammunition";
+			string Ammunition = "Uses arrows as ammunition";
 			return Damage + "\n" + CritChance + "\n" + Knockback + "\n" + UseTime + "\n" + UseAnimation + "\n" + ShootSpeed + "\n" + Ammunition;
 		}
 
 		public override void NonProductDefaults()
 		{
-			item.width = 36;
-			item.height = 36;
+			item.width = 20;
+			item.height = 40;
 			item.maxStack = 999;
 
 			item.useStyle = 0;
@@ -39,23 +38,23 @@ namespace Disarray.Content.Forge.Items.Blacksmith
 
 		public override void SafeDefaults(Item item)
 		{
-			item.width = 38;
-			item.height = 24;
+			item.width = 22;
+			item.height = 40;
 			item.rare = ItemRarityID.Blue;
-			item.UseSound = SoundID.Item11;
+			item.UseSound = SoundID.Item5;
 
 			item.ranged = true;
-			item.damage = 12;
-			item.crit = 4;
-			item.knockBack = 1f;
+			item.damage = 8;
+			item.knockBack = 0.5f;
+			item.crit = 6;
 
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useTime = 45;
 			item.useAnimation = 45;
 
-			item.shoot = ProjectileID.Bullet;
-			item.shootSpeed = 12;
-			item.useAmmo = AmmoID.Bullet;
+			item.shoot = ProjectileID.WoodenArrowFriendly;
+			item.shootSpeed = 6.5f;
+			item.useAmmo = AmmoID.Arrow;
 		}
 	}
 }

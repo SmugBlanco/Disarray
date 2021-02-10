@@ -100,17 +100,12 @@ namespace Disarray.Core.Forge.Items
 		/// </summary>
 		public virtual string MiscDetails() => DefaultInformation;
 
-		/*private void ImplementStats(Player play)
+		public virtual void ModifySafeTooltips(List<TooltipLine> tooltips) { }
+
+		public sealed override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-			ForgePlayer player = play.GetModPlayer<ForgePlayer>();
-			player.MaxHealthPercent = MaxHealthPercent;
-			player.MaxHealthFlat = MaxHealthFlat;
-			player.ResistPercent = ResistPercent;
-			player.ResistFlat = ResistFlat;
-			player.CritRating = CritRating;
-			player.BlockRating = BlockRating;
-			player.PiercePercent = PiercePercent;
-			player.PierceFlat = PierceFlat;
-        }*/
+			ModifySafeTooltips(tooltips);
+			tooltips.Add(new TooltipLine(mod, "ForgeInformation", "Place this item in your 'Almanac' to access more information"));
+        }
     }
 }

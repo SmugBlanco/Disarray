@@ -40,7 +40,7 @@ namespace Disarray.Content.Forge.Items.Rusty
 		{
 			item.width = 22;
 			item.height = 40;
-			item.rare = ItemRarityID.Blue;
+			item.rare = ItemRarityID.White;
 			item.UseSound = SoundID.Item5;
 
 			item.ranged = true;

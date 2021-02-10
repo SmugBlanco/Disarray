@@ -144,6 +144,7 @@ namespace Disarray.Core.Forge.UI
 				ItemSlots[RedSlotIndex].item.SetDefaults();
 				ItemSlots[RedSlotIndex].item.SetDefaults(ModContent.ItemType<ForgeItem>());
 				ForgeItem newItem = ItemSlots[RedSlotIndex].item.modItem as ForgeItem;
+				newItem.AllBases = new List<ForgeBase>();
 				newItem.AllBases.Add(ModContent.GetModItem(TemplateType) as Templates);
 
 				bool BasicItemCheck(Item item)

@@ -18,6 +18,8 @@ namespace Disarray.Core.Forge.Items
 {
 	public class ForgeItem : ForgeBase
 	{
+		public ForgeItem() { }
+
 		public Templates ForgedTemplate => AllBases.First(template => template is Templates) as Templates;
 
 		public ICollection<ForgeBase> AllBases = new List<ForgeBase>();
@@ -129,11 +131,6 @@ namespace Disarray.Core.Forge.Items
 
 		public override void HoldItem(Player player)
 		{
-			foreach (ForgeBase forgeBase in AllBases)
-			{
-				forgeBase.HoldItem(player);
-			}
-
 			ImplementStats(player);
 		}
 
@@ -266,6 +263,8 @@ namespace Disarray.Core.Forge.Items
 
 		public override void Load(TagCompound tag)
 		{
+			AllBases = new List<ForgeBase>();
+			AllBases.Clear();
 			List<string> SavedData = tag.Get<List<string>>("ForgedBases");
 			List<ForgeBase> allBases = new List<ForgeBase>();
 			foreach (string bases in SavedData)

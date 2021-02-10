@@ -359,7 +359,7 @@ namespace Disarray.Core.Almanac.UI
 		{
 			if (ItemSlot.expressedItem.modItem != null && ItemSlot.expressedItem.modItem is ForgeBase forgeBase)
 			{
-				ItemName = forgeBase.item.Name;
+				ItemName = forgeBase.item.Name + (forgeBase is ForgeItem ? string.Empty : " - x" + (from bases in (ItemSlot.item.modItem as ForgeItem).AllBases where bases.Name == forgeBase.Name select bases).Count());
 				DescriptionTextbox.CurrentText = "Description:\n" + forgeBase.ItemDescription();
 				StatisticTextbox.CurrentText = "Statistics:\n" + forgeBase.ItemStatistics();
 				ObtainingTextbox.CurrentText = "Obtaining:\n" + forgeBase.ObtainingDetails();

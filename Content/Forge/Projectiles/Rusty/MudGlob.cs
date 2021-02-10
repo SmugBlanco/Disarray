@@ -9,14 +9,14 @@ namespace Disarray.Content.Forge.Projectiles.Rusty
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Coprolite");
+			DisplayName.SetDefault("Mud Glob");
 		}
 
 		public override void SetDefaults()
 		{
 			projectile.width = 8;
 			projectile.height = 8;
-			projectile.timeLeft = 60;
+			projectile.timeLeft = 90;
 
 			projectile.penetrate = 2;
 
@@ -31,22 +31,25 @@ namespace Disarray.Content.Forge.Projectiles.Rusty
 			projectile.velocity.X *= 0.995f;
 			projectile.velocity.Y += 0.125f;
 
-			for (int Indexer = 0; Indexer < 2; Indexer++)
+			if (projectile.timeLeft > 30)
 			{
-				Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 38, projectile.velocity.X, projectile.velocity.Y);
-			}
-		}
-
-		public override void Kill(int timeLeft)
-		{
-			for (int Indexer = 0; Indexer < 3; Indexer++)
-			{
-				Dust.NewDustDirect(projectile.Center, 0, 0, 36, (projectile.velocity.X) + Main.rand.NextFloat(-3, 3), (projectile.velocity.Y / 2) + Main.rand.NextFloat(-3, 3));
+				for (int Indexer = 0; Indexer < 2; Indexer++)
+				{
+					Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 38, projectile.velocity.X, projectile.velocity.Y);
+				}
 			}
 
-			for (int Indexer = 0; Indexer < 5; Indexer++)
+			if (projectile.timeLeft == 30)
 			{
-				Dust.NewDustDirect(projectile.position, (int)(projectile.width * 1.5), (int)(projectile.height * 1.5), 38, projectile.velocity.X + Main.rand.NextFloat(-2, 2), projectile.velocity.Y + Main.rand.NextFloat(-2, 2));
+				for (int Indexer = 0; Indexer < 3; Indexer++)
+				{
+					Dust.NewDustDirect(projectile.Center, 0, 0, 36, (projectile.velocity.X) + Main.rand.NextFloat(-3, 3), (projectile.velocity.Y / 2) + Main.rand.NextFloat(-3, 3));
+				}
+
+				for (int Indexer = 0; Indexer < 5; Indexer++)
+				{
+					Dust.NewDustDirect(projectile.position, (int)(projectile.width * 1.5), (int)(projectile.height * 1.5), 38, projectile.velocity.X + Main.rand.NextFloat(-2, 2), projectile.velocity.Y + Main.rand.NextFloat(-2, 2));
+				}
 			}
 		}
 

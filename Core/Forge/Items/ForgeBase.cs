@@ -81,7 +81,7 @@ namespace Disarray.Core.Forge.Items
 		public const string DefaultInformation = "No Available Information :(";
 
 		/// <summary>
-		/// Where worldbuilding takes place and lore is placed
+		/// Other details
 		/// </summary>
 		public virtual string ItemDescription() => DefaultInformation;
 
@@ -96,7 +96,7 @@ namespace Disarray.Core.Forge.Items
 		public virtual string ObtainingDetails() => DefaultInformation;
 
 		/// <summary>
-		/// Other details.
+		///  Where worldbuilding takes place and lore is placed
 		/// </summary>
 		public virtual string MiscDetails() => DefaultInformation;
 

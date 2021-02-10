@@ -1,9 +1,10 @@
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
-namespace Disarray.Content.Forge.Items.Rusty
+namespace Disarray.Content.Forge.Items.Cloud
 {
-	public class RustySword : RustyItem
+	public class CloudSword : CloudItem
 	{
 		public override bool Autoload(ref string name) => AutoloadWeapon(name, item, string.Empty, (GetType().Namespace + "." + GetType().Name).Replace('.', '/') + "_Weapon");
 
@@ -14,18 +15,19 @@ namespace Disarray.Content.Forge.Items.Rusty
 			string Knockback = "Knockback: " + item.knockBack;
 			string UseTime = "Use Time: " + item.useTime;
 			string UseAnimation = "Use Animation: " + item.useAnimation;
-			return Damage + "\n" + CritChance + "\n" + Knockback + "\n" + UseTime + "\n" + UseAnimation;
+			string Effect = "";
+			return Damage + "\n" + CritChance + "\n" + Knockback + "\n" + UseTime + "\n" + UseAnimation + "\n" + Effect;
 		}
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Rusty Sword");
+			DisplayName.SetDefault("Cloud Sword");
 		}
 
 		public override void NonProductDefaults()
 		{
-			item.width = 42;
-			item.height = 42;
+			item.width = 50;
+			item.height = 44;
 			item.maxStack = 999;
 
 			item.useStyle = 0;
@@ -33,19 +35,28 @@ namespace Disarray.Content.Forge.Items.Rusty
 
 		public override void SafeDefaults(Item item)
 		{
-			item.width = 42;
-			item.height = 42;
-			item.rare = ItemRarityID.White;
+			item.width = 44;
+			item.height = 44;
+			item.rare = ItemRarityID.Blue;
 			item.UseSound = SoundID.Item1;
 
 			item.melee = true;
-			item.damage = 15;
-			item.crit = 6;
-			item.knockBack = 4;
+			item.damage = 14;
+			item.crit = 4;
+			item.knockBack = 2.5f;
 
 			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 42;
-			item.useAnimation = 42;
+			item.useTime = 18;
+			item.useAnimation = 18;
+		}
+
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.Cloud, 15);
+			recipe.AddIngredient(ItemID.FallenStar, 5);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
 		}
 	}
 }

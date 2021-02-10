@@ -28,22 +28,21 @@ namespace Disarray.Core.Forge
         {
             ForgeItemPlayerLayers modPlayer = player.GetModPlayer<ForgeItemPlayerLayers>();
 
-            Vector2 drawPositionOffset = new Vector2(-8 * player.direction, -4);
+            Vector2 drawPositionOffset = new Vector2(0 * player.direction, 0);
 
             if (modPlayer.ItemUseProgress <= 0.333)
             {
-                drawPositionOffset = new Vector2(2 * player.direction, -6);
+                drawPositionOffset = new Vector2(-4 * player.direction, -4);
             }
-
-            if (modPlayer.ItemUseProgress <= 0.666)
+            else if (modPlayer.ItemUseProgress <= 0.666)
             {
-                drawPositionOffset = new Vector2(6 * player.direction, 2);
+                drawPositionOffset = new Vector2(0 * player.direction, -4);
             }
 
             Vector2 playerCenter = player.mount.Type == -1 ? player.Center : player.MountedCenter;
             drawPosition = playerCenter + drawPositionOffset - Main.screenPosition;
             float InitialRot = -120 * player.direction;
-            float IdealRot = 225 * player.direction;
+            float IdealRot = 180 * player.direction;
             rotation = player.itemRotation = MathHelper.ToRadians(InitialRot + (IdealRot * modPlayer.ItemUseProgress));
             drawOrigin = new Vector2(player.direction == 1 ? 0 : texture.Width, texture.Height);
             spriteEffects = player.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
@@ -91,6 +90,16 @@ namespace Disarray.Core.Forge
             spriteEffects = player.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
         }
 
+        //To do maybe 
+        /*public static void HandleThrust(Player player, Item item, ref Texture2D texture, ref Vector2 drawPosition, ref Rectangle sourceRectangle, ref Color drawColor, ref float rotation, ref Vector2 drawOrigin, ref float scale, ref SpriteEffects spriteEffects)
+        {
+            ForgeItemPlayerLayers modPlayer = player.GetModPlayer<ForgeItemPlayerLayers>();
+
+            drawOrigin = new Vector2(player.direction == 1 ? texture.Width : 0, 0);
+            
+            spriteEffects = player.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+        }*/
+
         public static readonly PlayerLayer HeldDraw = new PlayerLayer("Disarray", "ForgeItemHeld", PlayerLayer.MiscEffectsFront, delegate (PlayerDrawInfo drawInfo)
         {
             if (drawInfo.shadow != 0f)
@@ -102,6 +111,12 @@ namespace Disarray.Core.Forge
             if (drawPlayer.itemAnimation > 0)
             {
                 Item item = drawPlayer.HeldItem;
+
+                if (item.noUseGraphic)
+                {
+                    return;
+                }
+
                 ForgeItem forgeItem = item.modItem as ForgeItem;
                 Texture2D newTexture = ForgeBase.WeaponTextureData.TryGetValue(forgeItem.ForgedTemplate.item.type, out Texture2D WeaponTexture) ? WeaponTexture : ForgeBase.ItemTextureData.TryGetValue(forgeItem.ForgedTemplate.item.type, out Texture2D ItemTexture) ? ItemTexture : Main.itemTexture[forgeItem.ForgedTemplate.item.type];
                 Vector2 drawPosition = drawPlayer.Center - Main.screenPosition;
@@ -125,6 +140,10 @@ namespace Disarray.Core.Forge
                     case 5:
                         HandleHoldOut(drawPlayer, item, ref newTexture, ref drawPosition, ref sourceRect, ref drawColor, ref rotation, ref origin, ref itemScale, ref spriteEffects);
                         break;
+
+                    /*case 6:
+                        HandleHoldOut(drawPlayer, item, ref newTexture, ref drawPosition, ref sourceRect, ref drawColor, ref rotation, ref origin, ref itemScale, ref spriteEffects);
+                        break;*/
                 }
 
                 foreach (ForgeBase bases in forgeItem.AllBases)

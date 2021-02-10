@@ -4,10 +4,7 @@ To Do: Tommorrow
 [ DONE ] - Handle drawing for UseStyle 5
 [ WIP ] - Implement Other Weapons Mold + Accessories
 - CONTENT TIME!
-- Almanac or Textbook ( Name undecided ) a hub for general information regarding Forge Bases
-- Enlarge Description and Icon?
-- Implement check for item as well as loading text
-- Implement alternate page which displays real time information + other tidbits
+[ Done ] - Almanac or Textbook ( Name undecided ) a hub for general information regarding Forge Bases
 
 Blacksmith:
 [ DONE ] - Steel

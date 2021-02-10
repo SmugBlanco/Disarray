@@ -99,8 +99,7 @@ namespace Disarray.Core.Forge.Items
 					newDynamicScale = (newTextureFrame.Width <= newTextureFrame.Height) ? (32f / (float)newTextureFrame.Height) : (32f / (float)newTextureFrame.Width);
 				}
 				newDynamicScale *= Main.inventoryScale;
-				Vector2 newPosition = OriginalPosition - newTextureFrame.Size() * newDynamicScale / 2f;
-				spriteBatch.Draw(newTexture, newPosition, newTextureFrame, drawColor, 0f, Vector2.Zero, newDynamicScale, SpriteEffects.None, 0f);
+				spriteBatch.Draw(newTexture, OriginalPosition, newTextureFrame, drawColor, 0f, newTextureFrame.Size() / 2, newDynamicScale, SpriteEffects.None, 0f);
 				return false;
 			}
 			return base.PreDrawInInventory(spriteBatch, position, frame, drawColor, itemColor, origin, scale);
@@ -132,6 +131,10 @@ namespace Disarray.Core.Forge.Items
 		public override void HoldItem(Player player)
 		{
 			ImplementStats(player);
+			foreach (ForgeBase forgeBase in AllBases)
+			{
+				forgeBase.HoldItem(player);
+			}
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

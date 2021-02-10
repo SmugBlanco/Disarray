@@ -2,6 +2,7 @@ using Disarray.Core.Forge;
 using Disarray.Core.Forge.Items;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace Disarray.Content.Forge.Items.Rusty
 {

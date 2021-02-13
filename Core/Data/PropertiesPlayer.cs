@@ -11,5 +11,9 @@ namespace Disarray.Core.Data
         public virtual void ModifyHitNPC(Player player, Item item, NPC target, ref int damage, ref float knockback, ref bool crit) { }
 
         public virtual void ModifyHitNPCWithProj(Player player, Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit) { }
+
+        public virtual void OnHitNPC(Player player, Item item, NPC target, int damage, float knockback, bool crit) { }
+
+        public virtual void OnHitNPCWithProj(Player player, Projectile proj, NPC target, int damage, float knockback, bool crit) { }
     }
 }

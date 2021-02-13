@@ -43,14 +43,13 @@ namespace Disarray.Content.Forge.Projectiles.Cloud
 
 			projectile.velocity = Vector2.Zero;
 
-			if (++RainTimer > 30 && Main.netMode != NetmodeID.MultiplayerClient)
+			if (projectile.timeLeft < 30)
+			{
+				projectile.alpha += 8;
+			}
+			else if (++RainTimer > 30 && Main.netMode != NetmodeID.MultiplayerClient)
             {
 				Projectile.NewProjectile(projectile.Center + new Vector2(0, projectile.height / 2), new Vector2(0, 8), ProjectileID.RainFriendly, projectile.damage, projectile.knockBack, projectile.owner);
-            }
-
-			if (projectile.timeLeft < 30)
-            {
-				projectile.alpha += 8;
             }
 		}
 

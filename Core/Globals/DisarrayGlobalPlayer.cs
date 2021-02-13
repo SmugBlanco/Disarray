@@ -48,6 +48,22 @@ namespace Disarray.Core.Globals
             }
         }
 
+        public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
+        {
+            foreach (PropertiesPlayer properties in ActiveProperties)
+            {
+                properties.OnHitNPC(player, item, target, damage, knockback, crit);
+            }
+        }
+
+        public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
+        {
+            foreach (PropertiesPlayer properties in ActiveProperties)
+            {
+                properties.OnHitNPCWithProj(player, proj, target, damage, knockback, crit);
+            }
+        }
+
         public override void PostUpdateBuffs()
         {
             foreach (PropertiesBuffs properties in ActiveBuffs)

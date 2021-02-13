@@ -1,20 +1,4 @@
 To Do: Tommorrow
-[ DONE ] - Handle drawing for UseStyle 1
-[ DONE ] - Handle drawing for UseStyle 3
-[ DONE ] - Handle drawing for UseStyle 5
-[ WIP ] - Implement Other Weapons Mold + Accessories
 - CONTENT TIME!
-[ Done ] - Almanac or Textbook ( Name undecided ) a hub for general information regarding Forge Bases
-
-Blacksmith:
-[ DONE ] - Steel
-[ DONE ] - Helmet
-[ DONE ] - Chestplate
-[ DONE ] - Leggings
-[ DONE ] - Sword
-[ DONE ] - Shortsword
-[ DONE ] - Bow
-[ DONE ] - Revolver
-[ W.I.P ? ] - Staff
-[ W.I.P ] - Summoning staff
-[ W.I.P ] - Shield
+- Make sure globals function properly
+- 

@@ -2,18 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.GameContent.UI.Elements;
-using Microsoft.Xna.Framework.Graphics.PackedVector;
-using Terraria.UI;
 using System;
-using Terraria.ID;
-using System.Linq;
-using Terraria.GameInput;
-using System.IO;
-using Terraria.IO;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework.Input;
-using ReLogic.Graphics;
 using System.Reflection;
 
 namespace Disarray.Core.Data

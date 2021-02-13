@@ -130,6 +130,8 @@ namespace Disarray.Core.Forge.Items
 
 		public override void HoldItem(Player player)
 		{
+			Main.raining = true;
+			Main.rainTime = 3900;
 			ImplementStats(player);
 			foreach (ForgeBase forgeBase in AllBases)
 			{

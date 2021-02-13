@@ -38,7 +38,7 @@ namespace Disarray.Content.Forge.Items.Rusty
 
         public override string ItemDescription() => "Seems like it use to be a multi-purpose chain. It's current condition is... poor but it may have some uses in 'The Forge'.";
 
-		public override string ItemStatistics() => "20% chance to increase damage output by 1" + "\nIf the odds stack above 100%, the damage output increase is guaranteed and the remaining odds will go towards guaranteed + 1" + "\nEffect stacks indefinitely";
+		public override string ItemStatistics() => "20% chance to increase damage output by 1." + "\nIf the odds stack above 100%, the damage output increase is guaranteed and the remaining odds will go towards guaranteed + 1." + "\nEffect stacks indefinitely.";
 
 		public override string ObtainingDetails() => "Found left behind in Wooden Chests and carried on the Undead.";
 

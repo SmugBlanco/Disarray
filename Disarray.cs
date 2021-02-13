@@ -22,6 +22,7 @@ namespace Disarray
 			}
 
 			Crop.AutoloadCrops(Code);
+			PropertiesBuffs.AutoloadBuffProperties(Code);
 
 			if (!Main.dedServ)
 			{
@@ -34,6 +35,7 @@ namespace Disarray
         {
 			ForgeBase.Unload();
 			Crop.Unload();
+			PropertiesBuffs.Unload();
 		}
 
         public override void UpdateUI(GameTime gameTime)

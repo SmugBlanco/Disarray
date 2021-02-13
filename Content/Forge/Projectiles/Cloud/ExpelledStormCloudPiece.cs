@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 
 namespace Disarray.Content.Forge.Projectiles.Cloud
 {
-	public class ExpelledCloudPiece : ModProjectile
+	public class ExpelledStormCloudPiece : ModProjectile
 	{
 		public float CurrentPhase { get => projectile.ai[0]; set => projectile.ai[0] = value; }
 
@@ -12,7 +12,7 @@ namespace Disarray.Content.Forge.Projectiles.Cloud
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Expelled Cloud");
+			DisplayName.SetDefault("Expelled Storm Cloud");
 			Main.projFrames[projectile.type] = 4;
 		}
 
@@ -32,7 +32,7 @@ namespace Disarray.Content.Forge.Projectiles.Cloud
 		}
 
 		public override void AI()
-		{
+        {
 			if (++projectile.frameCounter >= 10)
 			{
 				projectile.frameCounter = 0;
@@ -77,34 +77,34 @@ namespace Disarray.Content.Forge.Projectiles.Cloud
 			if (projectile.timeLeft < 30)
 			{
 				projectile.alpha += 8;
-            }
+			}
 		}
 
-        public override bool? CanHitNPC(NPC target)
-        {
+		public override bool? CanHitNPC(NPC target)
+		{
 			return projectile.alpha < byte.MaxValue / 2;
-        }
+		}
 
-        public override bool CanHitPvp(Player target)
-        {
+		public override bool CanHitPvp(Player target)
+		{
 			return projectile.alpha < byte.MaxValue / 2;
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
+		{
 			if (CurrentPhase == 0)
-            {
+			{
 				if (projectile.timeLeft > 30)
-                {
+				{
 					projectile.timeLeft = 30;
-                }
+				}
 
 				CurrentPhase = 1;
-            }
-        }
+			}
+		}
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
-        {
+		public override void OnHitPvp(Player target, int damage, bool crit)
+		{
 			if (CurrentPhase == 0)
 			{
 				if (projectile.timeLeft > 30)

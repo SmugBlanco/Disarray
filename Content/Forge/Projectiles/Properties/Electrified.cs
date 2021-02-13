@@ -1,9 +1,7 @@
 using Disarray.Content.Forge.Dusts.Cloud;
 using Disarray.Core.Data;
-using Disarray.Core.Globals;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace Disarray.Content.Forge.Projectiles.Properties
@@ -13,7 +11,7 @@ namespace Disarray.Content.Forge.Projectiles.Properties
         public override void PostAI(Projectile projectile)
         {
             int Chance = projectile.height + projectile.width;
-            if (Main.rand.Next(Chance) == 0 || Main.GameUpdateCount % 60 == 0)
+            if (Main.rand.Next(Chance) == 0 || Main.GameUpdateCount % 15 == 0)
             {
                 Dust.NewDust(projectile.Center - new Vector2(1), 2, 2, ModContent.DustType<Electricity>(), projectile.velocity.X, projectile.velocity.Y, 0, default, 1f);
             }

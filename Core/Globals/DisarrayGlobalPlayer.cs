@@ -1,5 +1,7 @@
 using Disarray.Core.Data;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -20,6 +22,29 @@ namespace Disarray.Core.Globals
                     }
                 }
                 return activeBuffs;
+            }
+        }
+
+        public ICollection<PropertiesPlayer> ActiveProperties = new Collection<PropertiesPlayer>();
+
+        public override void ResetEffects()
+        {
+            ActiveProperties.Clear();
+        }
+
+        public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
+        {
+            foreach (PropertiesPlayer properties in ActiveProperties)
+            {
+                properties.ModifyHitNPC(player, item, target, ref damage, ref knockback, ref crit);
+            }
+        }
+
+        public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            foreach (PropertiesPlayer properties in ActiveProperties)
+            {
+                properties.ModifyHitNPCWithProj(player, proj, target, ref damage, ref knockback, ref crit);
             }
         }
 

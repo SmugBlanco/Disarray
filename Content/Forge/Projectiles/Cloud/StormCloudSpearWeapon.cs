@@ -2,11 +2,11 @@ using Disarray.Core.ProjectileClasses;
 
 namespace Disarray.Content.Forge.Projectiles.Cloud
 {
-	public class CloudSpearWeapon : SpearProjectile
+	public class StormCloudSpearWeapon : SpearProjectile
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Cloud Spear");
+			DisplayName.SetDefault("Storm Cloud Spear");
 		}
 
 		public override void SetDefaults()
@@ -26,5 +26,5 @@ namespace Disarray.Content.Forge.Projectiles.Cloud
 			projectile.tileCollide = false;
 			projectile.friendly = true;
 		}
-    }
+	}
 }

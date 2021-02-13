@@ -1,8 +1,5 @@
 using Disarray.Core.Data;
-using System;
 using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace Disarray.Content.Forge.Buffs.Cloud
 {

@@ -236,6 +236,13 @@ namespace Disarray.Core.Forge.Items
 
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
+			if (!Main.dedServ && !player.HeldItem.noMelee)
+			{
+				Texture2D actualItemTexture = WeaponTextureData.TryGetValue(item.type, out Texture2D WeaponTexture) ? WeaponTexture : ItemTextureData.TryGetValue(item.type, out Texture2D ItemTexture) ? ItemTexture : Main.itemTexture[item.type];
+				hitbox.Width = (int)((float)hitbox.Width * ((float)actualItemTexture.Width / (float)Main.itemTexture[item.type].Width));
+				hitbox.Height = (int)((float)hitbox.Height * ((float)actualItemTexture.Height / (float)Main.itemTexture[item.type].Height));
+			}
+
 			foreach (ForgeBase forgeBase in AllBases)
 			{
 				forgeBase.UseItemHitbox(player, ref hitbox, ref noHitbox);

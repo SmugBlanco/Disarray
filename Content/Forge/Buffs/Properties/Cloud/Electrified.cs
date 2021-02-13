@@ -3,7 +3,7 @@ using Disarray.Core.Data;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace Disarray.Content.Forge.BuffProperties.Cloud
+namespace Disarray.Content.Forge.Buffs.Properties.Cloud
 {
 	public class Electrified : PropertiesBuffs
 	{

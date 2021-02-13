@@ -9,6 +9,11 @@ namespace Disarray.Content.Forge.Items.Cloud
 	{
 		public override bool Autoload(ref string name) => AutoloadWeapon(name, item, string.Empty, (GetType().Namespace + "." + GetType().Name).Replace('.', '/') + "_Weapon");
 
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Cloud Spear");
+		}
+
 		public override string ItemStatistics()
 		{
 			string Damage = "Damage: " + (item.damage + DamageFlat);
@@ -18,11 +23,6 @@ namespace Disarray.Content.Forge.Items.Cloud
 			string UseAnimation = "Use Animation: " + item.useAnimation;
 			string ThrustSpeed = "Thrust Speed: " + item.shootSpeed;
 			return Damage + "\n" + CritChance + "\n" + Knockback + "\n" + UseTime + "\n" + UseAnimation + "\n" + ThrustSpeed;
-		}
-
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Cloud Spear");
 		}
 
 		public override void NonProductDefaults()

@@ -38,7 +38,7 @@ namespace Disarray.Content.Forge.Projectiles.Graveyard
 				if (Main.rand.Next(DustChance) == 0)
 				{
 					Dust spawnedDust = Dust.NewDustDirect(projectile.Center, 0, 0, 91);
-					spawnedDust.velocity = new Vector2(0, -0.5f);
+					spawnedDust.velocity = new Vector2(0, -1f);
 					spawnedDust.noGravity = true;
 				}
 			}

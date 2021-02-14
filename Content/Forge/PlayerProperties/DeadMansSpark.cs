@@ -21,7 +21,7 @@ namespace Disarray.Content.Forge.PlayerProperties
             {
                 for (int Indexer = 0; Indexer < SparkCount; Indexer++)
                 {
-                    Vector2 SparkVelocity = new Vector2(0, -3).RotatedByRandom(MathHelper.ToRadians(25));
+                    Vector2 SparkVelocity = new Vector2(0, -3).RotatedByRandom(MathHelper.ToRadians(45));
                     Projectile.NewProjectile(target.position, SparkVelocity, ModContent.ProjectileType<Projectiles.Graveyard.DeadMansSpark>(), damage, knockback, player.whoAmI);
                 }
             }
@@ -33,7 +33,7 @@ namespace Disarray.Content.Forge.PlayerProperties
             {
                 for (int Indexer = 0; Indexer < SparkCount; Indexer++)
                 {
-                    Vector2 SparkVelocity = new Vector2(0, -3).RotatedByRandom(MathHelper.ToRadians(25));
+                    Vector2 SparkVelocity = new Vector2(0, -3).RotatedByRandom(MathHelper.ToRadians(45));
                     Projectile.NewProjectile(target.position, SparkVelocity, ModContent.ProjectileType<Projectiles.Graveyard.DeadMansSpark>(), damage, knockback, player.whoAmI);
                 }
             }

@@ -79,12 +79,14 @@ namespace Disarray.Content.Forge.Items.Cloud
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.Cloud, 8);
 			recipe.AddIngredient(ItemID.RainCloud, 1);
+			recipe.needWater = true;
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 
 			recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<Cloud>());
 			recipe.AddIngredient(ItemID.RainCloud, 1);
+			recipe.needWater = true;
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

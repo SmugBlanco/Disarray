@@ -128,15 +128,16 @@ namespace Disarray.Core.Forge.Items
 			return true;
 		}
 
-		public override void HoldItem(Player player)
-		{
-			Main.raining = true;
-			Main.rainTime = 3900;
-			ImplementStats(player);
+		public sealed override void HoldItem(Player player) { } // Called too late to be useful
+
+		public void HoldItem_Functional(Player player)
+        {
 			foreach (ForgeBase forgeBase in AllBases)
 			{
 				forgeBase.HoldItem(player);
 			}
+
+			ImplementStats(player);
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

@@ -1,4 +1,6 @@
+using Disarray.Core.Globals;
 using System;
+using System.Linq;
 using Terraria;
 
 namespace Disarray.Core.Data
@@ -6,6 +8,20 @@ namespace Disarray.Core.Data
     public class DamageIncrementChance : PropertiesPlayer
     {
         public float Chance;
+
+        public static void ImplementChance(Player player, float Chance)
+        {
+            DisarrayGlobalPlayer GlobalPlayer = player.GetModPlayer<DisarrayGlobalPlayer>();
+            PropertiesPlayer property = GlobalPlayer.ActiveProperties.FirstOrDefault(prop => prop is DamageIncrementChance);
+            if (property is DamageIncrementChance damageIncrementChanceProperty)
+            {
+                damageIncrementChanceProperty.Chance += Chance;
+            }
+            else
+            {
+                player.GetModPlayer<DisarrayGlobalPlayer>().ActiveProperties.Add(new DamageIncrementChance(Chance));
+            }
+        }
 
         public int DamageIncrementFromDamageIncrementChance
         {

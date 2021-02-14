@@ -67,6 +67,7 @@ namespace Disarray.Content.Forge.Items.Forest
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.Wood, 12);
 			recipe.AddIngredient(ItemID.Mushroom, 4);
+			recipe.AddTile(TileID.WorkBenches);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

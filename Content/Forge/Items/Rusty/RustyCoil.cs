@@ -1,12 +1,7 @@
-using Disarray.Content.Forge.PlayerProperties;
 using Disarray.Core.Data;
-using Disarray.Core.Forge;
 using Disarray.Core.Forge.Items;
-using Disarray.Core.Globals;
-using System.Linq;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace Disarray.Content.Forge.Items.Rusty
 {
@@ -27,44 +22,17 @@ namespace Disarray.Content.Forge.Items.Rusty
 
         public override void HoldItem(Player player)
         {
-			DisarrayGlobalPlayer GlobalPlayer = player.GetModPlayer<DisarrayGlobalPlayer>();
-			PropertiesPlayer property = GlobalPlayer.ActiveProperties.FirstOrDefault(prop => prop is DamageIncrementChance);
-			if (property is DamageIncrementChance damageIncrementChanceProperty)
-			{
-				damageIncrementChanceProperty.Chance += 0.2f;
-			}
-			else
-			{
-				player.GetModPlayer<DisarrayGlobalPlayer>().ActiveProperties.Add(new DamageIncrementChance(0.2f));
-			}
+			DamageIncrementChance.ImplementChance(player, 0.2f);
 		}
 
         public override void UpdateEquip(Player player)
         {
-			DisarrayGlobalPlayer GlobalPlayer = player.GetModPlayer<DisarrayGlobalPlayer>();
-			PropertiesPlayer property = GlobalPlayer.ActiveProperties.FirstOrDefault(prop => prop is DamageIncrementChance);
-			if (property is DamageIncrementChance damageIncrementChanceProperty)
-			{
-				damageIncrementChanceProperty.Chance += 0.2f;
-			}
-			else
-			{
-				player.GetModPlayer<DisarrayGlobalPlayer>().ActiveProperties.Add(new DamageIncrementChance(0.2f));
-			}
+			DamageIncrementChance.ImplementChance(player, 0.2f);
 		}
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-			DisarrayGlobalPlayer GlobalPlayer = player.GetModPlayer<DisarrayGlobalPlayer>();
-			PropertiesPlayer property = GlobalPlayer.ActiveProperties.FirstOrDefault(prop => prop is DamageIncrementChance);
-			if (property is DamageIncrementChance damageIncrementChanceProperty)
-			{
-				damageIncrementChanceProperty.Chance += 0.2f;
-			}
-			else
-			{
-				player.GetModPlayer<DisarrayGlobalPlayer>().ActiveProperties.Add(new DamageIncrementChance(0.2f));
-			}
+			DamageIncrementChance.ImplementChance(player, 0.2f);
 		}
 
         public override string ItemDescription() => "Seems like it use to be a multi-purpose chain. It's current condition is... poor but it may have some uses in 'The Forge'.";

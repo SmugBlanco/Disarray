@@ -64,7 +64,7 @@ namespace Disarray.Content.Forge.Items.Cloud
 
 		public override string ItemStatistics() => "Increases damage output by 1 if the skies are at least cloudy." + "\nIncreases damage reduction by 0.5% if the skies are at least partly cloudy.";
 
-		public override string ObtainingDetails() => "Crafted from solidified clouds, can also be found carried on various high altitude enemies.";
+		public override string ObtainingDetails() => "Crafted at a pool of water from solidified clouds; can also be found carried on various high altitude enemies.";
 
 		public override string MiscDetails() => " ";
 
@@ -72,6 +72,7 @@ namespace Disarray.Content.Forge.Items.Cloud
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.Cloud, 8);
+			recipe.needWater = true;
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

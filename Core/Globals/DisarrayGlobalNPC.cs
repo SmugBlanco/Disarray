@@ -33,11 +33,6 @@ namespace Disarray.Core.Globals
             {
                 properties.Update(npc);
             }
-
-            if (npc.type == NPCID.KingSlime)
-            {
-                Main.NewText(ActiveBuffs(npc).Count);
-            }
         }
 
         public override void UpdateLifeRegen(NPC npc, ref int damage)

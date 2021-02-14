@@ -55,6 +55,7 @@ namespace Disarray.Content.Forge.Items.Cloud
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.Cloud, 15);
 			recipe.AddIngredient(ItemID.FallenStar, 5);
+			recipe.needWater = true;
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

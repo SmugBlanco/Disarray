@@ -28,7 +28,7 @@ namespace Disarray.Content.Forge.Items.Cloud
 			return Damage + "\n" + CritChance + "\n" + Knockback + "\n" + UseTime + "\n" + UseAnimation + "\n" + ShootSpeed + "\n" + Mana + "\n" + Conjure;
 		}
 
-		public override string ObtainingDetails() => "Crafted from solidified clouds, bound together by a few pieces of leather.";
+		public override string ObtainingDetails() => "Crafted at a pool of water from solidified clouds, bound together by a few pieces of leather.";
 
 		public override void NonProductDefaults()
 		{
@@ -74,6 +74,7 @@ namespace Disarray.Content.Forge.Items.Cloud
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.Cloud, 12);
 			recipe.AddIngredient(ItemID.Leather, 3);
+			recipe.needWater = true;
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

@@ -29,7 +29,7 @@ namespace Disarray.Core.Globals
 
         public override void ResetEffects()
         {
-           
+            ActiveProperties.Clear();
         }
 
         public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
@@ -66,7 +66,6 @@ namespace Disarray.Core.Globals
 
         public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
         {
-            Main.NewText("LOL" + ActiveProperties.Count);
             foreach (PropertiesPlayer properties in ActiveProperties)
             {
                 properties.ModifyHitByNPC(player, npc, ref damage, ref crit);

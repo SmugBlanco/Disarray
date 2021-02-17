@@ -22,17 +22,17 @@ namespace Disarray.Content.Forge.Items.Dungeon
 
 		public override void HoldItem(Player player)
 		{
-			DefenseIncrementChance.ImplementChance(player, 0.5f);
+			DefenseIncrementChance.ImplementThis(player, 0.5f);
 		}
 
 		public override void UpdateEquip(Player player)
 		{
-			DefenseIncrementChance.ImplementChance(player, 0.5f);
+			DefenseIncrementChance.ImplementThis(player, 0.5f);
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			DefenseIncrementChance.ImplementChance(player, 0.5f);
+			DefenseIncrementChance.ImplementThis(player, 0.5f);
 		}
 
 		public override string ItemDescription() => "Could either be used to convict you for murder, or utilised in 'The Forge'.";

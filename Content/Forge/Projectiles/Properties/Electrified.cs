@@ -13,7 +13,7 @@ namespace Disarray.Content.Forge.Projectiles.Properties
             int Chance = projectile.height + projectile.width;
             if (Main.rand.Next(Chance) == 0 || Main.GameUpdateCount % 15 == 0)
             {
-                Dust.NewDust(projectile.Center - new Vector2(1), 2, 2, ModContent.DustType<Electricity>(), projectile.velocity.X, projectile.velocity.Y, 0, default, 1f);
+                Dust.NewDust(projectile.Center - Vector2.Zero, 2, 2, ModContent.DustType<Electricity>(), projectile.velocity.X, projectile.velocity.Y, 0, default, 1f);
             }
         }
 

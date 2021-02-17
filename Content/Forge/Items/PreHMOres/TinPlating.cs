@@ -23,17 +23,17 @@ namespace Disarray.Content.Forge.Items.PreHMOres
 
 		public override void HoldItem(Player player)
 		{
-			DefenseIncrementChance.ImplementChance(player, 0.25f);
+			DefenseIncrementChance.ImplementThis(player, 0.25f);
 		}
 
 		public override void UpdateEquip(Player player)
 		{
-			DefenseIncrementChance.ImplementChance(player, 0.25f);
+			DefenseIncrementChance.ImplementThis(player, 0.25f);
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			DefenseIncrementChance.ImplementChance(player, 0.25f);
+			DefenseIncrementChance.ImplementThis(player, 0.25f);
 		}
 
 		public override string ItemDescription() => "Plating such as this one may have many purposes, a notable one is a usage in 'The Forge'.";

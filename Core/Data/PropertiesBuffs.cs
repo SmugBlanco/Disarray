@@ -20,7 +20,9 @@ namespace Disarray.Core.Data
 
 		public string name;
 
-		public int type { get; internal set; }
+		public int Type { get; internal set; }
+
+		public ModBuff ModBuff { get; internal set; }
 
 		public virtual void Update(NPC npc) { }
 
@@ -50,10 +52,10 @@ namespace Disarray.Core.Data
 				if (!item.IsAbstract && item.IsSubclassOf(typeof(PropertiesBuffs)) && !(item.GetConstructor(new Type[0]) == null))
 				{
 					PropertiesBuffs property = Activator.CreateInstance(item) as PropertiesBuffs;
-					property.type = ++InternalID;
+					property.Type = ++InternalID;
 					property.name = item.Name;
 					currentData.Add(property);
-					BuffPropertiesID.Add(property.type, property);
+					BuffPropertiesID.Add(property.Type, property);
 					BuffPropertiesNameID.Add(property.name, property);
 				}
 			}
@@ -69,6 +71,7 @@ namespace Disarray.Core.Data
 						ModBuff buff = mod.GetBuff(item.Name); // Probably should use a more elegant solution
 						DisarrayBuff disarrayBuff = buff as DisarrayBuff;
 						disarrayBuff.Properties = property;
+						property.ModBuff = buff;
 					}
 					else
 					{

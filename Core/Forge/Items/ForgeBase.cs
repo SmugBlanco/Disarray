@@ -59,10 +59,7 @@ namespace Disarray.Core.Forge.Items
 			return false;
 		}
 
-		public void PreDrawWeaponAnimation(ref Texture2D texture, ref Vector2 drawPosition, ref Rectangle sourceRectangle, ref Color drawColor, ref float rotation, ref Vector2 drawOrigin, ref float scale, ref SpriteEffects spriteEffects)
-        {
-
-        }
+		public void PreDrawWeaponAnimation(ref Texture2D texture, ref Vector2 drawPosition, ref Rectangle sourceRectangle, ref Color drawColor, ref float rotation, ref Vector2 drawOrigin, ref float scale, ref SpriteEffects spriteEffects) { }
 
 		public bool AutoloadItem(Item item, string AltItemTexturePath = "")
         {
@@ -73,10 +70,20 @@ namespace Disarray.Core.Forge.Items
 		/// <summary>
 		/// Not implemented anywhere, exists for your comfort and standardization.
 		/// </summary>
-		public virtual void NonProductDefaults()
-		{
+		public virtual void NonProductDefaults() { }
 
-		}
+		/// <summary>
+		/// The better shoot function which allows us to easily change a projectile's property
+		/// </summary>
+		public virtual Projectile ShootButBetter(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+			return item.shoot > ProjectileID.None ? Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI) : null;
+        }
+
+		/// <summary>
+		/// Allows the modification of all projectiles directly before firing
+		/// </summary>
+		public virtual void ModifyFiredProjectiles(Projectile projectile) { }
 
 		public const string DefaultInformation = "No Available Information :(";
 

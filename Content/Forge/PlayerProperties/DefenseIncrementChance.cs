@@ -7,7 +7,7 @@ namespace Disarray.Core.Data
 {
     public class DefenseIncrementChance : PropertiesPlayer
     {
-        public static void ImplementChance(Player player, float Chance)
+        public static void ImplementThis(Player player, float Chance)
         {
             DisarrayGlobalPlayer GlobalPlayer = player.GetModPlayer<DisarrayGlobalPlayer>();
             PropertiesPlayer property = GlobalPlayer.ActiveProperties.FirstOrDefault(prop => prop is DefenseIncrementChance);
@@ -17,7 +17,7 @@ namespace Disarray.Core.Data
             }
             else
             {
-                player.GetModPlayer<DisarrayGlobalPlayer>().ActiveProperties.Add(new DefenseIncrementChance(Chance));
+                GlobalPlayer.ActiveProperties.Add(new DefenseIncrementChance(Chance));
             }
         }
 

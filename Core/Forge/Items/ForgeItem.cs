@@ -13,6 +13,7 @@ using System.Linq;
 using Disarray.Core.Almanac;
 using Microsoft.Xna.Framework.Input;
 using Disarray.Core.Extensions;
+using System.Collections.ObjectModel;
 
 namespace Disarray.Core.Forge.Items
 {
@@ -144,12 +145,17 @@ namespace Disarray.Core.Forge.Items
 		{
 			foreach (ForgeBase forgeBase in AllBases)
 			{
-				if (!forgeBase.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack))
-				{
-					return false;
+				Projectile newProjectile = forgeBase.ShootButBetter(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
+
+				if (newProjectile != null)
+                {
+					foreach (ForgeBase forgeBaseAgain in AllBases)
+					{
+						forgeBaseAgain.ModifyFiredProjectiles(newProjectile);
+					}
 				}
 			}
-			return true;
+			return false;
 		}
 
 		public override bool? CanHitNPC(Player player, NPC target)

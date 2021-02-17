@@ -2,7 +2,7 @@ using Disarray.Core.Forge.Items;
 using Terraria;
 using Terraria.ID;
 
-namespace Disarray.Content.Forge.Items.DukeFishron
+namespace Disarray.Content.Forge.Items.Ocean
 {
 	public class FishronsTusk : Materials
 	{

@@ -2,7 +2,7 @@ using Disarray.Core.Forge.Items;
 using Terraria;
 using Terraria.ID;
 
-namespace Disarray.Content.Forge.Items.Demons
+namespace Disarray.Content.Forge.Items.Hell
 {
 	public class DemonsEye : Materials
 	{

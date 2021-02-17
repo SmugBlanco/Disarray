@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace Disarray.Content.Forge.Items.Crystal
+namespace Disarray.Content.Forge.Items.Hallow
 {
 	public class CrystallizedGeode : Materials
 	{

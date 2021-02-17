@@ -2,7 +2,7 @@ using Disarray.Core.Forge.Items;
 using Terraria;
 using Terraria.ID;
 
-namespace Disarray.Content.Forge.Items.Snakes
+namespace Disarray.Content.Forge.Items.Temple
 {
 	public class SnakesEye : Materials
 	{

@@ -2,7 +2,7 @@ using Disarray.Core.Forge.Items;
 using Terraria;
 using Terraria.ID;
 
-namespace Disarray.Content.Forge.Items.Birds
+namespace Disarray.Content.Forge.Items.Overworld
 {
 	public class BirdsEye : Materials
 	{

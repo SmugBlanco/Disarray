@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace Disarray.Content.Forge.Items.Hellstone
+namespace Disarray.Content.Forge.Items.Hell
 {
 	public class HellstoneAsbestos : Materials
 	{

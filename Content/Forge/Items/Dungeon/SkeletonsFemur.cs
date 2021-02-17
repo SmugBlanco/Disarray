@@ -2,9 +2,8 @@ using Disarray.Core.Data;
 using Disarray.Core.Forge.Items;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
-namespace Disarray.Content.Forge.Items.Bones
+namespace Disarray.Content.Forge.Items.Dungeon
 {
 	public class SkeletonsFemur : Materials
 	{

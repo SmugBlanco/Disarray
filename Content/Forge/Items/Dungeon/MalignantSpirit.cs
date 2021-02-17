@@ -3,7 +3,7 @@ using Disarray.Core.Forge.Items;
 using Terraria;
 using Terraria.ID;
 
-namespace Disarray.Content.Forge.Items.Ectoplasm
+namespace Disarray.Content.Forge.Items.Dungeon
 {
 	public class MalignantSpirit : Materials
 	{

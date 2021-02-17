@@ -2,7 +2,7 @@ using Disarray.Core.Forge.Items;
 using Terraria;
 using Terraria.ID;
 
-namespace Disarray.Content.Forge.Items.Bats
+namespace Disarray.Content.Forge.Items.Cave
 {
 	public class BatsEye : Materials
 	{

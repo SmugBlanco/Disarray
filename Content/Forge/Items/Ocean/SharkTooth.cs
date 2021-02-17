@@ -2,7 +2,7 @@ using Disarray.Core.Forge.Items;
 using Terraria;
 using Terraria.ID;
 
-namespace Disarray.Content.Forge.Items.Sharks
+namespace Disarray.Content.Forge.Items.Ocean
 {
 	public class SharkTooth : Materials
 	{

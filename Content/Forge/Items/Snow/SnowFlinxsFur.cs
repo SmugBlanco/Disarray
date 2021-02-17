@@ -37,7 +37,7 @@ namespace Disarray.Content.Forge.Items.Snow
 
 		public override string ItemDescription() => "Counter to intuition, the creature who is most affected by knockback would help in dealing more. Utilised in 'The Forge'";
 
-		public override string ItemStatistics() => "Increases most weapon type's Knockback by 0.5";
+		public override string ItemStatistics() => "Increases Knockback by 0.5";
 
 		public override string ObtainingDetails() => "A rare chance to dropped intact from Snow Flinxes.";
 

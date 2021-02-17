@@ -82,12 +82,12 @@ namespace Disarray.Content.Forge.Projectiles.Cloud
 
 		public override bool? CanHitNPC(NPC target)
 		{
-			return projectile.alpha < byte.MaxValue / 2;
+			return projectile.alpha < byte.MaxValue / 2 ? base.CanHitNPC(target) : false;
 		}
 
 		public override bool CanHitPvp(Player target)
 		{
-			return projectile.alpha < byte.MaxValue / 2;
+			return projectile.alpha < byte.MaxValue / 2 ? base.CanHitPvp(target) : false;
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

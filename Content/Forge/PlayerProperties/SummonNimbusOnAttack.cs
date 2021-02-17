@@ -19,21 +19,19 @@ namespace Disarray.Content.Forge.PlayerProperties
             AdditionalChance += Chance;
         }
 
-        public override void ModifyHitNPC(Player player, Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
+        public override void OnHitNPC(Player player, Item item, NPC target, int damage, float knockback, bool crit)
         {
             if (Main.rand.NextFloat(1) < TotalChance && player.ownedProjectileCounts[ModContent.ProjectileType<StormNimbus>()] == 0)
             {
-                Vector2 NPCTopMiddle = new Vector2(target.position.X, target.position.Y) + new Vector2(target.width / 2, 0);
-                Projectile.NewProjectile(NPCTopMiddle + new Vector2(0, -25), Vector2.Zero, ModContent.ProjectileType<StormNimbus>(), damage / 2, knockback, player.whoAmI, 0, 0);
+                Projectile.NewProjectile(target.Top + new Vector2(0, -25), Vector2.Zero, ModContent.ProjectileType<StormNimbus>(), damage / 2, knockback, player.whoAmI, 0, 0);
             }
         }
 
-        public override void ModifyHitNPCWithProj(Player player, Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit)
+        public override void OnHitNPCWithProj(Player player, Projectile proj, NPC target, int damage, float knockback, bool crit)
         {
             if (Main.rand.NextFloat(1) < TotalChance && player.ownedProjectileCounts[ModContent.ProjectileType<StormNimbus>()] == 0)
             {
-                Vector2 NPCTopMiddle = new Vector2(target.position.X, target.position.Y) + new Vector2(target.width / 2, 0);
-                Projectile.NewProjectile(NPCTopMiddle + new Vector2(0, -25), Vector2.Zero, ModContent.ProjectileType<StormNimbus>(), damage / 2, knockback, player.whoAmI, 0, 0);
+                Projectile.NewProjectile(target.Top + new Vector2(0, -25), Vector2.Zero, ModContent.ProjectileType<StormNimbus>(), damage / 2, knockback, player.whoAmI, 0, 0);
             }
         }
     }

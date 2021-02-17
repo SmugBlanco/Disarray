@@ -1,0 +1,31 @@
+Basic Nessecities:
+Rusty Coil -> +20% for +1 damage ( Max: +1 )
+Hellstone Abestos -> +33% for +1 damage ( Max: +2 )
+Crystallized Amber -> +50% for +1 damage ( Max: +3 )
+Malignant Spirits -> +66% for +1 damage ( Max: +4 )
+Breath of Galaxies -> +100% for +1 damage ( Max: +5 )
+
+Copper Plating -> +25% for +1 defense ( Max: +2 )
+Skeleton's Femur -> +50% for +1 defense ( Max: +3 )
+Cobalt Plating -> +75% for +1 defense ( Max: +4 )
+Adamantine Plating -> +100% for +1 defense ( Max: +5 )
+Lihzard Armor Plate -> +125% for +1 defense ( Max: +5 )
+
+Shark Tooth -> +1 armor piercing ( Max: +5 [2/3 DMG] )
+Sand Shark's Maw -> +2 armor piercing ( Max: + 10 [ 5 DMG] )
+Fishron Tusk -> +3 armor piercing ( Max: +15 [7/8 DMG] )
+
+Bat's Eye -> +1 Crit Chance ( Max: +5 )
+Bird's Eye -> +2 Crit Chance ( Max: +10 )
+Snake's Eye -> +4 Crit Chance ( Max: +20 )
+
+Snowflinx Fur -> +0.5 knockback ( Max: +2.5 )
+
+Golden Leaf -> +1 regen ( Max: +1 )
+Primal Durian -> +2 regen ( Max: +2 )
+
+Granite Relic -> Increases all stats when standing on Granite, chance to releases granite energy pulses when hit
+Marble Relic -> Increases all stats when standing on Marble, chance releases marble energy pulses on hit
+
+Biomes -> At least 1 easy to get material
+Stats -> Materials that represent the stat changes throughout the game

@@ -80,6 +80,14 @@ namespace Disarray.Core.Globals
             }
         }
 
+        public override void PostUpdateMiscEffects()
+        {
+            foreach (PropertiesPlayer properties in ActiveProperties)
+            {
+                properties.PostUpdateMiscEffects(player);
+            }
+        }
+
         public override void PostUpdateBuffs()
         {
             foreach (PropertiesBuffs properties in ActiveBuffs)

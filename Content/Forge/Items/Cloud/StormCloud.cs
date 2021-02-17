@@ -68,7 +68,7 @@ namespace Disarray.Content.Forge.Items.Cloud
 
 		public override string ItemDescription() => "Somehow you got your hands on a stormy cloud; you must be prickling with electricity.";
 
-		public override string ItemStatistics() => "Allows attacks access to a 10% chance to summon a small nimbus above your enemies." + "\nIncreases said chance by 2%.";
+		public override string ItemStatistics() => "Allows attacks access to a 10% chance to summon a small nimbus above your enemies." + "\nEach material increases said chance by 2%.";
 
 		public override string ObtainingDetails() => "A mutation that occurs whenever stormy clouds are seeded into regular ones.";
 

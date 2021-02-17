@@ -19,5 +19,7 @@ namespace Disarray.Core.Data
         public virtual void ModifyHitByNPC(Player player, NPC npc, ref int damage, ref bool crit) { }
 
         public virtual void ModifyHitByProjectile(Player player, Projectile proj, ref int damage, ref bool crit) { }
+
+        public virtual void PostUpdateMiscEffects(Player player) { }
     }
 }

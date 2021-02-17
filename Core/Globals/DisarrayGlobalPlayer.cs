@@ -8,11 +8,11 @@ namespace Disarray.Core.Globals
 {
     public class DisarrayGlobalPlayer : ModPlayer
     {
-        public ICollection<PropertiesBuffs> ActiveBuffs
+        public IEnumerable<PropertiesBuffs> ActiveBuffs
         {
             get
             {
-                IList<PropertiesBuffs> activeBuffs = new List<PropertiesBuffs>();
+                ICollection<PropertiesBuffs> activeBuffs = new Collection<PropertiesBuffs>();
                 for (int indexer = 0; indexer < player.buffType.Length; indexer++)
                 {
                     if (ModContent.GetModBuff(player.buffType[indexer]) is DisarrayBuff buff)

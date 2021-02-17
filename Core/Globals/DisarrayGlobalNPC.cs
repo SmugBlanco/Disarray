@@ -1,10 +1,9 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Disarray.Core.Data;
+using System.Collections.ObjectModel;
 
 namespace Disarray.Core.Globals
 {
@@ -14,9 +13,9 @@ namespace Disarray.Core.Globals
 
         public override bool CloneNewInstances => true;
 
-        public ICollection<PropertiesBuffs> ActiveBuffs(NPC npc)
+        public IEnumerable<PropertiesBuffs> ActiveBuffs(NPC npc)
         {
-            IList<PropertiesBuffs> activeBuffs = new List<PropertiesBuffs>();
+            ICollection<PropertiesBuffs> activeBuffs = new Collection<PropertiesBuffs>();
             for (int indexer = 0; indexer < npc.buffType.Length; indexer++)
             {
                 if (ModContent.GetModBuff(npc.buffType[indexer]) is DisarrayBuff buff)
@@ -40,6 +39,24 @@ namespace Disarray.Core.Globals
             foreach (PropertiesBuffs properties in ActiveBuffs(npc))
             {
                 properties.UpdateLifeRegen(npc, ref damage);
+            }
+        }
+
+        public override void NPCLoot(NPC npc)
+        {
+            string internalName = string.Empty;
+            if (NPCID.Search.TryGetName(npc.type, out string Name))
+            {
+                internalName = Name;
+            }
+            else
+            {
+                internalName = npc.modNPC?.Name;
+            }
+
+            foreach (NPCDropData dropData in NPCDropData.LoadedDropData)
+            {
+                dropData.NPCLoot(npc, internalName);
             }
         }
     }

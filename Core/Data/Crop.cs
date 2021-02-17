@@ -60,7 +60,7 @@ namespace Disarray.Core.Data
 
 		public static int InternalID = -1;
 
-		public static void AutoloadCrops(Assembly assembly)
+		public static void Autoload(Assembly assembly)
 		{
 			LoadedCrops = new List<Crop>();
 

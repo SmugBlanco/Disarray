@@ -21,8 +21,9 @@ namespace Disarray
 				return;
 			}
 
-			Crop.AutoloadCrops(Code);
-			PropertiesBuffs.AutoloadBuffProperties(Code);
+			Crop.Autoload(Code);
+			PropertiesBuffs.Autoload(Code);
+			NPCDropData.Autoload(Code);
 
 			if (!Main.dedServ)
 			{
@@ -36,6 +37,7 @@ namespace Disarray
 			ForgeBase.Unload();
 			Crop.Unload();
 			PropertiesBuffs.Unload();
+			NPCDropData.Unload();
 		}
 
         public override void UpdateUI(GameTime gameTime)

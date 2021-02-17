@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reflection;
 using Terraria;
 using Terraria.ModLoader;
@@ -9,7 +10,7 @@ namespace Disarray.Core.Data
 {
 	public class PropertiesBuffs
 	{
-		public static ICollection<PropertiesBuffs> LoadedBuffProperties;
+		public static IEnumerable<PropertiesBuffs> LoadedBuffProperties;
 		public static IDictionary<int, PropertiesBuffs> BuffPropertiesID;
 		public static IDictionary<string, PropertiesBuffs> BuffPropertiesNameID;
 
@@ -29,9 +30,9 @@ namespace Disarray.Core.Data
 
 		public virtual void UpdateBadLifeRegen(Player player) { }
 
-		public static void AutoloadBuffProperties(Assembly assembly)
+		public static void Autoload(Assembly assembly)
 		{
-			LoadedBuffProperties = new Collection<PropertiesBuffs>();
+			LoadedBuffProperties = Enumerable.Empty<PropertiesBuffs>();
 			BuffPropertiesID = new Dictionary<int, PropertiesBuffs>();
 			BuffPropertiesNameID = new Dictionary<string, PropertiesBuffs>();
 
@@ -42,6 +43,8 @@ namespace Disarray.Core.Data
 
 			Mod mod = ModLoader.GetMod("Disarray");
 
+			ICollection<PropertiesBuffs> currentData = new Collection<PropertiesBuffs>();
+
 			foreach (Type item in assembly.GetTypes())
 			{
 				if (!item.IsAbstract && item.IsSubclassOf(typeof(PropertiesBuffs)) && !(item.GetConstructor(new Type[0]) == null))
@@ -49,11 +52,13 @@ namespace Disarray.Core.Data
 					PropertiesBuffs property = Activator.CreateInstance(item) as PropertiesBuffs;
 					property.type = ++InternalID;
 					property.name = item.Name;
-					LoadedBuffProperties.Add(property);
+					currentData.Add(property);
 					BuffPropertiesID.Add(property.type, property);
 					BuffPropertiesNameID.Add(property.name, property);
 				}
 			}
+
+			LoadedBuffProperties = currentData.ToArray();
 
 			foreach (Type item in assembly.GetTypes())
 			{
@@ -77,7 +82,7 @@ namespace Disarray.Core.Data
 		{
 			if (LoadedBuffProperties != null)
 			{
-				LoadedBuffProperties.Clear();
+				LoadedBuffProperties = Enumerable.Empty<PropertiesBuffs>();
 			}
 
 			if (BuffPropertiesID != null)

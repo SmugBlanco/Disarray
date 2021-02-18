@@ -29,6 +29,8 @@ namespace Disarray.Core.Forge.Items
 		/// </summary>
 		public static IDictionary<int, Texture2D> ItemTextureData = new Dictionary<int, Texture2D>();
 
+		public ForgeItem ImplementedItem { get; internal set; } = null;
+
 		public static void Unload()
         {
 			SlotData.Clear();

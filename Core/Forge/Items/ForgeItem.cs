@@ -1,19 +1,10 @@
-using System;
 using System.Collections.Generic;
-using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
-using System.Reflection;
 using Terraria.ModLoader.IO;
 using System.Linq;
-using Disarray.Core.Almanac;
-using Microsoft.Xna.Framework.Input;
-using Disarray.Core.Extensions;
-using System.Collections.ObjectModel;
 
 namespace Disarray.Core.Forge.Items
 {
@@ -73,6 +64,11 @@ namespace Disarray.Core.Forge.Items
 			}
 
 			ForgedTemplate.SafeDefaults(item);
+
+			foreach (ForgeBase forgeBase in AllBases)
+			{
+				forgeBase.ImplementedItem = this;
+            }
 
 			item.maxStack = 1;
 			item.consumable = false;

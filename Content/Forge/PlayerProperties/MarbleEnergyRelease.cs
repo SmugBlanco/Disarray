@@ -11,7 +11,7 @@ namespace Disarray.Content.Forge.PlayerProperties
 {
     public class MarbleEnergyRelease : PropertiesPlayer
     {
-        public static void ImplementChance(Player player, int Strength, float Chance)
+        public static void ImplementThis(Player player, int Strength, float Chance)
         {
             DisarrayGlobalPlayer GlobalPlayer = player.GetModPlayer<DisarrayGlobalPlayer>();
             PropertiesPlayer property = GlobalPlayer.ActiveProperties.FirstOrDefault(prop => prop is MarbleEnergyRelease);

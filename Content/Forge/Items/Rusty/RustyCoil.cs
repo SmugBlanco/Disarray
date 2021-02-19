@@ -22,17 +22,17 @@ namespace Disarray.Content.Forge.Items.Rusty
 
         public override void HoldItem(Player player)
         {
-			DamageIncrementChance.ImplementChance(player, 0.2f);
+			DamageIncrementChance.ImplementThis(player, 0.2f);
 		}
 
         public override void UpdateEquip(Player player)
         {
-			DamageIncrementChance.ImplementChance(player, 0.2f);
+			DamageIncrementChance.ImplementThis(player, 0.2f);
 		}
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-			DamageIncrementChance.ImplementChance(player, 0.2f);
+			DamageIncrementChance.ImplementThis(player, 0.2f);
 		}
 
         public override string ItemDescription() => "Seems like it use to be a multi-purpose chain. It's current condition is... poor but it may have some uses in 'The Forge'.";

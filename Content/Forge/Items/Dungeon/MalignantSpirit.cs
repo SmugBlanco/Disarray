@@ -22,17 +22,17 @@ namespace Disarray.Content.Forge.Items.Dungeon
 
 		public override void HoldItem(Player player)
 		{
-			DamageIncrementChance.ImplementChance(player, 0.66f);
+			DamageIncrementChance.ImplementThis(player, 0.66f);
 		}
 
 		public override void UpdateEquip(Player player)
 		{
-			DamageIncrementChance.ImplementChance(player, 0.66f);
+			DamageIncrementChance.ImplementThis(player, 0.66f);
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			DamageIncrementChance.ImplementChance(player, 0.66f);
+			DamageIncrementChance.ImplementThis(player, 0.66f);
 		}
 
 		public override string ItemDescription() => "Perhaps this is what makes dungeon spirits so hostile, it's properties could be utilised in 'The Forge'";

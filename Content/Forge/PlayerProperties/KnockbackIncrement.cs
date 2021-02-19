@@ -7,7 +7,7 @@ namespace Disarray.Content.Forge.PlayerProperties
 {
     public class KnockbackIncrement : PropertiesPlayer
     {
-        public static void ImplementKB(Player player, float kB)
+        public static void ImplementThis(Player player, float kB)
         {
             DisarrayGlobalPlayer GlobalPlayer = player.GetModPlayer<DisarrayGlobalPlayer>();
             PropertiesPlayer property = GlobalPlayer.ActiveProperties.FirstOrDefault(prop => prop is KnockbackIncrement);

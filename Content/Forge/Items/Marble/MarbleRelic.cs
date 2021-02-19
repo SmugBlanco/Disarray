@@ -23,17 +23,17 @@ namespace Disarray.Content.Forge.Items.Marble
 
 		public override void HoldItem(Player player)
 		{
-			MarbleEnergyRelease.ImplementChance(player, 1, 0.05f);
+			MarbleEnergyRelease.ImplementThis(player, 1, 0.05f);
 		}
 
 		public override void UpdateEquip(Player player)
 		{
-			MarbleEnergyRelease.ImplementChance(player, 1, 0.05f);
+			MarbleEnergyRelease.ImplementThis(player, 1, 0.05f);
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			MarbleEnergyRelease.ImplementChance(player, 1, 0.05f);
+			MarbleEnergyRelease.ImplementThis(player, 1, 0.05f);
 		}
 
 		public override string ItemDescription() => "These relics seem to have some sort of power able to be utilised in 'The Forge'.";

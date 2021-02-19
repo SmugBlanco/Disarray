@@ -1,11 +1,7 @@
 using Disarray.Content.Forge.PlayerProperties;
-using Disarray.Core.Data;
 using Disarray.Core.Forge.Items;
-using Disarray.Core.Globals;
-using System.Linq;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace Disarray.Content.Forge.Items.Graveyard
 {
@@ -26,44 +22,17 @@ namespace Disarray.Content.Forge.Items.Graveyard
 
 		public override void HoldItem(Player player)
 		{
-			DisarrayGlobalPlayer GlobalPlayer = player.GetModPlayer<DisarrayGlobalPlayer>();
-			PropertiesPlayer property = GlobalPlayer.ActiveProperties.FirstOrDefault(prop => prop is DeadMansSpark);
-			if (property is DeadMansSpark sparkProperty)
-			{
-				sparkProperty.SparkCount++;
-			}
-			else
-			{
-				player.GetModPlayer<DisarrayGlobalPlayer>().ActiveProperties.Add(new DeadMansSpark(1));
-			}
+			DeadMansSpark.ImplementThis(player, 1);
 		}
 
 		public override void UpdateEquip(Player player)
 		{
-			DisarrayGlobalPlayer GlobalPlayer = player.GetModPlayer<DisarrayGlobalPlayer>();
-			PropertiesPlayer property = GlobalPlayer.ActiveProperties.FirstOrDefault(prop => prop is DeadMansSpark);
-			if (property is DeadMansSpark sparkProperty)
-			{
-				sparkProperty.SparkCount++;
-			}
-			else
-			{
-				player.GetModPlayer<DisarrayGlobalPlayer>().ActiveProperties.Add(new DeadMansSpark(1));
-			}
+			DeadMansSpark.ImplementThis(player, 1);
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			DisarrayGlobalPlayer GlobalPlayer = player.GetModPlayer<DisarrayGlobalPlayer>();
-			PropertiesPlayer property = GlobalPlayer.ActiveProperties.FirstOrDefault(prop => prop is DeadMansSpark);
-			if (property is DeadMansSpark sparkProperty)
-			{
-				sparkProperty.SparkCount++;
-			}
-			else
-			{
-				player.GetModPlayer<DisarrayGlobalPlayer>().ActiveProperties.Add(new DeadMansSpark(1));
-			}
+			DeadMansSpark.ImplementThis(player, 1);
 		}
 
 		public override string ItemDescription() => "Utilised in 'The Forge'.";

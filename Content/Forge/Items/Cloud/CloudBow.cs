@@ -34,7 +34,6 @@ namespace Disarray.Content.Forge.Items.Cloud
 
 			item.useStyle = 0;
 
-			item.shoot = ProjectileID.None;
 			item.useAmmo = AmmoID.None;
 		}
 

@@ -1,6 +1,7 @@
-using Disarray.Content.Forge.Projectiles.Cloud;
 using Disarray.Core.Data;
+using Disarray.Core.Globals;
 using Microsoft.Xna.Framework;
+using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -8,6 +9,20 @@ namespace Disarray.Content.Forge.PlayerProperties
 {
     public class DeadMansSpark : PropertiesPlayer
     {
+        public static void ImplementThis(Player player, int Count)
+        {
+            DisarrayGlobalPlayer GlobalPlayer = player.GetModPlayer<DisarrayGlobalPlayer>();
+            PropertiesPlayer property = GlobalPlayer.ActiveProperties.FirstOrDefault(prop => prop is DeadMansSpark);
+            if (property is DeadMansSpark sparkProperty)
+            {
+                sparkProperty.SparkCount += Count;
+            }
+            else
+            {
+                player.GetModPlayer<DisarrayGlobalPlayer>().ActiveProperties.Add(new DeadMansSpark(Count));
+            }
+        }
+
         public int SparkCount;
 
         public DeadMansSpark(int Count)

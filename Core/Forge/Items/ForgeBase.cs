@@ -77,10 +77,10 @@ namespace Disarray.Core.Forge.Items
 		/// <summary>
 		/// The better shoot function which allows us to easily change a projectile's property
 		/// </summary>
-		public virtual Projectile ShootButBetter(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public virtual Projectile ShootButBetter(Player player, Item item, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
 			return item.shoot > ProjectileID.None ? Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI) : null;
-        }
+		}
 
 		/// <summary>
 		/// Allows the modification of all projectiles directly before firing

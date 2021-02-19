@@ -32,7 +32,6 @@ namespace Disarray.Content.Forge.Items.Blacksmith
 
 			item.useStyle = 0;
 
-			item.shoot = ProjectileID.None;
 			item.useAmmo = AmmoID.None;
 		}
 

@@ -35,8 +35,8 @@ namespace Disarray.Core.Forge.Items
 
 		public override string ItemStatistics()
 		{
-			int TotalDamage = (int)((float)(item.damage + DamageFlat) * (Damage + 1));
-			float Multiplier = ((float)item.damage / (float)ForgedTemplate.item.damage) * (Damage + 1);
+			int TotalDamage = (int)((item.damage + DamageFlat) * (Damage + 1));
+			float Multiplier = (item.damage / (float)ForgedTemplate.item.damage) * (Damage + 1);
 			string DamageStatistics = TotalDamage == 0 ? string.Empty : "Totaled Damage Bonus: " + TotalDamage + " ( Base: " + ForgedTemplate.item.damage + " | Additive : " + DamageFlat + " | Multiplier : " + Multiplier + " )";
 
 			string DefenseStatistics = Defense == 0 ? string.Empty : "Totaled Defense Bonus: " + Defense;
@@ -141,7 +141,7 @@ namespace Disarray.Core.Forge.Items
 		{
 			foreach (ForgeBase forgeBase in AllBases)
 			{
-				Projectile newProjectile = forgeBase.ShootButBetter(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
+				Projectile newProjectile = forgeBase.ShootButBetter(player, forgeBase.item, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
 
 				if (newProjectile != null)
                 {

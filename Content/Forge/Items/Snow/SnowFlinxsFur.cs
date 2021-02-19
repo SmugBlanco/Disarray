@@ -22,17 +22,17 @@ namespace Disarray.Content.Forge.Items.Snow
 
 		public override void HoldItem(Player player)
 		{
-			KnockbackIncrement.ImplementKB(player, 0.5f);
+			KnockbackIncrement.ImplementThis(player, 0.5f);
 		}
 
 		public override void UpdateEquip(Player player)
 		{
-			KnockbackIncrement.ImplementKB(player, 0.5f);
+			KnockbackIncrement.ImplementThis(player, 0.5f);
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			KnockbackIncrement.ImplementKB(player, 0.5f);
+			KnockbackIncrement.ImplementThis(player, 0.5f);
 		}
 
 		public override string ItemDescription() => "Counter to intuition, the creature who is most affected by knockback would help in dealing more. Utilised in 'The Forge'";

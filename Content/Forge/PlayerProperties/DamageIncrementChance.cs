@@ -9,7 +9,7 @@ namespace Disarray.Core.Data
     {
         public float Chance;
 
-        public static void ImplementChance(Player player, float Chance)
+        public static void ImplementThis(Player player, float Chance)
         {
             DisarrayGlobalPlayer GlobalPlayer = player.GetModPlayer<DisarrayGlobalPlayer>();
             PropertiesPlayer property = GlobalPlayer.ActiveProperties.FirstOrDefault(prop => prop is DamageIncrementChance);

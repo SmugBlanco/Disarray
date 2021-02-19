@@ -23,17 +23,17 @@ namespace Disarray.Content.Forge.Items.Hell
 
 		public override void HoldItem(Player player)
 		{
-			DamageIncrementChance.ImplementChance(player, 0.33f);
+			DamageIncrementChance.ImplementThis(player, 0.33f);
 		}
 
 		public override void UpdateEquip(Player player)
 		{
-			DamageIncrementChance.ImplementChance(player, 0.33f);
+			DamageIncrementChance.ImplementThis(player, 0.33f);
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			DamageIncrementChance.ImplementChance(player, 0.33f);
+			DamageIncrementChance.ImplementThis(player, 0.33f);
 		}
 
 		public override string ItemDescription() => "You probably shouldn't be touching this, but the item may have some uses in 'The Forge'.";

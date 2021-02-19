@@ -1,5 +1,6 @@
 using Disarray.Content.Forge.Items.Jungle;
 using Disarray.Content.Forge.Items.Trees;
+using Disarray.Content.Forge.Tiles.Flora;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -35,5 +36,37 @@ namespace Disarray.Core.Forge
         {
 			//Main.NewText(Framing.GetTileSafely(i, j).type + " | " + Framing.GetTileSafely(i, j).frameX + " | " + Framing.GetTileSafely(i, j).frameY);
 		}
+
+        public override void RandomUpdate(int i, int j, int type)
+        {
+			bool LiquidCheck(int checkRadius, int liquidType)
+            {
+				for (int X = i - checkRadius; X < i + checkRadius; X++)
+				{
+					for (int Y = j - checkRadius; Y < j + checkRadius; Y++)
+					{
+						if (X <= 0 || X >= Main.maxTilesX || Y <= 0 || Y >= Main.maxTilesY)
+						{
+							continue;
+						}
+
+						Tile tile = Framing.GetTileSafely(X, Y);
+						if (tile.liquid > 0 && tile.liquidType() == liquidType)
+						{
+							return true;
+						}
+					}
+				}
+				return false;
+			}
+
+			if (type == TileID.JungleGrass || type == TileID.Grass)
+			{
+				if (Main.rand.Next(5) == 0 && LiquidCheck(10, 2))
+				{
+					WorldGen.PlaceObject(i, j - 1, ModContent.TileType<HoneySickle>(), true);
+				}
+			}
+        }
     }
 }

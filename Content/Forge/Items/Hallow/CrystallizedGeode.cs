@@ -23,17 +23,17 @@ namespace Disarray.Content.Forge.Items.Hallow
 
 		public override void HoldItem(Player player)
 		{
-			DamageIncrementChance.ImplementChance(player, 0.5f);
+			DamageIncrementChance.ImplementThis(player, 0.5f);
 		}
 
 		public override void UpdateEquip(Player player)
 		{
-			DamageIncrementChance.ImplementChance(player, 0.5f);
+			DamageIncrementChance.ImplementThis(player, 0.5f);
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			DamageIncrementChance.ImplementChance(player, 0.5f);
+			DamageIncrementChance.ImplementThis(player, 0.5f);
 		}
 
 		public override string ItemDescription() => "A gift from the earths below; it's crystalline features may have some purpose in 'The Forge'";

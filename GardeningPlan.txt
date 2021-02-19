@@ -1,0 +1,14 @@
+Gardening -> Basically farming.
+To get started: You obtain a plant's seed. This can be from destorying natural plants, collecting them, any method.
+You then plant them on their suitable tiles.
+Growth will be determined by a growth rate variable. Defaults to 1
+Random updates will also have a chance to kill the plant if the requirements arent met. 
+This can be mitigated by a Sturdiness variable. Defaults to 0
+When harvestable you can right click to preserve the growth and get the labors of harvest
+Alternatively you can break them at anystage and get their seed back, if its harvestable you'll also get the labors of 
+harvest
+Information on these plants will replace generic crop data.
+We may get rid of daily trivia in favor of better crop data, this would be a +1 for me as i dont need to think of trivia
+AND we get players the information they need to properly start their garden.
+
+Gardener NPC? Sells clothing and accessories related to gardening and perhaps even some seeds?

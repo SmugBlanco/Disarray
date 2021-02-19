@@ -23,17 +23,17 @@ namespace Disarray.Content.Forge.Items.Lunar
 
 		public override void HoldItem(Player player)
 		{
-			DamageIncrementChance.ImplementChance(player, 1f);
+			DamageIncrementChance.ImplementThis(player, 1f);
 		}
 
 		public override void UpdateEquip(Player player)
 		{
-			DamageIncrementChance.ImplementChance(player, 1f);
+			DamageIncrementChance.ImplementThis(player, 1f);
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			DamageIncrementChance.ImplementChance(player, 1f);
+			DamageIncrementChance.ImplementThis(player, 1f);
 		}
 
 		public override string ItemDescription() => "";

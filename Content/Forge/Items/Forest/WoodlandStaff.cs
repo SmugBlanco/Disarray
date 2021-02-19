@@ -36,8 +36,6 @@ namespace Disarray.Content.Forge.Items.Forest
 			item.maxStack = 999;
 
 			item.useStyle = 0;
-
-			item.shoot = ProjectileID.None;
 		}
 
 		public override void SafeDefaults(Item item)

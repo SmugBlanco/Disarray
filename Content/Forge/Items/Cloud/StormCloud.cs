@@ -1,8 +1,5 @@
 using Disarray.Content.Forge.PlayerProperties;
-using Disarray.Core.Data;
 using Disarray.Core.Forge.Items;
-using Disarray.Core.Globals;
-using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -26,44 +23,17 @@ namespace Disarray.Content.Forge.Items.Cloud
 
 		public override void HoldItem(Player player)
 		{
-			DisarrayGlobalPlayer GlobalPlayer = player.GetModPlayer<DisarrayGlobalPlayer>();
-			PropertiesPlayer property = GlobalPlayer.ActiveProperties.FirstOrDefault(prop => prop is SummonNimbusOnAttack);
-			if (property is SummonNimbusOnAttack nimbusProperty)
-			{
-				nimbusProperty.AdditionalChance += 0.02f;
-			}
-			else
-            {
-				player.GetModPlayer<DisarrayGlobalPlayer>().ActiveProperties.Add(new SummonNimbusOnAttack(0.02f));
-			}
+			SummonNimbusOnAttack.ImplementThis(player, 0.02f);
 		}
 
 		public override void UpdateEquip(Player player)
 		{
-			DisarrayGlobalPlayer GlobalPlayer = player.GetModPlayer<DisarrayGlobalPlayer>();
-			PropertiesPlayer property = GlobalPlayer.ActiveProperties.FirstOrDefault(prop => prop is SummonNimbusOnAttack);
-			if (property is SummonNimbusOnAttack nimbusProperty)
-			{
-				nimbusProperty.AdditionalChance += 0.02f;
-			}
-			else
-			{
-				player.GetModPlayer<DisarrayGlobalPlayer>().ActiveProperties.Add(new SummonNimbusOnAttack(0.02f));
-			}
+			SummonNimbusOnAttack.ImplementThis(player, 0.02f);
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			DisarrayGlobalPlayer GlobalPlayer = player.GetModPlayer<DisarrayGlobalPlayer>();
-			PropertiesPlayer property = GlobalPlayer.ActiveProperties.FirstOrDefault(prop => prop is SummonNimbusOnAttack);
-			if (property is SummonNimbusOnAttack nimbusProperty)
-			{
-				nimbusProperty.AdditionalChance += 0.02f;
-			}
-			else
-			{
-				player.GetModPlayer<DisarrayGlobalPlayer>().ActiveProperties.Add(new SummonNimbusOnAttack(0.02f));
-			}
+			SummonNimbusOnAttack.ImplementThis(player, 0.02f);
 		}
 
 		public override string ItemDescription() => "Somehow you got your hands on a stormy cloud; you must be prickling with electricity.";

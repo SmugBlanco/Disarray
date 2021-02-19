@@ -29,3 +29,8 @@ Marble Relic -> Increases all stats when standing on Marble, chance releases mar
 
 Biomes -> At least 1 easy to get material
 Stats -> Materials that represent the stat changes throughout the game
+
+Natural Flora -> I like the idea of collecting from the lands
+Honey Sickle -> Grows on Jungle or Normal Glass in proximity with honey
+
+

@@ -38,7 +38,6 @@ namespace Disarray.Content.Forge.Items.Cloud
 
 			item.useStyle = 0;
 
-			item.shoot = ProjectileID.None;
 			item.useAmmo = AmmoID.None;
 		}
 
@@ -64,12 +63,10 @@ namespace Disarray.Content.Forge.Items.Cloud
 			item.useAmmo = AmmoID.Arrow;
 		}
 
-		public override Projectile ShootButBetter(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			Projectile firedProjectile = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0, 0);
-			firedProjectile.GetGlobalProjectile<DisarrayGlobalProjectile>().ActiveProperties.Add(new Electrified());
-			return firedProjectile;
-        }
+        public override void ModifyFiredProjectiles(Projectile projectile)
+        {
+			projectile.GetGlobalProjectile<DisarrayGlobalProjectile>().ActiveProperties.Add(new Electrified());
+		}
 
         public override void AddRecipes()
 		{

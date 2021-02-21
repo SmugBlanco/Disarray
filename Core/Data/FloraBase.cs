@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Terraria.ID;
 
-namespace Disarray.Content.Forge.Tiles.Flora
+namespace Disarray.Core.Data
 {
 	public abstract class FloraBase : ModTile
 	{
@@ -23,7 +23,7 @@ namespace Disarray.Content.Forge.Tiles.Flora
 
 		public virtual short Height => 0;
 
-		public virtual float Difficulty { get; set; } = 1;
+		public virtual bool Perennial { get; set; } = true;
 
 		public virtual float GrowthRate { get; set; } = 1;
 
@@ -48,7 +48,7 @@ namespace Disarray.Content.Forge.Tiles.Flora
 		/// <summary>
 		/// Useful for changing growth and sturdiness right before an update
 		/// </summary>
-		public virtual void PreGrowthUpdate(ref float GrowthRate, ref float Sturdiness) { }
+		public virtual void PreGrowthUpdate(int i, int j, ref float GrowthRate, ref float Sturdiness) { }
 
 		public override void RandomUpdate(int i, int j)
 		{
@@ -65,7 +65,7 @@ namespace Disarray.Content.Forge.Tiles.Flora
 				float plantGrowth = GrowthRate;
                 float plantSturdiness = Sturdiness;
 
-				PreGrowthUpdate(ref plantGrowth, ref plantSturdiness);
+				PreGrowthUpdate(i, j, ref plantGrowth, ref plantSturdiness);
 
 				if (!(Main.rand.NextFloat(1) < plantSturdiness) && !BasicNecessities(i, j))
                 {
@@ -153,14 +153,21 @@ namespace Disarray.Content.Forge.Tiles.Flora
 
 				Item.NewItem(OriginTile.ToWorldCoordinates(), HarvestItem);
 
-				for (int X = (int)OriginTile.X; X < OriginTile.X + Width / 18; X++)
+				if (Perennial)
 				{
-					for (int Y = (int)OriginTile.Y; Y < OriginTile.Y + Height / 18; Y++)
+					for (int X = (int)OriginTile.X; X < OriginTile.X + Width / 18; X++)
 					{
-						Tile fullTile = Framing.GetTileSafely(X, Y);
-						fullTile.frameX -= Width;
+						for (int Y = (int)OriginTile.Y; Y < OriginTile.Y + Height / 18; Y++)
+						{
+							Tile fullTile = Framing.GetTileSafely(X, Y);
+							fullTile.frameX -= Width;
+						}
 					}
 				}
+				else
+                {
+					WorldGen.KillTile((int)OriginTile.X, (int)OriginTile.Y, noItem: true);
+                }
 
 				if (Main.netMode != NetmodeID.SinglePlayer)
 				{

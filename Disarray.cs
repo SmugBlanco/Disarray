@@ -21,7 +21,7 @@ namespace Disarray
 				return;
 			}
 
-			Crop.Autoload(Code);
+			GardeningInformation.Autoload(Code);
 			PropertiesBuffs.Autoload(Code);
 			NPCDropData.Autoload(Code);
 
@@ -35,7 +35,7 @@ namespace Disarray
         public override void Unload()
         {
 			ForgeBase.Unload();
-			Crop.Unload();
+			GardeningInformation.Unload();
 			PropertiesBuffs.Unload();
 			NPCDropData.Unload();
 		}
@@ -48,7 +48,6 @@ namespace Disarray
 
         public override void PostUpdateEverything()
         {
-			CropDisplay.HandleCropDisplay.Update();
 		}
 
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)

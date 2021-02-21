@@ -1,21 +1,22 @@
 using Terraria.ModLoader;
 using Terraria.ID;
+using Disarray.Core.Data;
 
-namespace Disarray.Content.Forge.Items.Flora
+namespace Disarray.Content.Gardening.Jungle.HoneySickle
 {
-	public class HoneySickleSeed : ModItem
+	public class HoneySickleSeed : SeedItem
 	{
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Honey Sickle Seed");
 		}
-
-		public override void SetDefaults()
+			
+        public override void SetDefaults()
 		{
 			item.width = 16;
 			item.height = 16;
 			item.maxStack = 999;
-			item.createTile = mod.TileType("HoneySickle");
+			item.createTile = ModContent.TileType<HoneySicklePlant>();
 
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.UseSound = SoundID.Item1;

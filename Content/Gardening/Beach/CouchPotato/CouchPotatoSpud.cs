@@ -1,23 +1,17 @@
-using Disarray.Content.Forge.Dusts.Misc;
 using Disarray.Content.Forge.PlayerProperties;
-using Disarray.Content.Forge.Projectiles.Properties;
 using Disarray.Core.Forge.Items;
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
-using System.Linq;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
-namespace Disarray.Content.Forge.Items.Flora
+namespace Disarray.Content.Gardening.Beach.CouchPotato
 {
-	public class HoneySickleFruit : Materials
+	public class CouchPotatoSpud : Materials
 	{
 		public float ChanceIncrement = 0.025f;
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Honey Sickle Fruit");
+			DisplayName.SetDefault("Couch Potato");
 		}
 
 		public override void SetDefaults()
@@ -28,12 +22,12 @@ namespace Disarray.Content.Forge.Items.Flora
 			item.maxStack = 999;
 		}
 
-        public override void HoldItem(Player player)
-        {
+		public override void HoldItem(Player player)
+		{
 			HoneySickleHoneyBoost.ImplementThis(player, 1, 0.02f);
 		}
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
+		public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
 		{
 			HoneySickleHoneyBoost.ImplementThis(player, 1, 0.02f);
 		}
@@ -43,7 +37,7 @@ namespace Disarray.Content.Forge.Items.Flora
 			HoneySickleHoneyBoost.ImplementThis(player, 1, 0.02f);
 		}
 
-		public override string ItemDescription() => "The fruits of a Honey Sickle plant, perhaps it may have some healing properties you can utilise in 'The Forge'";
+		public override string ItemDescription() => "Notorious for being lazy, perhaps it may have some healing properties you can utilise in 'The Forge'";
 
 		public override string ItemStatistics()
 		{
@@ -52,7 +46,7 @@ namespace Disarray.Content.Forge.Items.Flora
 			return DefaultAbility + "\n" + HoneyBoost;
 		}
 
-		public override string ObtainingDetails() => "Honey Sickle Fruit can be obtained from harvesting Honey Sickle plants.";
+		public override string ObtainingDetails() => "Couch Potatos can be obtained from harvesting Couch Potato plants.";
 
 		public override string MiscDetails() => "";
 	}

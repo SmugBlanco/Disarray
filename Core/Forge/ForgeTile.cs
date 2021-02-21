@@ -1,6 +1,6 @@
 using Disarray.Content.Forge.Items.Jungle;
 using Disarray.Content.Forge.Items.Trees;
-using Disarray.Content.Forge.Tiles.Flora;
+using Disarray.Content.Gardening.Jungle.HoneySickle;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -10,7 +10,7 @@ namespace Disarray.Core.Forge
 {
 	public class ForgeTile : GlobalTile
 	{
-		public override bool Drop(int i, int j, int type)
+        public override bool Drop(int i, int j, int type)
 		{
 			if (Main.netMode != NetmodeID.MultiplayerClient && !WorldGen.noTileActions && !WorldGen.gen)
 			{
@@ -64,7 +64,7 @@ namespace Disarray.Core.Forge
 			{
 				if (Main.rand.Next(5) == 0 && LiquidCheck(10, 2))
 				{
-					WorldGen.PlaceObject(i, j - 1, ModContent.TileType<HoneySickle>(), true);
+					WorldGen.PlaceObject(i, j - 1, ModContent.TileType<HoneySicklePlant>(), true);
 				}
 			}
         }

@@ -3,11 +3,11 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.ObjectData;
 using Microsoft.Xna.Framework;
-using Disarray.Content.Forge.Items.Flora;
+using Disarray.Core.Data;
 
-namespace Disarray.Content.Forge.Tiles.Flora
+namespace Disarray.Content.Gardening.Jungle.HoneySickle
 {
-	public class HoneySickle : FloraBase
+	public class HoneySicklePlant : FloraBase
 	{
 		public override void SetDefaults()
 		{

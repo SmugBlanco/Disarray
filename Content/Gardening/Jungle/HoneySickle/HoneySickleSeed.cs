@@ -1,6 +1,6 @@
 using Terraria.ModLoader;
 using Terraria.ID;
-using Disarray.Core.Data;
+using Disarray.Core.Gardening.Items;
 
 namespace Disarray.Content.Gardening.Jungle.HoneySickle
 {

@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.ObjectData;
 using Microsoft.Xna.Framework;
-using Disarray.Core.Data;
+using Disarray.Core.Gardening.Tiles;
 
 namespace Disarray.Content.Gardening.Jungle.HoneySickle
 {
@@ -34,7 +34,13 @@ namespace Disarray.Content.Gardening.Jungle.HoneySickle
 
         public override short Width => 36;
 
-		public override float GrowthRate => 0.75f;
+		public override int MinimumLiquidRadius => 5;
+
+		public override int RequiredLiquidType => 2;
+
+		public override float MinimumLightLevel => 0;
+
+		public override float GrowthRate => 0.5f;
 
         public override float Sturdiness => 0.25f;
 
@@ -42,14 +48,16 @@ namespace Disarray.Content.Gardening.Jungle.HoneySickle
 
 		public override int HarvestItem => ModContent.ItemType<HoneySickleFruit>();
 
-        public override bool BasicNecessities(int i, int j)
-        {
-			return LiquidCheck(i, j, 6, 2);
-        }
-
-        public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+		public override void NaturalSpawning(int i, int j, int type)
 		{
-			offsetY += 2;
+			if ((type == TileID.JungleGrass || type == TileID.Grass) && Main.rand.Next(10) == 0)
+			{
+				if (HasMetBasicNecessities(i, j))
+				{
+					WorldGen.PlaceObject(i, j - 1, Type, true);
+					SyncTile(i, j);
+				}
+			}
 		}
 	}
 }

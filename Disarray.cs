@@ -1,6 +1,7 @@
-using Disarray.Core.Almanac.UI;
 using Disarray.Core.Data;
 using Disarray.Core.Forge.Items;
+using Disarray.Core.Gardening;
+using Disarray.Core.Gardening.Tiles;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
@@ -38,6 +39,7 @@ namespace Disarray
 			GardeningInformation.Unload();
 			PropertiesBuffs.Unload();
 			NPCDropData.Unload();
+			FloraBase.Unload();
 		}
 
         public override void UpdateUI(GameTime gameTime)

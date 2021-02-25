@@ -42,7 +42,7 @@ namespace Disarray.Core.Almanac.UI
             }
         }
 
-		public Color orbColor { get; }
+		public Color orbColor { get; set; }
 
 		public PlantInformationDisplay(string displayName, float currentValue, float maxValue, Color orbColor)
 		{

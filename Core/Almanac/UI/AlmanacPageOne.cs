@@ -6,10 +6,10 @@ using System;
 using Disarray.Core.Extensions;
 using static Disarray.Core.Data.Moonphase;
 using static Disarray.Core.Data.SeasonData;
-using Terraria;
 using Microsoft.Xna.Framework;
 using Disarray.Core.UI;
-using Disarray.Core.Data;
+using Disarray.Core.Gardening;
+using Disarray.Core.Gardening.Items;
 
 namespace Disarray.Core.Almanac.UI
 {
@@ -197,6 +197,19 @@ namespace Disarray.Core.Almanac.UI
 			DifficultyDisplay.ChangeCurrentProgress(information.DifficultyRating);
 			LightNeededDisplay.ChangeCurrentProgress(information.LightRequired);
 			ThirstinessDisplay.ChangeCurrentProgress(information.Thirstiness);
+			ThirstinessDisplay.orbColor = new Color(0, 120, 255);
+
+			switch (information.LiquidType)
+            {
+				case 1:
+					ThirstinessDisplay.orbColor = new Color(255, 75, 0);
+					break;
+
+				case 2:
+					ThirstinessDisplay.orbColor = new Color(220, 160, 40);
+					break;
+            }
+
 			PlantInformationTextbox[0].CurrentText = "Influences: \n \n" + information.ConvertInfluencersToString();
 			PlantInformationTextbox[1].CurrentText = information.Description;
 		}

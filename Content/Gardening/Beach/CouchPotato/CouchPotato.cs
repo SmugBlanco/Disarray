@@ -1,4 +1,4 @@
-using Disarray.Core.Data;
+using Disarray.Core.Gardening;
 
 namespace Disarray.Content.Gardening.Beach.CouchPotato
 {
@@ -7,20 +7,12 @@ namespace Disarray.Content.Gardening.Beach.CouchPotato
         public override void SetDefaults()
         {
             DisplayName = Name;
-            DifficultyRating = 0.1f;
-            LightRequired = 0.5f;
-            Thirstiness = 0.3f;
+            DifficultyRating = 0.333f;
+            LightRequired = 0.75f;
+            Thirstiness = 0.2f;
 
-            LikesAndDislikes.Add("Televisions", 0.75f);
-            LikesAndDislikes.Add("Snacks", 0.5f);
-            LikesAndDislikes.Add("Pillows", 0.25f);
-            LikesAndDislikes.Add("Air", 0f);
-            LikesAndDislikes.Add("Disturbances", -0.25f);
-            LikesAndDislikes.Add("You", -0.5f);
-            LikesAndDislikes.Add("Other Couch Potatos", -0.75f);
-
-            string ForagingTip = "Lazy, found chillaxing at the beach.";
-            string GardeningTip = "Long to grow but bountiful.";
+            string ForagingTip = "Foraging:\nThese lazy plants can be found setting up home on beaches.";
+            string GardeningTip = "Gardening:\nThe Couch Potato is a fairy easy and bountiful plant to garden, though it's slow rate of growth may discourage those who want to make a quick buck.";
             Description = ForagingTip + "\n \n" + GardeningTip;
         }
     }

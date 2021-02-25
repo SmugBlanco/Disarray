@@ -1,4 +1,4 @@
-using Disarray.Core.Data;
+using Disarray.Core.Gardening;
 
 namespace Disarray.Content.Gardening.Jungle.HoneySickle
 {
@@ -7,11 +7,13 @@ namespace Disarray.Content.Gardening.Jungle.HoneySickle
         public override void SetDefaults()
         {
             DisplayName = Name;
-            DifficultyRating = 0.425f;
+            DifficultyRating = 0.3f;
             LightRequired = 0f;
-            Thirstiness = 0.75f;
-            string ForagingTip = "A plant that may seem rare at first, but so not much if the forager knows where to look. Check grassy areas with a nearby source of honey.";
-            string GardeningTip = "Honey Sickles are suprisingly easy plants to garden, they only require one condition to prosper: a nearby source of honey.";
+            Thirstiness = 0.5f;
+            LiquidType = 2;
+
+            string ForagingTip = "Foraging:\nRare at first sight, but expierenced foragers know to look near liquid honey.";
+            string GardeningTip = "Gardening:\nA fairy easy plant to garden producing an useful fruit.";
             Description = ForagingTip + "\n \n" + GardeningTip; 
         }
     }

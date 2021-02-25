@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Disarray.Core.Data
+namespace Disarray.Core.Gardening
 {
 	public class GardeningInformation
 	{
@@ -29,6 +29,8 @@ namespace Disarray.Core.Data
 		public float LightRequired;
 
 		public float Thirstiness;
+
+		public int LiquidType;
 
 		public IDictionary<string, float> LikesAndDislikes = new Dictionary<string, float>();
 

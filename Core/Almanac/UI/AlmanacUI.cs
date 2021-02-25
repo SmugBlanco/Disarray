@@ -13,13 +13,7 @@ namespace Disarray.Core.Almanac.UI
 	{
 		public const string AssetDirectory = "Disarray/Core/Almanac/UI/Textures/";
 
-		public AlmanacUI()
-		{
-		}
-
 		public UIElement MasterBackground; // Including this fixes many issues with the UI
-
-		//----------------------------------------------------------------------------------------------
 
         public override void OnInitialize()
 		{
@@ -35,70 +29,6 @@ namespace Disarray.Core.Almanac.UI
 			InitializeSecondPage();
 			MasterBackground.Append(SecondPage);
 			Append(MasterBackground);
-		}
-
-		private void ItemSlot_ItemChanged()
-		{
-			if (ItemSlot.item.IsAir || ItemSlot.item.modItem == null)
-			{
-				ItemName = string.Empty;
-				DescriptionTextbox.CurrentText = "Description:\nInsert an item into the Item Slot to view it's description!";
-				StatisticTextbox.CurrentText = "Statistics:\nInsert an item into the Item Slot to view it's statistics!";
-				ObtainingTextbox.CurrentText = "Obtaining:\nInsert an item into the Item Slot to view it's obtained!";
-				MiscellaneousTextbox.CurrentText = "Miscellaneous Information:\nInsert an item into the Item Slot to view it's miscellaneous information!";
-				SlotItemData.Clear();
-			}
-
-			if (ItemSlot.item.modItem != null && ItemSlot.item.modItem is ForgeBase forgeBase)
-			{
-				ItemName = ItemSlot.item.Name;
-				DescriptionTextbox.CurrentText = "Description:\n" + forgeBase.ItemDescription();
-				StatisticTextbox.CurrentText = "Statistics:\n" + forgeBase.ItemStatistics();
-				ObtainingTextbox.CurrentText = "Obtaining:\n" + forgeBase.ObtainingDetails();
-				MiscellaneousTextbox.CurrentText = "Miscellaneous Information:\n" + forgeBase.MiscDetails();
-				SlotItemData.Clear();
-
-				if (forgeBase is ForgeItem forgeItem)
-                {
-					ItemSlot.item.modItem?.SetDefaults();
-					SlotItemData = forgeItem.UniqueBases.ToList();
-					SlotItemData.Insert(0, ItemSlot.item.modItem as ForgeBase);
-				}
-			}
-		}
-
-		private void ItemSlot_ExpressedItemChanged()
-		{
-			if (ItemSlot.expressedItem.modItem != null && ItemSlot.expressedItem.modItem is ForgeBase forgeBase)
-			{
-				ItemName = forgeBase.item.Name + (forgeBase is ForgeItem ? string.Empty : " - x" + (from bases in (ItemSlot.item.modItem as ForgeItem).AllBases where bases.Name == forgeBase.Name select bases).Count());
-				DescriptionTextbox.CurrentText = "Description:\n" + forgeBase.ItemDescription();
-				StatisticTextbox.CurrentText = "Statistics:\n" + forgeBase.ItemStatistics();
-				ObtainingTextbox.CurrentText = "Obtaining:\n" + forgeBase.ObtainingDetails();
-				MiscellaneousTextbox.CurrentText = "Miscellaneous Information:\n" + forgeBase.MiscDetails();
-			}
-		}
-
-		private void SlotCycleLeft_OnClick(UIMouseEvent evt, UIElement listeningElement)
-		{
-			if (SlotItemData.Count == 0)
-            {
-				return;
-            }
-
-			CurrentSlot = (CurrentSlot - 1) < 0 ? SlotItemData.Count - 1 : (CurrentSlot - 1) % SlotItemData.Count;
-			ItemSlot.ChangeExpressed(SlotItemData[CurrentSlot].item);
-		}
-
-		private void SlotCycleRight_OnClick(UIMouseEvent evt, UIElement listeningElement)
-		{
-			if (SlotItemData.Count == 0)
-			{
-				return;
-			}
-
-			CurrentSlot = (CurrentSlot + 1) % SlotItemData.Count;
-			ItemSlot.ChangeExpressed(SlotItemData[CurrentSlot].item);
 		}
 
 		public override void Draw(SpriteBatch spriteBatch)

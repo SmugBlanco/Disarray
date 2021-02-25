@@ -1,7 +1,7 @@
 using System;
 using Terraria.ModLoader;
 
-namespace Disarray.Core.Data
+namespace Disarray.Core.Gardening.Items
 {
 	public abstract class SeedItem : ModItem
 	{

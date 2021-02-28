@@ -1,31 +1,18 @@
-using Disarray.Core.Data;
-using Disarray.Core.Globals;
-using System.Linq;
+using Disarray.Core.Properties;
 using Terraria;
 
 namespace Disarray.Content.Forge.PlayerProperties
 {
-    public class KnockbackIncrement : PropertiesPlayer
+    public class KnockbackIncrement : PlayerProperty
     {
-        public static void ImplementThis(Player player, float kB)
-        {
-            DisarrayGlobalPlayer GlobalPlayer = player.GetModPlayer<DisarrayGlobalPlayer>();
-            PropertiesPlayer property = GlobalPlayer.ActiveProperties.FirstOrDefault(prop => prop is KnockbackIncrement);
-            if (property is KnockbackIncrement knockBackIncrement)
-            {
-                knockBackIncrement.knockBack += kB;
-            }
-            else
-            {
-                player.GetModPlayer<DisarrayGlobalPlayer>().ActiveProperties.Add(new KnockbackIncrement(kB));
-            }
-        }
-
         public float knockBack;
 
-        public KnockbackIncrement(float kB)
+        public override void Combine(PlayerProperty newProperty)
         {
-            knockBack += kB;
+            if (newProperty is KnockbackIncrement property)
+            {
+                knockBack += property.knockBack;
+            }
         }
 
         public override void ModifyHitNPC(Player player, Item item, NPC target, ref int damage, ref float knockback, ref bool crit)

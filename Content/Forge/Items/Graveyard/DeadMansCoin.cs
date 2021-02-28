@@ -1,5 +1,6 @@
 using Disarray.Content.Forge.PlayerProperties;
 using Disarray.Core.Forge.Items;
+using Disarray.Core.Properties;
 using Terraria;
 using Terraria.ID;
 
@@ -20,20 +21,11 @@ namespace Disarray.Content.Forge.Items.Graveyard
 			item.maxStack = 999;
 		}
 
-		public override void HoldItem(Player player)
-		{
-			DeadMansSpark.ImplementThis(player, 1);
-		}
+		public override void HoldItem(Player player) => PlayerProperty.ImplementProperty(player, new DeadMansSpark() { SparkCount = 1 }, false);
 
-		public override void UpdateEquip(Player player)
-		{
-			DeadMansSpark.ImplementThis(player, 1);
-		}
+		public override void UpdateEquip(Player player) => PlayerProperty.ImplementProperty(player, new DeadMansSpark() { SparkCount = 1 }, false);
 
-		public override void UpdateAccessory(Player player, bool hideVisual)
-		{
-			DeadMansSpark.ImplementThis(player, 1);
-		}
+		public override void UpdateAccessory(Player player, bool hideVisual) => PlayerProperty.ImplementProperty(player, new DeadMansSpark() { SparkCount = 1 }, false);
 
 		public override string ItemDescription() => "Utilised in 'The Forge'.";
 

@@ -1,28 +1,11 @@
-using Disarray.Core.Data;
-using Disarray.Core.Globals;
-using System.Linq;
+using Disarray.Core.Properties;
 using Terraria;
 using Terraria.ID;
 
 namespace Disarray.Content.Forge.PlayerProperties
 {
-    public class HoneySickleHoneyBoost : PropertiesPlayer
+    public class HoneySickleHoneyBoost : PlayerProperty
     {
-        public static void ImplementThis(Player player, int Count, float Chance)
-        {
-            DisarrayGlobalPlayer GlobalPlayer = player.GetModPlayer<DisarrayGlobalPlayer>();
-            PropertiesPlayer property = GlobalPlayer.ActiveProperties.FirstOrDefault(prop => prop is HoneySickleHoneyBoost);
-            if (property is HoneySickleHoneyBoost honeySickleHoneyBoostProperty)
-            {
-                honeySickleHoneyBoostProperty.Count += Count;
-                honeySickleHoneyBoostProperty.AdditionalChance += Chance;
-            }
-            else
-            {
-                player.GetModPlayer<DisarrayGlobalPlayer>().ActiveProperties.Add(new HoneySickleHoneyBoost(Count, Chance));
-            }
-        }
-
         public int Count;
 
         public float InnateChance = 0.2f;
@@ -31,10 +14,13 @@ namespace Disarray.Content.Forge.PlayerProperties
 
         public float TotalChance => InnateChance + AdditionalChance;
 
-        public HoneySickleHoneyBoost(int Count, float Chance)
+        public override void Combine(PlayerProperty newProperty)
         {
-            this.Count += Count;
-            AdditionalChance += Chance;
+            if (newProperty is HoneySickleHoneyBoost property)
+            {
+                Count += property.Count;
+                AdditionalChance += property.AdditionalChance;
+            }
         }
 
         public override void PostUpdateMiscEffects(Player player)

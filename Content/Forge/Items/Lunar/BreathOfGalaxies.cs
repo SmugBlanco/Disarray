@@ -1,5 +1,6 @@
-using Disarray.Core.Data;
+using Disarray.Content.Forge.PlayerProperties;
 using Disarray.Core.Forge.Items;
+using Disarray.Core.Properties;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,20 +22,11 @@ namespace Disarray.Content.Forge.Items.Lunar
 			item.maxStack = 999;
 		}
 
-		public override void HoldItem(Player player)
-		{
-			DamageIncrementChance.ImplementThis(player, 1f);
-		}
+		public override void HoldItem(Player player) => PlayerProperty.ImplementProperty(player, new DamageIncrementChance() { Chance = 1f }, false);
 
-		public override void UpdateEquip(Player player)
-		{
-			DamageIncrementChance.ImplementThis(player, 1f);
-		}
+		public override void UpdateEquip(Player player) => PlayerProperty.ImplementProperty(player, new DamageIncrementChance() { Chance = 1f }, false);
 
-		public override void UpdateAccessory(Player player, bool hideVisual)
-		{
-			DamageIncrementChance.ImplementThis(player, 1f);
-		}
+		public override void UpdateAccessory(Player player, bool hideVisual) => PlayerProperty.ImplementProperty(player, new DamageIncrementChance() { Chance = 1f }, false);
 
 		public override string ItemDescription() => "";
 

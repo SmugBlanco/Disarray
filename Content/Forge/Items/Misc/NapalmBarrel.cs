@@ -1,6 +1,7 @@
 using Disarray.Content.Forge.Dusts.Misc;
 using Disarray.Content.Forge.Projectiles.Properties;
 using Disarray.Core.Forge.Items;
+using Disarray.Core.Properties;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,10 +31,7 @@ namespace Disarray.Content.Forge.Items.Misc
 			item.maxStack = 999;
 		}
 
-        public override void ModifyFiredProjectiles(Projectile projectile)
-        {
-			Napalmed.ImplementThis(projectile, ChanceIncrement);
-        }
+		public override void ModifyFiredProjectiles(Projectile projectile) => ProjectileProperty.ImplementProperty(projectile, new Napalmed() { InflictChance = ChanceIncrement });
 
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {

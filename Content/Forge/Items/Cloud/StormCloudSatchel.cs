@@ -1,6 +1,6 @@
 using Disarray.Content.Forge.Projectiles.Cloud;
 using Disarray.Content.Forge.Projectiles.Properties;
-using Disarray.Core.Globals;
+using Disarray.Core.Properties;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -69,10 +69,7 @@ namespace Disarray.Content.Forge.Items.Cloud
 			return Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0, -1);
 		}
 
-		public override void ModifyFiredProjectiles(Projectile projectile)
-		{
-			projectile.GetGlobalProjectile<DisarrayGlobalProjectile>().ActiveProperties.Add(new Electrified());
-		}
+		public override void ModifyFiredProjectiles(Projectile projectile) => ProjectileProperty.ImplementProperty(projectile, new Electrified());
 
 		public override void AddRecipes()
 		{

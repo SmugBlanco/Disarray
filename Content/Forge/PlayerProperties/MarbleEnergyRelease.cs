@@ -1,31 +1,14 @@
 using Disarray.Content.Forge.Projectiles.Marble;
-using Disarray.Core.Data;
-using Disarray.Core.Globals;
+using Disarray.Core.Properties;
 using Microsoft.Xna.Framework;
-using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace Disarray.Content.Forge.PlayerProperties
 {
-    public class MarbleEnergyRelease : PropertiesPlayer
+    public class MarbleEnergyRelease : PlayerProperty
     {
-        public static void ImplementThis(Player player, int Strength, float Chance)
-        {
-            DisarrayGlobalPlayer GlobalPlayer = player.GetModPlayer<DisarrayGlobalPlayer>();
-            PropertiesPlayer property = GlobalPlayer.ActiveProperties.FirstOrDefault(prop => prop is MarbleEnergyRelease);
-            if (property is MarbleEnergyRelease marbleEnergyReleaseProperty)
-            {
-                marbleEnergyReleaseProperty.EffectStrength += Strength;
-                marbleEnergyReleaseProperty.OrbChance += Chance;
-            }
-            else
-            {
-                player.GetModPlayer<DisarrayGlobalPlayer>().ActiveProperties.Add(new MarbleEnergyRelease(Strength, Chance));
-            }
-        }
-
         public float DefaultEffectStrength = 1;
 
         public float EffectStrength = 0;
@@ -38,16 +21,18 @@ namespace Disarray.Content.Forge.PlayerProperties
 
         public float TotalOrbChance => DefaultOrbReleaseChance + OrbChance;
 
-        public MarbleEnergyRelease(float EffectStrength, float OrbChance)
+        public override void Combine(PlayerProperty newProperty)
         {
-            this.EffectStrength += EffectStrength;
-            this.OrbChance += OrbChance;
+            if (newProperty is MarbleEnergyRelease property)
+            {
+                EffectStrength += property.EffectStrength;
+                OrbChance += property.OrbChance;
+            }
         }
 
         public override void PostUpdateMiscEffects(Player player)
         {
-            Tile tile = Framing.GetTileSafely(player.Bottom);
-            if (tile.type == TileID.Marble)
+            if (Framing.GetTileSafely(player.Bottom).type == TileID.Marble)
             {
                 player.allDamage += 0.01f * TotalEffectStrength;
                 player.endurance += 0.01f * TotalEffectStrength;

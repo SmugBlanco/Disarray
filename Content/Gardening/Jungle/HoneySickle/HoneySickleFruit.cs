@@ -1,5 +1,6 @@
 using Disarray.Content.Forge.PlayerProperties;
 using Disarray.Core.Forge.Items;
+using Disarray.Core.Properties;
 using Terraria;
 using Terraria.ID;
 
@@ -20,20 +21,11 @@ namespace Disarray.Content.Gardening.Jungle.HoneySickle
 			item.maxStack = 999;
 		}
 
-        public override void HoldItem(Player player)
-        {
-			HoneySickleHoneyBoost.ImplementThis(player, 1, 0.02f);
-		}
+		public override void HoldItem(Player player) => PlayerProperty.ImplementProperty(player, new HoneySickleHoneyBoost() { Count = 1, AdditionalChance = 0.02f }, false);
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
-		{
-			HoneySickleHoneyBoost.ImplementThis(player, 1, 0.02f);
-		}
+		public override void UpdateEquip(Player player) => PlayerProperty.ImplementProperty(player, new HoneySickleHoneyBoost() { Count = 1, AdditionalChance = 0.02f }, false);
 
-		public override void OnHitPvp(Player player, Player target, int damage, bool crit)
-		{
-			HoneySickleHoneyBoost.ImplementThis(player, 1, 0.02f);
-		}
+		public override void UpdateAccessory(Player player, bool hideVisual) => PlayerProperty.ImplementProperty(player, new HoneySickleHoneyBoost() { Count = 1, AdditionalChance = 0.02f }, false);
 
 		public override string ItemDescription() => "The fruits of a Honey Sickle plant, perhaps it may have some healing properties you can utilise in 'The Forge'";
 

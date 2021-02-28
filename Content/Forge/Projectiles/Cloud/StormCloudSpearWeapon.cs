@@ -1,4 +1,10 @@
+using Disarray.Content.Forge.Projectiles.Properties;
+using Disarray.Core.Globals;
 using Disarray.Core.ProjectileClasses;
+using Disarray.Core.Properties;
+using System.Collections.Generic;
+using System.Linq;
+using Terraria;
 
 namespace Disarray.Content.Forge.Projectiles.Cloud
 {

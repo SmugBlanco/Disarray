@@ -1,38 +1,25 @@
 using Disarray.Content.Forge.Projectiles.Cloud;
-using Disarray.Core.Data;
-using Disarray.Core.Globals;
+using Disarray.Core.Properties;
 using Microsoft.Xna.Framework;
-using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace Disarray.Content.Forge.PlayerProperties
 {
-    public class SummonNimbusOnAttack : PropertiesPlayer
+    public class SummonNimbusOnAttack : PlayerProperty
     {
-        public static void ImplementThis(Player player, float Chance)
-        {
-            DisarrayGlobalPlayer GlobalPlayer = player.GetModPlayer<DisarrayGlobalPlayer>();
-            PropertiesPlayer property = GlobalPlayer.ActiveProperties.FirstOrDefault(prop => prop is SummonNimbusOnAttack);
-            if (property is SummonNimbusOnAttack nimbusProperty)
-            {
-                nimbusProperty.AdditionalChance += Chance;
-            }
-            else
-            {
-                player.GetModPlayer<DisarrayGlobalPlayer>().ActiveProperties.Add(new SummonNimbusOnAttack(Chance));
-            }
-        }
-
         public float InnateChance = 0.2f;
 
         public float AdditionalChance = 0;
 
         public float TotalChance => InnateChance + AdditionalChance;
 
-        public SummonNimbusOnAttack(float Chance)
+        public override void Combine(PlayerProperty newProperty)
         {
-            AdditionalChance += Chance;
+            if (newProperty is SummonNimbusOnAttack property)
+            {
+                AdditionalChance += property.AdditionalChance;
+            }
         }
 
         public override void OnHitNPC(Player player, Item item, NPC target, int damage, float knockback, bool crit)

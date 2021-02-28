@@ -6,7 +6,7 @@ namespace Disarray.Content.Gardening.Jungle.HoneySickle
     {
         public override void SetDefaults()
         {
-            DisplayName = Name;
+            DisplayName = "Honey Sickle";
             DifficultyRating = 0.3f;
             LightRequired = 0f;
             Thirstiness = 0.5f;

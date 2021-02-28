@@ -1,5 +1,6 @@
-using Disarray.Core.Data;
+using Disarray.Content.Forge.PlayerProperties;
 using Disarray.Core.Forge.Items;
+using Disarray.Core.Properties;
 using Terraria;
 using Terraria.ID;
 
@@ -20,22 +21,13 @@ namespace Disarray.Content.Forge.Items.Rusty
 			item.maxStack = 999;
 		}
 
-        public override void HoldItem(Player player)
-        {
-			DamageIncrementChance.ImplementThis(player, 0.2f);
-		}
+		public override void HoldItem(Player player) => PlayerProperty.ImplementProperty(player, new DamageIncrementChance() { Chance = 0.2f }, false);
 
-        public override void UpdateEquip(Player player)
-        {
-			DamageIncrementChance.ImplementThis(player, 0.2f);
-		}
+		public override void UpdateEquip(Player player) => PlayerProperty.ImplementProperty(player, new DamageIncrementChance() { Chance = 0.2f }, false);
 
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-			DamageIncrementChance.ImplementThis(player, 0.2f);
-		}
+		public override void UpdateAccessory(Player player, bool hideVisual) => PlayerProperty.ImplementProperty(player, new DamageIncrementChance() { Chance = 0.2f }, false);
 
-        public override string ItemDescription() => "Seems like it use to be a multi-purpose chain. It's current condition is... poor but it may have some uses in 'The Forge'.";
+		public override string ItemDescription() => "Seems like it use to be a multi-purpose chain. It's current condition is... poor but it may have some uses in 'The Forge'.";
 
 		public override string ItemStatistics() => "20% chance to increase damage output by 1." + "\nIf the odds stack above 100%, the damage output increase is guaranteed and the remaining odds will go towards guaranteed + 1." + "\nEffect stacks indefinitely.";
 

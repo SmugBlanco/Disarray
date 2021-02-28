@@ -1,5 +1,6 @@
 using Disarray.Content.Forge.PlayerProperties;
 using Disarray.Core.Forge.Items;
+using Disarray.Core.Properties;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,20 +22,11 @@ namespace Disarray.Content.Forge.Items.Cloud
 			item.maxStack = 999;
 		}
 
-		public override void HoldItem(Player player)
-		{
-			SummonNimbusOnAttack.ImplementThis(player, 0.02f);
-		}
+		public override void HoldItem(Player player) => PlayerProperty.ImplementProperty(player, new SummonNimbusOnAttack { AdditionalChance = 0.02f }, false);
 
-		public override void UpdateEquip(Player player)
-		{
-			SummonNimbusOnAttack.ImplementThis(player, 0.02f);
-		}
+		public override void UpdateEquip(Player player) => PlayerProperty.ImplementProperty(player, new SummonNimbusOnAttack { AdditionalChance = 0.02f }, false);
 
-		public override void UpdateAccessory(Player player, bool hideVisual)
-		{
-			SummonNimbusOnAttack.ImplementThis(player, 0.02f);
-		}
+		public override void UpdateAccessory(Player player, bool hideVisual) => PlayerProperty.ImplementProperty(player, new SummonNimbusOnAttack { AdditionalChance = 0.02f }, false);
 
 		public override string ItemDescription() => "Somehow you got your hands on a stormy cloud; you must be prickling with electricity.";
 

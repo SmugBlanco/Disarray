@@ -6,7 +6,7 @@ namespace Disarray.Content.Gardening.Beach.CouchPotato
     {
         public override void SetDefaults()
         {
-            DisplayName = Name;
+            DisplayName = "Couch Potatos";
             DifficultyRating = 0.333f;
             LightRequired = 0.75f;
             Thirstiness = 0.2f;

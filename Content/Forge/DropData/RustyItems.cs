@@ -1,27 +1,24 @@
 using Disarray.Content.Forge.Items.Rusty;
-using Disarray.Core.Data;
+using Disarray.Core.Globals;
+using Disarray.Core.Properties;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace Disarray.Content.Forge.DropData
+namespace Disarray.Content.DropData
 {
-	public class RustyItems : NPCDropData
-	{
+    public class RustyItems : NPCProperty
+    {
+        public override void PostLoad(NPCProperty npcProperty)
+        {
+            DisarrayGlobalNPC.GlobalProperties.Add(npcProperty);
+        }
+
         public override void NPCLoot(NPC npc, string internalName)
         {
-            int RustyItemDropChance = Main.hardMode ? 50 : 20;
-            if (Main.rand.Next(RustyItemDropChance) == 0 && npc.FullName.Contains("Zombie"))
+            if (Main.rand.Next(Main.hardMode ? 50 : 20) == 0 && internalName.Contains("zombie"))
             {
-                int[] RustyItems = new int[]
-                {
-                    ModContent.ItemType<RustyBow>(),
-                    ModContent.ItemType<RustyCoil>(),
-                    ModContent.ItemType<RustyPistol>(),
-                    ModContent.ItemType<RustySword>(),
-                    ModContent.ItemType<RustyTome>(),
-                };
-
-                Item.NewItem(npc.Hitbox, Utils.SelectRandom(Main.rand, RustyItems));
+                int droppedItem = Utils.SelectRandom(Main.rand, ModContent.ItemType<RustyBow>(), ModContent.ItemType<RustyCoil>(), ModContent.ItemType<RustyPistol>(), ModContent.ItemType<RustySword>(), ModContent.ItemType<RustyTome>());
+                Item.NewItem(npc.Hitbox, droppedItem);
             }
         }
     }

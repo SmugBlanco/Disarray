@@ -1,5 +1,6 @@
-using Disarray.Core.Data;
+using Disarray.Content.Forge.PlayerProperties;
 using Disarray.Core.Forge.Items;
+using Disarray.Core.Properties;
 using Terraria;
 using Terraria.ID;
 
@@ -20,20 +21,11 @@ namespace Disarray.Content.Forge.Items.Dungeon
 			item.maxStack = 999;
 		}
 
-		public override void HoldItem(Player player)
-		{
-			DefenseIncrementChance.ImplementThis(player, 0.5f);
-		}
+		public override void HoldItem(Player player) => PlayerProperty.ImplementProperty(player, new DefenseIncrementChance() { Chance = 0.5f }, false);
 
-		public override void UpdateEquip(Player player)
-		{
-			DefenseIncrementChance.ImplementThis(player, 0.5f);
-		}
+		public override void UpdateEquip(Player player) => PlayerProperty.ImplementProperty(player, new DefenseIncrementChance() { Chance = 0.5f }, false);
 
-		public override void UpdateAccessory(Player player, bool hideVisual)
-		{
-			DefenseIncrementChance.ImplementThis(player, 0.5f);
-		}
+		public override void UpdateAccessory(Player player, bool hideVisual) => PlayerProperty.ImplementProperty(player, new DefenseIncrementChance() { Chance = 0.5f }, false);
 
 		public override string ItemDescription() => "Could either be used to convict you for murder, or utilised in 'The Forge'.";
 

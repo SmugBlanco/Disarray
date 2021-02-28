@@ -18,17 +18,18 @@ namespace Disarray.Core.Gardening.Tiles
 			Harvestable
 		}
 
-		public static ICollection<FloraBase> LoadedBases = new Collection<FloraBase>();
+		public static ICollection<FloraBase> LoadedBases;
 
         public sealed override bool Autoload(ref string name, ref string texture)
         {
+			LoadedBases = new Collection<FloraBase>();
 			LoadedBases.Add(this);
 			return true;
         }
 
 		public static void Unload()
         {
-			LoadedBases.Clear();
+			LoadedBases?.Clear();
         }
 
 		public Growth GetCurrentGrowth(int i, int j) => (Growth)(Framing.GetTileSafely(i, j).frameX / Width);

@@ -1,5 +1,6 @@
-using Disarray.Core.Data;
+using Disarray.Content.Forge.PlayerProperties;
 using Disarray.Core.Forge.Items;
+using Disarray.Core.Properties;
 using Terraria;
 
 namespace Disarray.Content.Gardening.Forest.SwordFern
@@ -18,20 +19,11 @@ namespace Disarray.Content.Gardening.Forest.SwordFern
 			item.maxStack = 999;
 		}
 
-		public override void HoldItem(Player player)
-		{
-			DamageIncrementChance.ImplementThis(player, 0.25f);
-		}
+		public override void HoldItem(Player player) => PlayerProperty.ImplementProperty(player, new DamageIncrementChance() { Chance = 0.25f }, false);
 
-		public override void UpdateEquip(Player player)
-		{
-			DamageIncrementChance.ImplementThis(player, 0.25f);
-		}
+		public override void UpdateEquip(Player player) => PlayerProperty.ImplementProperty(player, new DamageIncrementChance() { Chance = 0.25f }, false);
 
-		public override void UpdateAccessory(Player player, bool hideVisual)
-		{
-			DamageIncrementChance.ImplementThis(player, 0.25f);
-		}
+		public override void UpdateAccessory(Player player, bool hideVisual) => PlayerProperty.ImplementProperty(player, new DamageIncrementChance() { Chance = 0.25f }, false);
 
 		public override string ItemDescription() => "The blades from a matured Sword-Fern plant, it may have some uses in 'The Forge'.";
 

@@ -1,5 +1,6 @@
-using Disarray.Core.Data;
+using Disarray.Content.Forge.PlayerProperties;
 using Disarray.Core.Forge.Items;
+using Disarray.Core.Properties;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,20 +22,11 @@ namespace Disarray.Content.Forge.Items.PreHMOres
 			item.maxStack = 999;
 		}
 
-		public override void HoldItem(Player player)
-		{
-			DefenseIncrementChance.ImplementThis(player, 0.25f);
-		}
+		public override void HoldItem(Player player) => PlayerProperty.ImplementProperty(player, new DefenseIncrementChance() { Chance = 0.25f }, false);
 
-		public override void UpdateEquip(Player player)
-		{
-			DefenseIncrementChance.ImplementThis(player, 0.25f);
-		}
+		public override void UpdateEquip(Player player) => PlayerProperty.ImplementProperty(player, new DefenseIncrementChance() { Chance = 0.25f }, false);
 
-		public override void UpdateAccessory(Player player, bool hideVisual)
-		{
-			DefenseIncrementChance.ImplementThis(player, 0.25f);
-		}
+		public override void UpdateAccessory(Player player, bool hideVisual) => PlayerProperty.ImplementProperty(player, new DefenseIncrementChance() { Chance = 0.25f }, false);
 
 		public override string ItemDescription() => "Plating such as this one may have many purposes, a notable one is a usage in 'The Forge'.";
 

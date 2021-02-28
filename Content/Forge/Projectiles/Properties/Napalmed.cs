@@ -1,41 +1,32 @@
 using Disarray.Content.Forge.Dusts.Misc;
 using Disarray.Core.Data;
 using Disarray.Core.Globals;
+using Disarray.Core.Properties;
 using Microsoft.Xna.Framework;
+using System;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace Disarray.Content.Forge.Projectiles.Properties
 {
-    public class Napalmed : PropertiesProjectile
+    public class Napalmed : ProjectileProperty
     {
-        public static void ImplementThis(Projectile projectile, float Chance)
-        {
-            DisarrayGlobalProjectile GlobalProjectile = projectile.GetGlobalProjectile<DisarrayGlobalProjectile>();
-            PropertiesProjectile property = GlobalProjectile.ActiveProperties.FirstOrDefault(prop => prop is Napalmed);
-            if (property is Napalmed napalmed)
-            {
-                napalmed.InflictChance += Chance;
-            }
-            else
-            {
-                GlobalProjectile.ActiveProperties.Add(new Napalmed(Chance));
-            }
-        }
-
         public float DefaultInflictChance = 0.2f;
 
         public float InflictChance;
 
         public float TotalInflictChance => DefaultInflictChance + InflictChance;
 
-        public Napalmed(float Chance)
-        {
-            InflictChance += Chance;
-        }
+		public override void Combine(ProjectileProperty newProperty)
+		{
+			if (newProperty is Napalmed napalm)
+			{
+                InflictChance += napalm.InflictChance;
+			}
+		}
 
-        public override void PostAI(Projectile projectile)
+		public override void PostAI(Projectile projectile)
         {
             int Chance = projectile.height + projectile.width;
             if (Main.rand.Next(Chance) == 0 || Main.GameUpdateCount % 15 == 0)

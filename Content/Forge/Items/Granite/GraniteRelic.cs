@@ -1,5 +1,6 @@
 using Disarray.Content.Forge.PlayerProperties;
 using Disarray.Core.Forge.Items;
+using Disarray.Core.Properties;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,20 +22,11 @@ namespace Disarray.Content.Forge.Items.Granite
 			item.maxStack = 999;
 		}
 
-		public override void HoldItem(Player player)
-		{
-			GraniteEnergyRelease.ImplementThis(player, 1, 0.05f);
-		}
+		public override void HoldItem(Player player) => PlayerProperty.ImplementProperty(player, new GraniteEnergyRelease() { EffectStrength = 1, OrbChance = 0.05f }, false);
 
-		public override void UpdateEquip(Player player)
-		{
-			GraniteEnergyRelease.ImplementThis(player, 1, 0.05f);
-		}
+		public override void UpdateEquip(Player player) => PlayerProperty.ImplementProperty(player, new GraniteEnergyRelease() { EffectStrength = 1, OrbChance = 0.05f }, false);
 
-		public override void UpdateAccessory(Player player, bool hideVisual)
-		{
-			GraniteEnergyRelease.ImplementThis(player, 1, 0.05f);
-		}
+		public override void UpdateAccessory(Player player, bool hideVisual) => PlayerProperty.ImplementProperty(player, new GraniteEnergyRelease() { EffectStrength = 1, OrbChance = 0.05f }, false);
 
 		public override string ItemDescription() => "These relics seem to have some sort of power able to be utilised in 'The Forge'.";
 

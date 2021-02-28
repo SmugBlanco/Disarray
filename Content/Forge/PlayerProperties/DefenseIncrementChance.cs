@@ -1,26 +1,11 @@
-using Disarray.Core.Globals;
+using Disarray.Core.Properties;
 using System;
-using System.Linq;
 using Terraria;
 
-namespace Disarray.Core.Data
+namespace Disarray.Content.Forge.PlayerProperties
 {
-    public class DefenseIncrementChance : PropertiesPlayer
+    public class DefenseIncrementChance : PlayerProperty
     {
-        public static void ImplementThis(Player player, float Chance)
-        {
-            DisarrayGlobalPlayer GlobalPlayer = player.GetModPlayer<DisarrayGlobalPlayer>();
-            PropertiesPlayer property = GlobalPlayer.ActiveProperties.FirstOrDefault(prop => prop is DefenseIncrementChance);
-            if (property is DefenseIncrementChance defenseIncrementChanceProperty)
-            {
-                defenseIncrementChanceProperty.Chance += Chance;
-            }
-            else
-            {
-                GlobalPlayer.ActiveProperties.Add(new DefenseIncrementChance(Chance));
-            }
-        }
-
         public float Chance;
 
         public int DefenseIncrementFromDefenseIncrementChance
@@ -33,9 +18,12 @@ namespace Disarray.Core.Data
             }
         }
 
-        public DefenseIncrementChance(float Chance)
+        public override void Combine(PlayerProperty newProperty)
         {
-            this.Chance += Chance;
+            if (newProperty is DefenseIncrementChance property)
+            {
+                Chance += property.Chance;
+            }
         }
 
         public override void ModifyHitByNPC(Player player, NPC npc, ref int damage, ref bool crit)

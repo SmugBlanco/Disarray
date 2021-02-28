@@ -1,12 +1,12 @@
 using Disarray.Content.Forge.Dusts.Cloud;
-using Disarray.Core.Data;
+using Disarray.Core.Properties;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace Disarray.Content.Forge.Projectiles.Properties
 {
-    public class Electrified : PropertiesProjectile
+    public class Electrified : ProjectileProperty
     {
         public override void PostAI(Projectile projectile)
         {

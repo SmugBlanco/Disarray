@@ -92,9 +92,9 @@ namespace Disarray.Core.Gardening
 
 		public static void Unload()
         {
-			LoadedPlant.Clear();
-			PlantIDs.Clear();
-			PlantImageData.Clear();
+			LoadedPlant?.Clear();
+			PlantIDs?.Clear();
+			PlantImageData?.Clear();
 			InternalID = 0;
 		}
 	}

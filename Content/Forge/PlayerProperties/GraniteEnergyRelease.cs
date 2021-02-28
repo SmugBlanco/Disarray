@@ -1,31 +1,14 @@
 using Disarray.Content.Forge.Projectiles.Granite;
-using Disarray.Core.Data;
-using Disarray.Core.Globals;
+using Disarray.Core.Properties;
 using Microsoft.Xna.Framework;
-using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace Disarray.Content.Forge.PlayerProperties
 {
-    public class GraniteEnergyRelease : PropertiesPlayer
+    public class GraniteEnergyRelease : PlayerProperty
     {
-        public static void ImplementThis(Player player, int Strength, float Chance)
-        {
-            DisarrayGlobalPlayer GlobalPlayer = player.GetModPlayer<DisarrayGlobalPlayer>();
-            PropertiesPlayer property = GlobalPlayer.ActiveProperties.FirstOrDefault(prop => prop is GraniteEnergyRelease);
-            if (property is GraniteEnergyRelease graniteEnergyReleaseProperty)
-            {
-                graniteEnergyReleaseProperty.EffectStrength += Strength;
-                graniteEnergyReleaseProperty.OrbChance += Chance;
-            }
-            else
-            {
-                player.GetModPlayer<DisarrayGlobalPlayer>().ActiveProperties.Add(new GraniteEnergyRelease(Strength, Chance));
-            }
-        }
-
         public float DefaultEffectStrength = 1;
 
         public float EffectStrength = 0;
@@ -38,16 +21,18 @@ namespace Disarray.Content.Forge.PlayerProperties
 
         public float TotalOrbChance => DefaultOrbReleaseChance + OrbChance;
 
-        public GraniteEnergyRelease(float EffectStrength, float OrbChance)
+        public override void Combine(PlayerProperty newProperty)
         {
-            this.EffectStrength += EffectStrength;
-            this.OrbChance += OrbChance;
+            if (newProperty is GraniteEnergyRelease property)
+            {
+                EffectStrength += property.EffectStrength;
+                OrbChance += property.OrbChance;
+            }
         }
 
         public override void PostUpdateMiscEffects(Player player)
         {
-            Tile tile = Framing.GetTileSafely(player.Bottom);
-            if (tile.type == TileID.Granite)
+            if (Framing.GetTileSafely(player.Bottom).type == TileID.Granite)
             {
                 player.allDamage += 0.01f * TotalEffectStrength;
                 player.statDefense += (int)(2 * TotalEffectStrength);

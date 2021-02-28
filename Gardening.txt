@@ -1,0 +1,39 @@
+Space ->
+Forest -> Sword Fern
+Snow ->
+Desert -> Prickly Pear Bear
+Caverns -> Cave Maize
+Underworld ->
+Crimson & Corruption ->
+Jungle -> Honey Sickle
+Ocean -> Couch Potatos
+
+HM Forest -> Golden Sword Fern
+
+
+Might remove the Golden Sword Fern as I want all the plants to serve a unique integral part to any playthrough
+Having one be replaced in HM turns the original into a weed, which I dont think should happen.
+Also, the replacement is lazy as it is just adding a 'Golden' prefix onto the regular plants.
+
+Modelling Wiz's plants could be a good idea, seeing as how almost every plant is unique and serves a purpose. 
+
+---------------------------------------------------------------------------------------------------------------------
+
+Couch Potato -> Goto plants for basic healing pots and foods. 
+Not exactly a fan of crafting potions? These babies have your problem solved!
+They also drop a considerable amount of coins so it's a decent money option.
+
+Cave Maize ( Name Required ) -> Goto plants for cavern ores and gems
+Not exactly a fan of spelunking ( how ( HOW ) )? These have your problem solved!
+
+Sword Fern -> Goto plants for combat related items
+Easy source of Forge Materials and combat related utility items + tiles
+Weaponry Drops -> 
+The Pierce, increases armor penetration by 25
+The Tank, hitting enemies increases damage reduction on next hit by 25%
+The Pact, hitting enemies creates a pact; as long as you are not hit within the pact's duration you are healed for 1/10 of your health. Getting hit deals 1/10 of your health
+
+Prickly Pear Bear -> Goto plant for ammunition related item
+
+Things we dont want to intrude on: Fishing, Alchemy, 
+

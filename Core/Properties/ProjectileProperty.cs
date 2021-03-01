@@ -88,18 +88,18 @@ namespace Disarray.Core.Properties
 
         public override int GetHashCode() => Type;
 
-        public static void ImplementProperty<propertyType>(Projectile projectile, propertyType newProperty) where propertyType : ProjectileProperty, new()
+        public static void ImplementProperty(Projectile projectile, ProjectileProperty newProperty)
         {
             DisarrayGlobalProjectile GlobalProjectile = projectile.GetGlobalProjectile<DisarrayGlobalProjectile>();
-            ProjectileProperty property = GlobalProjectile.ActiveProperties.FirstOrDefault(prop => prop is propertyType);
+            ProjectileProperty property = GlobalProjectile.ActiveProperties.FirstOrDefault(prop => prop is ProjectileProperty);
 
-            if (newProperty != null && property is propertyType oldProperty)
+            if (newProperty != null && property is ProjectileProperty oldProperty)
             {
                 oldProperty.Combine(newProperty);
             }
             else
             {
-                GlobalProjectile.ManuallyRemovedProperties.Add(new propertyType());
+                GlobalProjectile.ManuallyRemovedProperties.Add(Activator.CreateInstance(newProperty.GetType()) as ProjectileProperty);
             }
         }
 

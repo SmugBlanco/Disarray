@@ -68,12 +68,12 @@ namespace Disarray.Core.Properties
 
         public override int GetHashCode() => Type;
 
-        public static void ImplementProperty<propertyType>(NPC npc, propertyType newProperty, bool manualRemoval = true) where propertyType : NPCProperty, new()
+        public static void ImplementProperty(NPC npc, NPCProperty newProperty, bool manualRemoval = true)
         {
             DisarrayGlobalNPC globalNPC = npc.GetGlobalNPC<DisarrayGlobalNPC>();
-            NPCProperty property = globalNPC.ActiveProperties(npc).FirstOrDefault(prop => prop is propertyType);
+            NPCProperty property = globalNPC.ActiveProperties(npc).FirstOrDefault(prop => prop is NPCProperty);
 
-            if (newProperty != null && property is propertyType oldProperty)
+            if (newProperty != null && property is NPCProperty oldProperty)
             {
                 oldProperty.Combine(newProperty);
             }
@@ -81,11 +81,11 @@ namespace Disarray.Core.Properties
             {
                 if (manualRemoval)
                 {
-                    globalNPC.ManuallyRemovedProperties.Add(new propertyType());
+                    globalNPC.ManuallyRemovedProperties.Add(Activator.CreateInstance(newProperty.GetType()) as NPCProperty);
                 }
                 else
                 {
-                    globalNPC.AutomaticallyRemovedProperties.Add(new propertyType());
+                    globalNPC.AutomaticallyRemovedProperties.Add(Activator.CreateInstance(newProperty.GetType()) as NPCProperty);
                 }
             }
         }

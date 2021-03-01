@@ -46,7 +46,7 @@ namespace Disarray.Core.Globals
 
         public override void ResetEffects() => AutomaticallyRemovedProperties.Clear();
 
-        public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
+		public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
         {
             foreach (PlayerProperty properties in ActiveProperties)
             {
@@ -86,7 +86,15 @@ namespace Disarray.Core.Globals
             }
         }
 
-        public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
+		public override void OnHitByNPC(NPC npc, int damage, bool crit)
+		{
+            foreach (PlayerProperty properties in ActiveProperties)
+            {
+                properties.OnHitByNPC(player, npc, damage, crit);
+            }
+        }
+
+		public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
         {
             foreach (PlayerProperty properties in ActiveProperties)
             {
@@ -94,11 +102,27 @@ namespace Disarray.Core.Globals
             }
         }
 
-        public override void PostUpdateMiscEffects()
+		public override void OnHitByProjectile(Projectile proj, int damage, bool crit)
+		{
+            foreach (PlayerProperty properties in ActiveProperties)
+            {
+                properties.OnHitByProjectile(player, proj, damage, crit);
+            }
+        }
+
+		public override void PostUpdateMiscEffects()
         {
             foreach (PlayerProperty properties in ActiveProperties)
             {
                 properties.PostUpdateMiscEffects(player);
+            }
+        }
+
+        public override void PostUpdateRunSpeeds()
+        {
+            foreach (PlayerProperty properties in ActiveProperties)
+            {
+                properties.PostUpdateRunSpeeds(player);
             }
         }
 

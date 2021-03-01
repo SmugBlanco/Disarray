@@ -2,7 +2,6 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria;
 using Microsoft.Xna.Framework;
-using Disarray.Content.Gardening.Beach.CouchPotato;
 using Disarray.Core.Gardening.Tiles;
 using Terraria.DataStructures;
 

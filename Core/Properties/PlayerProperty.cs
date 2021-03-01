@@ -66,25 +66,26 @@ namespace Disarray.Core.Properties
 
         public override int GetHashCode() => Type;
 
-        public static void ImplementProperty<propertyType>(Player player, propertyType newProperty, bool manualRemoval = true) where propertyType : PlayerProperty, new()
+        public static void ImplementProperty(Player player, PlayerProperty newProperty, bool manualRemoval = true)
         {
             DisarrayGlobalPlayer GlobalPlayer = player.GetModPlayer<DisarrayGlobalPlayer>();
-            PlayerProperty property = GlobalPlayer.ActiveProperties.FirstOrDefault(prop => prop is propertyType);
+            PlayerProperty property = GlobalPlayer.ActiveProperties.FirstOrDefault(prop => prop is PlayerProperty);
 
-            if (newProperty != null && property is propertyType oldProperty)
+            if (newProperty != null && property is PlayerProperty oldProperty)
             {
                 oldProperty.Combine(newProperty);
             }
             else
             {
+                PlayerProperty addedProperty = newProperty is null ? Activator.CreateInstance(newProperty.GetType()) as PlayerProperty : newProperty;
                 if (manualRemoval)
                 {
-                    GlobalPlayer.ManuallyRemovedProperties.Add(new propertyType());
+                    GlobalPlayer.ManuallyRemovedProperties.Add(addedProperty);
                 }
                 else
-				{
-                    GlobalPlayer.AutomaticallyRemovedProperties.Add(new propertyType());
-				}
+                {
+                    GlobalPlayer.AutomaticallyRemovedProperties.Add(addedProperty);
+                }
             }
         }
 
@@ -124,7 +125,13 @@ namespace Disarray.Core.Properties
 
         public virtual void ModifyHitByProjectile(Player player, Projectile proj, ref int damage, ref bool crit) { }
 
+        public virtual void OnHitByNPC(Player player, NPC npc, int damage, bool crit) { }
+
+        public virtual void OnHitByProjectile(Player player, Projectile proj, int damage, bool crit) { }
+
         public virtual void PostUpdateMiscEffects(Player player) { }
+
+        public virtual void PostUpdateRunSpeeds(Player player) { }
 
         public virtual void Update(Player player) { }
 

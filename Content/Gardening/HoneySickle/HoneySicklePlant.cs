@@ -23,41 +23,15 @@ namespace Disarray.Content.Gardening.HoneySickle
 			soundType = SoundID.Grass;
 		}
 
-        public override bool CreateDust(int i, int j, ref int type)
-        {
+		public override bool CreateDust(int i, int j, ref int type)
+		{
 			Vector2 position = new Vector2(i, j).ToWorldCoordinates();
 			Dust.NewDust(position - new Vector2(Width / 4, Height / 4), Width / 2, Height / 2, 153);
 			return false;
-        }
-
-        public override short Height => 36;
-
-        public override short Width => 36;
-
-		public override int MinimumLiquidRadius => 5;
-
-		public override int RequiredLiquidType => 2;
-
-		public override float MinimumLightLevel => 0;
-
-		public override float GrowthRate => 0.5f;
-
-        public override float Sturdiness => 0.25f;
-
-        public override int SeedItem => ModContent.ItemType<HoneySickleSeed>();
-
-		public override int HarvestItem => ModContent.ItemType<HoneySickleFruit>();
-
-		public override void NaturalSpawning(int i, int j, int type)
-		{
-			if ((type == TileID.JungleGrass || type == TileID.Grass) && Main.rand.Next(10) == 0)
-			{
-				if (HasMetBasicNecessities(i, j))
-				{
-					WorldGen.PlaceObject(i, j - 1, Type, true);
-					SyncTile(i, j);
-				}
-			}
 		}
+
+		public override short Height => 36;
+
+		public override short Width => 36;
 	}
 }

@@ -4,6 +4,10 @@ using Terraria;
 using Microsoft.Xna.Framework;
 using Disarray.Core.Gardening.Tiles;
 using Terraria.DataStructures;
+using Terraria.ObjectData;
+using Disarray.Core.Data;
+using Disarray.Core.Globals;
+using Disarray.Core.Gardening;
 
 namespace Disarray.Content.Gardening.Items
 {
@@ -33,20 +37,18 @@ namespace Disarray.Content.Gardening.Items
 				Tile tile = Framing.GetTileSafely(point);
 				if (ModContent.GetModTile(tile.type) is FloraBase flora)
 				{
-					Main.NewText("Displaying information for: " + flora.Name);
-					Main.NewText("Basic Liquid Information: Minimum Liquid Radius: " + flora.MinimumLiquidRadius + " | Liquid Type: " + flora.RequiredLiquidType);
-					Main.NewText("Fufills liquid requirements?: " + flora.LiquidCheck(new Rectangle(point.X, point.Y, flora.Width / 18, flora.Height / 18), flora.MinimumLiquidRadius, flora.RequiredLiquidType));
-					Main.NewText("Minimum Light Level: " + flora.MinimumLightLevel);
-					Vector3 subLight = Lighting.GetSubLight(Main.MouseWorld);
-					float averagedLighting = (subLight.X + subLight.Y + subLight.Z) / 3 * 1.2f;
-					if (averagedLighting > 1)
+					Point16 OriginTile = new Point16(point.X, point.Y) - new Point16(tile.frameX % flora.Width / 18, tile.frameY % flora.Height / 18);
+					OriginTile += TileObjectData.GetTileData(tile).Origin;
+					if (DisarrayWorld.GardenEntitiesByPosition.TryGetValue(OriginTile, out TileData tileData))
 					{
-						averagedLighting = 1;
+						GardenEntity gardenEntity = tileData as GardenEntity;
+						Main.NewText("Growth: " + gardenEntity.GetGrowth + " | " + (gardenEntity.GrowthTimer % gardenEntity.GrowthInfo.GrowthInterval) + "/" + gardenEntity.GrowthInfo.GrowthInterval + " @ " + gardenEntity.GrowthInfo.GrowthRate);
+						Main.NewText("Health: " + gardenEntity.GetHealth);
+						Main.NewText("Harvestable: " + gardenEntity.Harvestable + " | Harvest Timer: " + gardenEntity.HarvestTimer + "/" + gardenEntity.HarvestableTime);
+						Main.NewText("Time since watering: " + gardenEntity.TimeSinceLastWatering + " | Time since last lighting: " + gardenEntity.TimeSinceLightNeedsMet);
+						Main.NewText("Maximum time since watering: " + gardenEntity.WateringTimerInfo.Sturdiness + " | Maximum time since lighting: " + gardenEntity.LightingTimerInfo.Sturdiness);
+						Main.NewText(gardenEntity.TimeSinceLastWatering % gardenEntity.WateringTimerInfo.CheckInterval);
 					}
-					Main.NewText("Current Light Level: " + averagedLighting);
-					Main.NewText("Has Met Light Needs: " + flora.LightCheckWText(point.X, point.Y));
-					Main.NewText("Has Met Programmed Basics Needs: " + flora.BasicNecessities(point.X, point.Y));
-					Main.NewText("Can grow/survive here?: " + flora.HasMetBasicNecessities(point.X, point.Y));
 				}
 			}
             return base.UseItem(player);

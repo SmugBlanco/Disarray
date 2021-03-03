@@ -63,7 +63,7 @@ namespace Disarray.Core.Data
 
 		public static bool PlaceEntity(Point16 position, string entityName)
 		{
-			if (DisarrayWorld.GardenEntitiesByPosition.Count >= EntityCap)
+			if (DisarrayWorld.GardenEntitiesByPosition.Count >= EntityCap || DisarrayWorld.GardenEntitiesByPosition.ContainsKey(position))
 			{
 				return false;
 			}
@@ -71,14 +71,16 @@ namespace Disarray.Core.Data
 			TileData newEntity = CreateNewEntity(GetTileData(entityName));
 			newEntity.Position = position;
 			DisarrayWorld.GardenEntitiesByPosition.Add(position, newEntity);
+			newEntity.OnPlace();
 			return true;
 		}
 
 		public static void KillEntity(Point16 position)
 		{
+			DisarrayWorld.GardenEntitiesByPosition[position].OnDestory();
+
 			if (DisarrayWorld.GardenEntitiesByPosition.Remove(position))
 			{
-				
 			}
 		}
 
@@ -86,13 +88,26 @@ namespace Disarray.Core.Data
 		{
 			foreach (TileData entity in DisarrayWorld.ActiveEntities)
 			{
-				entity.AI();
+				if (entity.CanSurvive())
+				{
+					entity.AI();
+				}
+				else
+				{
+					KillEntity(entity.Position);
+				}
 			}
 		}
 
 		public Point16 Position { get; protected set; }
 
+		public virtual bool CanSurvive() => true;
+
 		public virtual void AI() { }
+
+		public virtual void OnPlace() { }
+
+		public virtual void OnDestory() { }
 
 		public virtual TagCompound Save() => null;
 

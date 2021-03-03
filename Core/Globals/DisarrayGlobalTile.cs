@@ -9,7 +9,7 @@ namespace Disarray.Core.Forge
 		{
 			foreach (FloraBase flora in FloraBase.LoadedBases)
             {
-				flora.NaturalSpawning(i, j, type);
+				//flora.NaturalSpawning(i, j, type);
             }
 		}
 	}

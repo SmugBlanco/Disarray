@@ -5,6 +5,7 @@ using Disarray.Core.Data;
 using Terraria.ModLoader.IO;
 using Terraria;
 using Microsoft.Xna.Framework;
+using System.Linq;
 
 namespace Disarray.Core.Globals
 {
@@ -12,7 +13,7 @@ namespace Disarray.Core.Globals
 	{
 		public static IDictionary<Point16, TileData> GardenEntitiesByPosition;
 
-		public static IEnumerable<TileData> ActiveEntities => GardenEntitiesByPosition.Values;
+		public static IEnumerable<TileData> ActiveEntities => GardenEntitiesByPosition.Values.ToArray();
 
 		public override void Initialize()
 		{

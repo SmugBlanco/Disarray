@@ -5,6 +5,8 @@ using Terraria.ObjectData;
 using Microsoft.Xna.Framework;
 using Disarray.Core.Gardening.Tiles;
 using System;
+using Disarray.Core.Gardening;
+using Terraria.DataStructures;
 
 namespace Disarray.Content.Gardening.CouchPotato
 {
@@ -46,7 +48,13 @@ namespace Disarray.Content.Gardening.CouchPotato
 
 		public override int SeedItem => ModContent.ItemType<CouchPotatoSeed>();
 
-        public override void NaturalSpawning(int i, int j, int type)
+		public override void PlaceInWorld(int i, int j, Item item)
+		{
+			Main.NewText("attempting place");
+			GardenEntity.PlaceEntity(new Point16(i, j), "CouchPotatoEntity");
+		}
+
+		public override void NaturalSpawning(int i, int j, int type)
         {
 			if (type == TileID.Sand && (i < Main.maxTilesX * 0.1f || i > Main.maxTilesX * 0.9f) && Main.rand.Next(8) == 0)
 			{

@@ -4,6 +4,7 @@ using Terraria.ID;
 using Terraria.ObjectData;
 using Microsoft.Xna.Framework;
 using Disarray.Core.Gardening.Tiles;
+using Disarray.Content.Gardening.SwordFern.Items;
 
 namespace Disarray.Content.Gardening.SwordFern
 {
@@ -58,6 +59,16 @@ namespace Disarray.Content.Gardening.SwordFern
 		public override bool Harvest(int i, int j)
 		{
 			Item.NewItem(new Vector2(i, j).ToWorldCoordinates(), ModContent.ItemType<SwordFernsBlade>(), Main.rand.Next(1, 3));
+
+			if (Main.hardMode && Main.rand.Next(3) == 0)
+			{
+				Item.NewItem(new Vector2(i, j).ToWorldCoordinates(), Utils.SelectRandom(Main.rand, ModContent.ItemType<ThePierce>(), ItemID.SharpeningStation, ItemID.AmmoBox, ItemID.CrystalBall, ItemID.BewitchingTable));
+			}
+
+			if (Main.rand.Next(5) == 0)
+			{
+				Item.NewItem(new Vector2(i, j).ToWorldCoordinates(), Utils.SelectRandom(Main.rand, ModContent.ItemType<ThePierce>(), ModContent.ItemType<TheStrike>(), ModContent.ItemType<ThePort>(), ModContent.ItemType<TheDash>(), ModContent.ItemType<TheTank>(), ModContent.ItemType<TheBetrayal>(), ModContent.ItemType<ThePact>()));
+			}
 			return true;
 		}
 	}

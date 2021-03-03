@@ -60,7 +60,7 @@ namespace Disarray.Core.Gardening
 
 		public static int InternalID = -1;
 
-		public static void Autoload(Assembly assembly)
+		public static void Load()
 		{
 			LoadedPlant = new List<GardeningInformation>();
 
@@ -69,24 +69,19 @@ namespace Disarray.Core.Gardening
 			PlantImageData = new Dictionary<int, Texture2D>();
 
 			InternalID = -1;
+		}
 
-			if (assembly == null)
+		public static void LoadType(Type item)
+		{
+			if (item.IsSubclassOf(typeof(GardeningInformation)))
 			{
-				return;
-			}
-
-			foreach (Type item in assembly.GetTypes())
-			{
-				if (!item.IsAbstract && item.IsSubclassOf(typeof(GardeningInformation)) && !(item.GetConstructor(new Type[0]) == null))
-				{
-					GardeningInformation plant = Activator.CreateInstance(item) as GardeningInformation;
-					plant.SetDefaults();
-					plant.type = ++InternalID;
-					ModLoader.GetMod("Disarray").Logger.InfoFormat(plant.Name + " | " + plant.type);
-					LoadedPlant.Add(plant);
-					PlantIDs.Add(plant.Name, plant);
-					PlantImageData.Add(plant.type, ModContent.GetTexture(plant.Texture));
-				}
+				GardeningInformation plant = Activator.CreateInstance(item) as GardeningInformation;
+				plant.SetDefaults();
+				plant.type = ++InternalID;
+				ModLoader.GetMod("Disarray").Logger.InfoFormat(plant.Name + " | " + plant.type);
+				LoadedPlant.Add(plant);
+				PlantIDs.Add(plant.Name, plant);
+				PlantImageData.Add(plant.type, ModContent.GetTexture(plant.Texture));
 			}
 		}
 

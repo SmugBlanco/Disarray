@@ -10,9 +10,7 @@ namespace Disarray.Core.Properties
 {
     public abstract class ProjectileProperty
     {
-        internal static bool Loading;
-
-        public static bool IsLoading => Loading;
+        public static bool IsLoading => Disarray.Loading;
 
         public static IList<ProjectileProperty> LoadedProperties;
 
@@ -35,30 +33,26 @@ namespace Disarray.Core.Properties
             }
         }
 
-        public static void Load(Assembly assembly)
+        public static void Load()
         {
-            Loading = true;
-
             LoadedProperties = new List<ProjectileProperty>();
 
             PropertyByName = new Dictionary<string, ProjectileProperty>();
 
             InternalIDCount = -1;
+        }
 
-            foreach (Type item in assembly.GetTypes())
+        public static void LoadType(Type item)
+		{
+            if (item.IsSubclassOf(typeof(ProjectileProperty)))
             {
-                if (!item.IsAbstract && item.IsSubclassOf(typeof(ProjectileProperty)) && item.GetConstructor(new Type[0]) != null)
-                {
-                    ProjectileProperty projectileProperty = Activator.CreateInstance(item) as ProjectileProperty;
-                    projectileProperty.Type = ++InternalIDCount;
-                    projectileProperty.Name = item.Name;
-                    LoadedProperties.Add(projectileProperty);
-                    PropertyByName.Add(projectileProperty.Name, projectileProperty);
-                    projectileProperty.PostLoad(projectileProperty);
-                }
+                ProjectileProperty projectileProperty = Activator.CreateInstance(item) as ProjectileProperty;
+                projectileProperty.Type = ++InternalIDCount;
+                projectileProperty.Name = item.Name;
+                LoadedProperties.Add(projectileProperty);
+                PropertyByName.Add(projectileProperty.Name, projectileProperty);
+                projectileProperty.PostLoad(projectileProperty);
             }
-
-            Loading = false;
         }
 
         public static void Unload()

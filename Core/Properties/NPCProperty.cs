@@ -18,26 +18,25 @@ namespace Disarray.Core.Properties
 
         private static int InternalIDCount;
 
-        public static void Load(Assembly assembly)
+        public static void Load()
         {
             LoadedProperties = new List<NPCProperty>();
 
             PropertyByName = new Dictionary<string, NPCProperty>();
 
             InternalIDCount = -1;
+        }
 
-            foreach (Type item in assembly.GetTypes())
+        public static void LoadType(Type item)
+		{
+            if (item.IsSubclassOf(typeof(NPCProperty)))
             {
-                if (!item.IsAbstract && item.IsSubclassOf(typeof(NPCProperty)) && item.GetConstructor(new Type[0]) != null)
-                {
-                    NPCProperty npcProperty = Activator.CreateInstance(item) as NPCProperty;
-                    npcProperty.Type = ++InternalIDCount;
-                    string name = item.Name;
-                    npcProperty.Name = item.Name;
-                    LoadedProperties.Add(npcProperty);
-                    PropertyByName.Add(npcProperty.Name, npcProperty);
-                    npcProperty.PostLoad(npcProperty);
-                }
+                NPCProperty npcProperty = Activator.CreateInstance(item) as NPCProperty;
+                npcProperty.Type = ++InternalIDCount;
+                npcProperty.Name = item.Name;
+                LoadedProperties.Add(npcProperty);
+                PropertyByName.Add(npcProperty.Name, npcProperty);
+                npcProperty.PostLoad(npcProperty);
             }
         }
 

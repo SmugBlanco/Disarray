@@ -16,27 +16,26 @@ namespace Disarray.Core.Properties
 
         private static int InternalIDCount;
 
-        public static void Load(Assembly assembly)
+        public static void Load()
 		{
             LoadedProperties = new List<PlayerProperty>();
 
             PropertyByName = new Dictionary<string, PlayerProperty>();
 
             InternalIDCount = -1;
+        }
 
-            foreach (Type item in assembly.GetTypes())
-			{
-                if (!item.IsAbstract && item.IsSubclassOf(typeof(PlayerProperty)) && item.GetConstructor(new Type[0]) != null)
-				{
-                    PlayerProperty propertyPlayer = Activator.CreateInstance(item) as PlayerProperty;
-                    propertyPlayer.Type = ++InternalIDCount;
-                    string name = item.Name;
-                    propertyPlayer.Name = item.Name;
-                    LoadedProperties.Add(propertyPlayer);
-                    PropertyByName.Add(propertyPlayer.Name, propertyPlayer);
-                    propertyPlayer.PostLoad(propertyPlayer);
-                }
-			}
+        public static void LoadType(Type item)
+		{
+            if (item.IsSubclassOf(typeof(PlayerProperty)))
+            {
+                PlayerProperty propertyPlayer = Activator.CreateInstance(item) as PlayerProperty;
+                propertyPlayer.Type = ++InternalIDCount;
+                propertyPlayer.Name = item.Name;
+                LoadedProperties.Add(propertyPlayer);
+                PropertyByName.Add(propertyPlayer.Name, propertyPlayer);
+                propertyPlayer.PostLoad(propertyPlayer);
+            }
         }
 
         public static void Unload()

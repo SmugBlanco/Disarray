@@ -5,6 +5,7 @@ using Disarray.Core.Gardening.Tiles;
 using Disarray.Core.Globals;
 using Disarray.Core.Properties;
 using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
@@ -14,6 +15,8 @@ namespace Disarray
 {
 	public class Disarray : Mod
 	{
+		public static bool Loading { get; private set; }
+
 		internal UserInterface ForgeUserInterface;
 		internal UserInterface AlmanacUserInterface;
 
@@ -31,17 +34,53 @@ namespace Disarray
 				return;
 			}
 
-			GardeningInformation.Autoload(Code);
-			PlayerProperty.Load(Code);
+			Loading = true;
+
+			GardeningInformation.Load();
+			PlayerProperty.Load();
 			DisarrayGlobalNPC.Load();
-			NPCProperty.Load(Code);
-			ProjectileProperty.Load(Code);
+			NPCProperty.Load();
+			ProjectileProperty.Load();
+			TileData.Load();
+
+			foreach (Type item in Code.GetTypes())
+			{
+				if (!item.IsAbstract && item.GetConstructor(new Type[0]) != null)
+				{
+					if (item.IsSubclassOf(typeof(GardeningInformation)))
+					{
+						GardeningInformation.LoadType(item);
+					}
+
+					if (item.IsSubclassOf(typeof(NPCProperty)))
+					{
+						NPCProperty.LoadType(item);
+					}
+
+					if (item.IsSubclassOf(typeof(PlayerProperty)))
+					{
+						PlayerProperty.LoadType(item);
+					}
+
+					if (item.IsSubclassOf(typeof(ProjectileProperty)))
+					{
+						ProjectileProperty.LoadType(item);
+					}
+
+					if (item.IsSubclassOf(typeof(TileData)))
+					{
+						TileData.LoadType(item);
+					}
+				}
+			}
 
 			if (!Main.dedServ)
 			{
 				ForgeUserInterface = new UserInterface();
 				AlmanacUserInterface = new UserInterface();
 			}
+
+			Loading = false;
 		}
 
 		public override void Unload()
@@ -53,16 +92,13 @@ namespace Disarray
 			NPCProperty.Unload();
 			ProjectileProperty.Unload();
 			FloraBase.Unload();
+			TileData.Unload();
 		}
 
 		public override void UpdateUI(GameTime gameTime)
 		{
 			ForgeUserInterface?.Update(gameTime);
 			AlmanacUserInterface?.Update(gameTime);
-		}
-
-		public override void PostUpdateEverything()
-		{
 		}
 
 		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)

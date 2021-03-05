@@ -19,6 +19,7 @@ namespace Disarray
 
 		internal UserInterface ForgeUserInterface;
 		internal UserInterface AlmanacUserInterface;
+		internal UserInterface GardeningInterface;
 
 		public static Disarray GetMod { get; private set; }
 
@@ -78,6 +79,7 @@ namespace Disarray
 			{
 				ForgeUserInterface = new UserInterface();
 				AlmanacUserInterface = new UserInterface();
+				GardeningInterface = new UserInterface();
 			}
 
 			Loading = false;
@@ -99,6 +101,7 @@ namespace Disarray
 		{
 			ForgeUserInterface?.Update(gameTime);
 			AlmanacUserInterface?.Update(gameTime);
+			GardeningInterface?.Update(gameTime);
 		}
 
 		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
@@ -108,6 +111,7 @@ namespace Disarray
 			{
 				layers.Insert(inventoryIndex, new LegacyGameInterfaceLayer("Disarray: Forge", delegate { ForgeUserInterface.Draw(Main.spriteBatch, new GameTime()); return true; }, InterfaceScaleType.UI));
 				layers.Insert(inventoryIndex + 1, new LegacyGameInterfaceLayer("Disarray: Almanac", delegate { AlmanacUserInterface.Draw(Main.spriteBatch, new GameTime()); return true; }, InterfaceScaleType.UI));
+				layers.Insert(inventoryIndex, new LegacyGameInterfaceLayer("Disarray: Gardening", delegate { GardeningInterface.Draw(Main.spriteBatch, new GameTime()); return true; }, InterfaceScaleType.UI));
 			}
 		}
 	}

@@ -44,15 +44,19 @@ namespace Disarray.Core.Gardening
 			}
 		}
 
-		public bool Harvestable => HarvestTimer >= HarvestableTime || GetGrowth >= 100;
+		public static int BobbingTimer;
+
+		public bool Harvestable => SetHarvestTimer >= HarvestableTime || GetGrowth >= 100;
 
 		public virtual int HarvestableTime { get; protected set; }
 
-		public int HarvestTimer;
+		private int HarvestTimer;
+
+		public int SetHarvestTimer { get => HarvestTimer; set => HarvestTimer = Utils.Clamp(value, 0, int.MaxValue); }
 
 		//-------------------------------------------------------
 
-		public virtual (int GrowthInterval, float GrowthRate, float RequiredMinimumHealth) GrowthInfo { get; protected set; } = (600, 1, 0);
+		public virtual (int GrowthInterval, float GrowthRate, float RequiredMinimumHealth) GrowthInfo { get; protected set; } = (3600, 1, 33);
 
 		public int GrowthTimer;
 
@@ -68,9 +72,11 @@ namespace Disarray.Core.Gardening
 
 		//---------------------------------------------------------
 
-		public virtual (int Sturdiness, int CheckInterval) WateringTimerInfo { get; protected set; }
+		public virtual (int Sturdiness, int CheckInterval) WateringTimerInfo { get; protected set; } = (18000, 1800);
 
-		public int TimeSinceLastWatering;
+		private int TimeSinceLastWatering;
+
+		public int SetTimeSinceLastWatering { get => TimeSinceLastWatering; set => TimeSinceLastWatering = Utils.Clamp(value, 0, int.MaxValue); }
 
 		public virtual (float NegativeImpact, float PositiveImpact) WaterImpacts { get; protected set; } = (-1, 1);
 
@@ -80,9 +86,11 @@ namespace Disarray.Core.Gardening
 
 		//---------------------------------------------------------
 
-		public virtual (int Sturdiness, int CheckInterval) LightingTimerInfo { get; protected set; }
+		public virtual (int Sturdiness, int CheckInterval) LightingTimerInfo { get; protected set; } = (54000, 3600);
 
-		public int TimeSinceLightNeedsMet;
+		private int TimeSinceLightNeedsMet;
+
+		public int SetTimeSinceLightNeedsMet { get => TimeSinceLightNeedsMet; set => TimeSinceLightNeedsMet = Utils.Clamp(value, 0, int.MaxValue); }
 
 		public virtual (float NegativeImpact, float PositiveImpact) LightImpacts { get; protected set; } = (-1, 1);
 
@@ -103,7 +111,7 @@ namespace Disarray.Core.Gardening
 
 		public void Water()
 		{
-			TimeSinceLastWatering = 0;
+			SetTimeSinceLastWatering = 0;
 		}
 
 		public bool LightCheck
@@ -125,7 +133,7 @@ namespace Disarray.Core.Gardening
 
 			if (Growth >= 20)
 			{
-				HarvestTimer++;
+				SetHarvestTimer++;
 			}
 
 			GrowthTimer++;
@@ -140,10 +148,10 @@ namespace Disarray.Core.Gardening
 				}
 			}
 
-			TimeSinceLastWatering++;
-			if (TimeSinceLastWatering % WateringTimerInfo.CheckInterval == 0)
+			SetTimeSinceLastWatering++;
+			if (SetTimeSinceLastWatering % WateringTimerInfo.CheckInterval == 0)
 			{
-				if (TimeSinceLastWatering >= WateringTimerInfo.Sturdiness)
+				if (SetTimeSinceLastWatering >= WateringTimerInfo.Sturdiness)
 				{
 					float currentHealthImpact = HealthImpactModified(WaterImpacts.NegativeImpact);
 					PreUpdateHealth(ref currentHealthImpact);
@@ -161,28 +169,26 @@ namespace Disarray.Core.Gardening
 				}
 			}
 
-			TimeSinceLightNeedsMet++;
-			if (TimeSinceLightNeedsMet % LightingTimerInfo.CheckInterval == 0)
+			SetTimeSinceLightNeedsMet++;
+			if (SetTimeSinceLightNeedsMet % LightingTimerInfo.CheckInterval == 0)
 			{
-				if (TimeSinceLightNeedsMet >= LightingTimerInfo.Sturdiness)
+				if (LightCheck)
 				{
-					if (LightCheck)
-					{
-						float currentHealthImpact = HealthImpactModified(LightImpacts.NegativeImpact);
-						PreUpdateHealth(ref currentHealthImpact);
-						float oldHealth = GetHealth;
-						GetHealth += HealthImpactModified(currentHealthImpact);
-						OnHealthChange(oldHealth);
-						TimeSinceLightNeedsMet = 0;
-					}
-					else
-					{
-						float currentHealthImpact = HealthImpactModified(LightImpacts.PositiveImpact);
-						PreUpdateHealth(ref currentHealthImpact);
-						float oldHealth = GetHealth;
-						GetHealth += HealthImpactModified(currentHealthImpact);
-						OnHealthChange(oldHealth);
-					}
+					float currentHealthImpact = HealthImpactModified(LightImpacts.NegativeImpact);
+					PreUpdateHealth(ref currentHealthImpact);
+					float oldHealth = GetHealth;
+					GetHealth += HealthImpactModified(currentHealthImpact);
+					OnHealthChange(oldHealth);
+					SetTimeSinceLightNeedsMet = 0;
+				}
+
+				if (SetTimeSinceLightNeedsMet >= LightingTimerInfo.Sturdiness)
+				{
+					float currentHealthImpact = HealthImpactModified(LightImpacts.PositiveImpact);
+					PreUpdateHealth(ref currentHealthImpact);
+					float oldHealth = GetHealth;
+					GetHealth += HealthImpactModified(currentHealthImpact);
+					OnHealthChange(oldHealth);
 				}
 			}
 
@@ -248,7 +254,7 @@ namespace Disarray.Core.Gardening
 			bool Elder = CurrentStage == Stages.Elder;
 
 			OnHarvest(Elder);
-			HarvestTimer = 0;
+			SetHarvestTimer = 0;
 			UpdateFraming();
 
 			if (Elder)
@@ -295,9 +301,9 @@ namespace Disarray.Core.Gardening
 				{ "GrowthTimer", GrowthTimer % GrowthInfo.GrowthInterval },
 				{ "Growth", Growth },
 				{ "Health", Health },
-				{ "WateringTimer", TimeSinceLastWatering >= WateringTimerInfo.Sturdiness ? (TimeSinceLastWatering % WateringTimerInfo.CheckInterval) + WateringTimerInfo.Sturdiness : TimeSinceLastWatering },
-				{ "LightTimer", TimeSinceLightNeedsMet >= LightingTimerInfo.Sturdiness ? (TimeSinceLightNeedsMet % LightingTimerInfo.CheckInterval) + LightingTimerInfo.Sturdiness : TimeSinceLightNeedsMet },
-				{ "HarvestTimer", HarvestTimer >= HarvestableTime ? HarvestableTime : HarvestTimer },
+				{ "WateringTimer", SetTimeSinceLastWatering >= WateringTimerInfo.Sturdiness ? (SetTimeSinceLastWatering % WateringTimerInfo.CheckInterval) + WateringTimerInfo.Sturdiness : SetTimeSinceLastWatering },
+				{ "LightTimer", SetTimeSinceLightNeedsMet >= LightingTimerInfo.Sturdiness ? (SetTimeSinceLightNeedsMet % LightingTimerInfo.CheckInterval) + LightingTimerInfo.Sturdiness : SetTimeSinceLightNeedsMet },
+				{ "HarvestTimer", SetHarvestTimer >= HarvestableTime ? HarvestableTime : SetHarvestTimer },
 				{ "Extra", SaveExtra() },
 			};
 			return data;
@@ -310,9 +316,9 @@ namespace Disarray.Core.Gardening
 			GrowthTimer = tagCompound.Get<int>("GrowthTimer");
 			GetGrowth = tagCompound.Get<float>("Growth");
 			GetHealth = tagCompound.Get<float>("Health");
-			TimeSinceLastWatering = tagCompound.Get<int>("WateringTimer");
-			TimeSinceLightNeedsMet = tagCompound.Get<int>("LightTimer");
-			HarvestTimer = tagCompound.Get<int>("HarvestTimer");
+			SetTimeSinceLastWatering = tagCompound.Get<int>("WateringTimer");
+			SetTimeSinceLightNeedsMet = tagCompound.Get<int>("LightTimer");
+			SetHarvestTimer = tagCompound.Get<int>("HarvestTimer");
 			LoadExtra(tagCompound.Get<TagCompound>("Extra"));
 		}
 

@@ -1,3 +1,4 @@
+using Disarray.Core.Gardening;
 using Disarray.Core.Globals;
 using System;
 using System.Collections.Generic;
@@ -86,6 +87,8 @@ namespace Disarray.Core.Data
 
 		public static void ExecuteAI()
 		{
+			GardenEntity.BobbingTimer++;
+
 			foreach (TileData entity in DisarrayWorld.ActiveEntities)
 			{
 				if (entity.CanSurvive())

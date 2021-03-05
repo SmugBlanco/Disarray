@@ -10,6 +10,7 @@ using Disarray.Core.Globals;
 using Disarray.Core.Data;
 using Terraria.ObjectData;
 using System.Linq;
+using System;
 
 namespace Disarray.Core.Gardening.Tiles
 {
@@ -99,7 +100,10 @@ namespace Disarray.Core.Gardening.Tiles
 					}
 				}
 
-				HandleDrawingNeeds(spriteBatch, entity, OriginTile.ToWorldCoordinates(Vector2.Zero) - Main.screenPosition + offset);
+				if (entity.CurrentStage != GardenEntity.Stages.Elder)
+				{
+					HandleDrawingNeeds(spriteBatch, entity, OriginTile.ToWorldCoordinates(Vector2.Zero) - Main.screenPosition + offset);
+				}
 			}
 
 			return false;
@@ -108,31 +112,46 @@ namespace Disarray.Core.Gardening.Tiles
 		public void HandleDrawingNeeds(SpriteBatch spriteBatch, GardenEntity entity, Vector2 originDrawPosition)
 		{
 			ICollection<Texture2D> drawnNeedsTextures = new Collection<Texture2D>();
-			if (entity.TimeSinceLastWatering > entity.WateringTimerInfo.Sturdiness)
+
+			string texturePath = "Disarray/Core/Gardening/Textures/NeedsIndicator_";
+
+			if (entity.GetHealth <= 0)
 			{
-				drawnNeedsTextures.Add(ModContent.GetTexture("Disarray/Core/Gardening/Tiles/NeedsIndicator_Water"));
+				drawnNeedsTextures.Add(ModContent.GetTexture(texturePath + "Dead"));
+				DrawNeeds(spriteBatch, new Rectangle((int)originDrawPosition.X, (int)originDrawPosition.Y, Width, 2), false, drawnNeedsTextures.ToArray());
+				return;
 			}
 
-			if (entity.TimeSinceLightNeedsMet > entity.LightingTimerInfo.Sturdiness)
+			if (entity.SetTimeSinceLastWatering > entity.WateringTimerInfo.Sturdiness * 0.75f)
 			{
-				drawnNeedsTextures.Add(ModContent.GetTexture("Disarray/Core/Gardening/Tiles/NeedsIndicator_Light"));
+				drawnNeedsTextures.Add(ModContent.GetTexture(texturePath + "Water"));
+			}
+
+			if (entity.SetTimeSinceLightNeedsMet > entity.LightingTimerInfo.Sturdiness * 0.75f)
+			{
+				drawnNeedsTextures.Add(ModContent.GetTexture(texturePath + "Light"));
 			}
 
 			if (!entity.FulfilledExtraNeeds())
 			{
-				drawnNeedsTextures.Add(ModContent.GetTexture("Disarray/Core/Gardening/Tiles/NeedsIndicator_Extra"));
+				drawnNeedsTextures.Add(ModContent.GetTexture(texturePath + "Extra"));
 			}
 
-			DrawNeeds(spriteBatch, new Rectangle((int)originDrawPosition.X, (int)originDrawPosition.Y, Width, 2), drawnNeedsTextures.ToArray());
+			DrawNeeds(spriteBatch, new Rectangle((int)originDrawPosition.X, (int)originDrawPosition.Y, Width, 5), true, drawnNeedsTextures.ToArray());
 		}
 
-		public void DrawNeeds(SpriteBatch spriteBatch, Rectangle drawBounds, params Texture2D[] needsToDraw)
+		public void DrawNeeds(SpriteBatch spriteBatch, Rectangle drawBounds, bool bob, params Texture2D[] needsToDraw)
 		{
 			for (int indexer = 0; indexer < needsToDraw.Length; indexer++)
 			{
 				Texture2D texture = needsToDraw[indexer];
-				Vector2 drawPosition = drawBounds.TopLeft() + new Vector2((TileObjectData.GetTileData(Type, 0).Width * 16) / (needsToDraw.Length + 1) * (indexer + 1), 0);
-				spriteBatch.Draw(texture, drawPosition, null, Color.White, 0, new Vector2(texture.Width / 2, texture.Height / 2), 1f, SpriteEffects.None, 0f);
+				Vector2 drawPosition = new Vector2(drawBounds.X, drawBounds.Y + drawBounds.Height / 2) + new Vector2((TileObjectData.GetTileData(Type, 0).Width * 16) / (needsToDraw.Length + 1) * (indexer + 1), 0);
+				Vector2 drawBobbing = Vector2.Zero;
+				if (bob == true)
+				{
+					drawBobbing.Y = (float)(Math.Sin(GardenEntity.BobbingTimer * 0.05f) * drawBounds.Height);
+				}
+				spriteBatch.Draw(texture, drawPosition + drawBobbing, null, Color.White, 0, new Vector2(texture.Width / 2, texture.Height / 2), 1f, SpriteEffects.None, 0f);
 			}
 		}
 

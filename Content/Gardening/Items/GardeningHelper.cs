@@ -29,8 +29,8 @@ namespace Disarray.Content.Gardening.Items
 			item.useAnimation = 60;
 		}
 
-        public override bool UseItem(Player player)
-        {
+		public override bool UseItem(Player player)
+		{
 			if (player.itemAnimation == player.itemAnimationMax - 1)
 			{
 				Point16 point = new Point16((int)(Main.MouseWorld.X / 16), (int)(Main.MouseWorld.Y / 16));
@@ -44,14 +44,15 @@ namespace Disarray.Content.Gardening.Items
 						GardenEntity gardenEntity = tileData as GardenEntity;
 						Main.NewText("Growth: " + gardenEntity.GetGrowth + " | " + (gardenEntity.GrowthTimer % gardenEntity.GrowthInfo.GrowthInterval) + "/" + gardenEntity.GrowthInfo.GrowthInterval + " @ " + gardenEntity.GrowthInfo.GrowthRate);
 						Main.NewText("Health: " + gardenEntity.GetHealth);
-						Main.NewText("Harvestable: " + gardenEntity.Harvestable + " | Harvest Timer: " + gardenEntity.HarvestTimer + "/" + gardenEntity.HarvestableTime);
-						Main.NewText("Time since watering: " + gardenEntity.TimeSinceLastWatering + " | Time since last lighting: " + gardenEntity.TimeSinceLightNeedsMet);
+						Main.NewText("Harvestable: " + gardenEntity.Harvestable + " | Harvest Timer: " + gardenEntity.SetHarvestTimer + "/" + gardenEntity.HarvestableTime);
+						Main.NewText("Time since watering: " + gardenEntity.SetTimeSinceLastWatering + " | Time since last lighting: " + gardenEntity.SetTimeSinceLightNeedsMet);
 						Main.NewText("Maximum time since watering: " + gardenEntity.WateringTimerInfo.Sturdiness + " | Maximum time since lighting: " + gardenEntity.LightingTimerInfo.Sturdiness);
-						Main.NewText(gardenEntity.TimeSinceLastWatering % gardenEntity.WateringTimerInfo.CheckInterval);
+						Main.NewText(gardenEntity.SetTimeSinceLastWatering % gardenEntity.WateringTimerInfo.CheckInterval);
 					}
 				}
 			}
-            return base.UseItem(player);
-        }
+			return base.UseItem(player);
+		}
+
 	}
 }

@@ -1,4 +1,4 @@
-To Do: Tommorrow
-- CONTENT TIME!
-- Make sure globals function properly
-- 
+TODO:
+Add a Dead indicator since it may be hard to tell
+Add water level function ie you need to refill the can to use 
+Add manure -> speeds up growth and harvest

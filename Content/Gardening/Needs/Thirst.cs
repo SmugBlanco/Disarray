@@ -6,7 +6,7 @@ namespace Disarray.Content.Gardening.Needs
 {
 	public class Thirst : PlantNeeds
 	{
-		public override int Sturdiness => 3600;
+		public override int Sturdiness => 18000;
 
 		public override void Update(GardenEntity gardenEntity) => GetTimer++;
 

@@ -1,6 +1,5 @@
 using Disarray.Core.Data;
 using Disarray.Core.Gardening.Tiles;
-using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
@@ -56,7 +55,7 @@ namespace Disarray.Core.Gardening
 
 		//-------------------------------------------------------
 
-		public virtual (int GrowthInterval, float GrowthRate, float RequiredMinimumHealth) GrowthInfo { get; protected set; } = (3600, 1, 33);
+		public virtual (int GrowthInterval, float GrowthRate) GrowthInfo { get; protected set; } = (3600, 1);
 
 		public int GrowthTimer;
 

@@ -7,9 +7,9 @@ namespace Disarray.Content.Gardening.Needs
 {
 	public class Light : PlantNeeds
 	{
-		public override int Sturdiness => 1800;
+		public override int Sturdiness => 54000;
 
-		public int CheckInterval = 600;
+		public int CheckInterval = 3600;
 
 		public float MinimumLight = 0.5f;
 

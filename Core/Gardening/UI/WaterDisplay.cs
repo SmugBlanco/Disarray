@@ -27,7 +27,7 @@ namespace Disarray.Core.Gardening.UI
 
 		public Item HeldItem => Main.mouseItem.IsAir ? Player.HeldItem : Main.mouseItem;
 
-		public int TimeSinceLastInteraction => HeldItem?.modItem is WateringCan wateringCan ? wateringCan.TimeSinceLastInteract : 999;
+		public int TimeSinceLastInteraction => HeldItem?.modItem is WateringCanClass wateringCan ? wateringCan.GetTimeSinceLastInteraction : 999;
 
 		public const float AppearTime = 180;
 
@@ -55,7 +55,7 @@ namespace Disarray.Core.Gardening.UI
 
 		public override void Update(GameTime gameTime)
 		{
-			if (!(Player.HeldItem.modItem is WateringCan))
+			if (!(Player.HeldItem.modItem is WateringCanClass))
 			{
 				ModContent.GetInstance<Disarray>().GardeningInterface?.SetState(null);
 				return;
@@ -68,14 +68,14 @@ namespace Disarray.Core.Gardening.UI
 		{
 			CalculatedStyle dimensions = GetDimensions();
 			Vector2 drawPosition = dimensions.Position() + new Vector2(Background.Left.Pixels, Background.Top.Pixels);
-			if (HeldItem?.modItem is WateringCan wateringCan && wateringCan.GetWaterLevel > 0)
+			if (HeldItem?.modItem is WateringCanClass wateringCan && wateringCan.GetWaterLevel > 0)
 			{
-				float cannisterCapacity = wateringCan.GetWaterLevel / 100f;
+				float cannisterCapacity = wateringCan.GetWaterLevel / wateringCan.MaxCapacity;
 				Rectangle sourceRectangle = new Rectangle(0, 0, waterTexture.Width, (int)(waterTexture.Height * cannisterCapacity));
 				Vector2 waterDrawPosition = drawPosition + new Vector2(0, waterTexture.Height - sourceRectangle.Height) + new Vector2(6, 10);
 				spriteBatch.Draw(waterTexture, waterDrawPosition, sourceRectangle, Color.White * 0.75f * GreaterOpacity);
 
-				if (wateringCan.GetWaterLevel < 100)
+				if (wateringCan.GetWaterLevel < wateringCan.MaxCapacity)
 				{
 					spriteBatch.Draw(waterTextureTop, waterDrawPosition + new Vector2(0, -4), null, Color.White * 0.75f * GreaterOpacity);
 				}

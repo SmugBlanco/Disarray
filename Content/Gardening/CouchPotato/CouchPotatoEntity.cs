@@ -1,9 +1,8 @@
-using Disarray.Core.Data;
 using Disarray.Core.Gardening;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace Disarray.Content.Gardening.CouchPotato
@@ -12,17 +11,18 @@ namespace Disarray.Content.Gardening.CouchPotato
 	{
 		public override int HarvestableTime => 72000;
 
-		public override (int GrowthInterval, float GrowthRate, float RequiredMinimumHealth) GrowthInfo => (3600, 1f, 33f); //1 hour for full growth
+		public override (int GrowthInterval, float GrowthRate, float RequiredMinimumHealth) GrowthInfo => (3600, 1f, 33f); //100 minutes for full growth
 
-		public override (int Sturdiness, int CheckInterval) WateringTimerInfo => (18000, 1800);
-
-		public override (float NegativeImpact, float PositiveImpact) WaterImpacts => (-2.5f, 0.5f);
-
-		public override float MinimumLight => 0.75f;
-
-		public override (int Sturdiness, int CheckInterval) LightingTimerInfo => (54000, 3600);
-
-		public override (float NegativeImpact, float PositiveImpact) LightImpacts => (-1f, 0.5f);
+		public CouchPotatoEntity()
+		{
+			base.Needs = new HashSet<PlantNeeds>();
+			ICollection<PlantNeeds> newNeeds = new HashSet<PlantNeeds>
+			{
+				PlantNeeds.CreateNewInstance(PlantNeeds.GetPlantNeeds("Thirst")),
+				PlantNeeds.CreateNewInstance(PlantNeeds.GetPlantNeeds("Light"))
+			};
+			Needs = newNeeds.ToArray();
+		}
 
 		public override int TileCheckDistance => 0;
 

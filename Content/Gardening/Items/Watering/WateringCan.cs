@@ -13,6 +13,8 @@ using Disarray.Core.Gardening.UI;
 using Terraria.ModLoader.IO;
 using System.Collections.Generic;
 using Disarray.Core.Properties;
+using System.Linq;
+using Disarray.Content.Gardening.Needs;
 
 namespace Disarray.Content.Gardening.Items.Watering
 {
@@ -22,7 +24,7 @@ namespace Disarray.Content.Gardening.Items.Watering
 
 		public int MaxDistance => 4;
 
-		public int WateringEffectiveness = 25;
+		public int WateringEffectiveness = 100;
 
 		public float GetWaterLevel { get => WaterLevel; set => WaterLevel = Utils.Clamp(value, 0, 100); }
 
@@ -82,16 +84,15 @@ namespace Disarray.Content.Gardening.Items.Watering
 							}
 
 							GardenEntity gardenEntity = tileData as GardenEntity;
-							if (gardenEntity.SetTimeSinceLastWatering > gardenEntity.WateringTimerInfo.Sturdiness)
+							PlantNeeds need = gardenEntity.Needs.FirstOrDefault(prop => prop is Thirst);
+							if (need is Thirst thirst)
 							{
-								gardenEntity.SetTimeSinceLastWatering = gardenEntity.WateringTimerInfo.Sturdiness;
-							}
+								if (thirst.GetTimer > thirst.Sturdiness)
+								{
+									thirst.GetTimer = thirst.Sturdiness;
+								}
 
-							gardenEntity.SetTimeSinceLastWatering -= WateringEffectiveness;
-
-							if (gardenEntity.SetTimeSinceLastWatering < 0)
-							{
-								gardenEntity.SetTimeSinceLastWatering = 0;
+								thirst.GetTimer -= WateringEffectiveness;
 							}
 						}
 					}

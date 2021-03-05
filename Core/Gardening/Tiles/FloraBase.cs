@@ -91,10 +91,6 @@ namespace Disarray.Core.Gardening.Tiles
 						{
 							drawnColor = TaintColor(drawnColor, new Color(150, 225, 250, 100), 1);
 						}
-						else
-						{
-							drawnColor = TaintColor(drawnColor, new Color(25, 25, 25, 200), 1 - entity.GetHealth / 100);
-						}
 
 						spriteBatch.Draw(Main.tileTexture[Type], drawPosition, sourceRectangle, drawnColor);
 					}
@@ -113,28 +109,12 @@ namespace Disarray.Core.Gardening.Tiles
 		{
 			ICollection<Texture2D> drawnNeedsTextures = new Collection<Texture2D>();
 
-			string texturePath = "Disarray/Core/Gardening/Textures/NeedsIndicator_";
-
-			if (entity.GetHealth <= 0)
+			foreach (PlantNeeds needs in entity.Needs)
 			{
-				drawnNeedsTextures.Add(ModContent.GetTexture(texturePath + "Dead"));
-				DrawNeeds(spriteBatch, new Rectangle((int)originDrawPosition.X, (int)originDrawPosition.Y, Width, 2), false, drawnNeedsTextures.ToArray());
-				return;
-			}
-
-			if (entity.SetTimeSinceLastWatering > entity.WateringTimerInfo.Sturdiness * 0.75f)
-			{
-				drawnNeedsTextures.Add(ModContent.GetTexture(texturePath + "Water"));
-			}
-
-			if (entity.SetTimeSinceLightNeedsMet > entity.LightingTimerInfo.Sturdiness * 0.75f)
-			{
-				drawnNeedsTextures.Add(ModContent.GetTexture(texturePath + "Light"));
-			}
-
-			if (!entity.FulfilledExtraNeeds())
-			{
-				drawnNeedsTextures.Add(ModContent.GetTexture(texturePath + "Extra"));
+				if (needs.CanDisplayIcon(entity))
+				{
+					drawnNeedsTextures.Add(ModContent.GetTexture(needs.DisplayIcon));
+				}
 			}
 
 			DrawNeeds(spriteBatch, new Rectangle((int)originDrawPosition.X, (int)originDrawPosition.Y, Width, 5), true, drawnNeedsTextures.ToArray());

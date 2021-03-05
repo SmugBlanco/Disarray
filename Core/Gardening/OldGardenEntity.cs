@@ -1,4 +1,4 @@
-using Disarray.Core.Data;
+/*using Disarray.Core.Data;
 using Disarray.Core.Gardening.Tiles;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
@@ -66,32 +66,67 @@ namespace Disarray.Core.Gardening
 
 		//---------------------------------------------------------
 
-		public virtual IEnumerable<PlantNeeds> Needs { get; protected set; }
+		public float GetHealth { get => Health; set => Health = Utils.Clamp(value, 0, 100); }
 
-		public bool UpdateAndCheckNeeds()
-		{
-			foreach (PlantNeeds needs in Needs)
-			{
-				needs.Update(this);
-				if (!needs.FulfilledNeeds(this))
-				{
-					return false;
-				}
-			}
-			return true;
-		}
+		protected float Health = 100;
+
+		//---------------------------------------------------------
+
+		public virtual (int Sturdiness, int CheckInterval) WateringTimerInfo { get; protected set; } = (18000, 1800);
+
+		private int TimeSinceLastWatering;
+
+		public int SetTimeSinceLastWatering { get => TimeSinceLastWatering; set => TimeSinceLastWatering = Utils.Clamp(value, 0, int.MaxValue); }
+
+		public virtual (float NegativeImpact, float PositiveImpact) WaterImpacts { get; protected set; } = (-1, 1);
+
+		//---------------------------------------------------------
+
+		public virtual float MinimumLight { get; protected set;  } = 0.5f;
+
+		//---------------------------------------------------------
+
+		public virtual (int Sturdiness, int CheckInterval) LightingTimerInfo { get; protected set; } = (54000, 3600);
+
+		private int TimeSinceLightNeedsMet;
+
+		public int SetTimeSinceLightNeedsMet { get => TimeSinceLightNeedsMet; set => TimeSinceLightNeedsMet = Utils.Clamp(value, 0, int.MaxValue); }
+
+		public virtual (float NegativeImpact, float PositiveImpact) LightImpacts { get; protected set; } = (-1, 1);
 
 		//---------------------------------------------------------
 
 		public virtual int TileCheckDistance { get; protected set; }
 		public IDictionary<int, (bool multiplication, float valueChange)> NearbyUniqueTileInfluences = new Dictionary<int, (bool multiplication, float valueChange)>();
 
+		public static float Average(params float[] input) //lmk if there is better alternative
+		{
+			float total = 0;
+			for (int indexer = 0; indexer < input.Length; indexer++)
+			{
+				total += input[indexer];
+			}
+			return total / input.Length;
+		}
+
+		public void Water()
+		{
+			SetTimeSinceLastWatering = 0;
+		}
+
+		public bool LightCheck
+		{
+			get
+			{
+				Vector2 worldPosition = Position.ToWorldCoordinates();
+				Vector3 light = Lighting.GetSubLight(worldPosition);
+				return Average(light.X, light.Y, light.Z) * 1.2f >= MinimumLight;
+			}
+		}
 
 		public sealed override void AI()
 		{
-			PreAI();
-
-			if (GetGrowth >= 100 || !UpdateAndCheckNeeds())
+			if (GetHealth <= 0 || GetGrowth >= 100)
 			{
 				return;
 			}
@@ -104,11 +139,57 @@ namespace Disarray.Core.Gardening
 			GrowthTimer++;
 			if (GrowthTimer % GrowthInfo.GrowthInterval == 0)
 			{
-				float growthRate = GrowthInfo.GrowthRate;
-				ImpactModified(ref growthRate);
-				PreUpdateGrowth(ref growthRate);
-				Growth += growthRate;
-				OnGrowth();
+				if (GetHealth >= GrowthInfo.RequiredMinimumHealth)
+				{
+					float growthRate = GrowthInfo.GrowthRate;
+					PreUpdateGrowth(ref growthRate);
+					Growth += growthRate;
+					OnGrowth();
+				}
+			}
+
+			SetTimeSinceLastWatering++;
+			if (SetTimeSinceLastWatering % WateringTimerInfo.CheckInterval == 0)
+			{
+				if (SetTimeSinceLastWatering >= WateringTimerInfo.Sturdiness)
+				{
+					float currentHealthImpact = HealthImpactModified(WaterImpacts.NegativeImpact);
+					PreUpdateHealth(ref currentHealthImpact);
+					float oldHealth = GetHealth;
+					GetHealth += HealthImpactModified(currentHealthImpact);
+					OnHealthChange(oldHealth);
+				}
+				else
+				{
+					float currentHealthImpact = HealthImpactModified(WaterImpacts.PositiveImpact);
+					PreUpdateHealth(ref currentHealthImpact);
+					float oldHealth = GetHealth;
+					GetHealth += HealthImpactModified(currentHealthImpact);
+					OnHealthChange(oldHealth);
+				}
+			}
+
+			SetTimeSinceLightNeedsMet++;
+			if (SetTimeSinceLightNeedsMet % LightingTimerInfo.CheckInterval == 0)
+			{
+				if (LightCheck)
+				{
+					float currentHealthImpact = HealthImpactModified(LightImpacts.NegativeImpact);
+					PreUpdateHealth(ref currentHealthImpact);
+					float oldHealth = GetHealth;
+					GetHealth += HealthImpactModified(currentHealthImpact);
+					OnHealthChange(oldHealth);
+					SetTimeSinceLightNeedsMet = 0;
+				}
+
+				if (SetTimeSinceLightNeedsMet >= LightingTimerInfo.Sturdiness)
+				{
+					float currentHealthImpact = HealthImpactModified(LightImpacts.PositiveImpact);
+					PreUpdateHealth(ref currentHealthImpact);
+					float oldHealth = GetHealth;
+					GetHealth += HealthImpactModified(currentHealthImpact);
+					OnHealthChange(oldHealth);
+				}
 			}
 
 			Update();
@@ -116,7 +197,7 @@ namespace Disarray.Core.Gardening
 
 		public virtual void PreUpdateGrowth(ref float GrowthRate) { }
 
-		public virtual void PreAI() { }
+		public virtual void PreUpdateHealth(ref float HealthImpact) { }
 
 		public virtual void Update() { }
 
@@ -155,9 +236,13 @@ namespace Disarray.Core.Gardening
 			}
 		}
 
+		public virtual void OnHealthChange(float OldHealth) { }
+
 		public virtual bool PreHarvest() => true;
 
 		public virtual void OnHarvest(bool Elder) { }
+
+		public virtual bool FulfilledExtraNeeds() => true;
 
 		public void Harvest()
 		{
@@ -178,11 +263,11 @@ namespace Disarray.Core.Gardening
 			}
 		}
 
-		public void ImpactModified(ref float input)
+		public float HealthImpactModified(float input)
 		{
 			if (TileCheckDistance == 0 || NearbyUniqueTileInfluences.Count == 0)
 			{
-				return;
+				return input;
 			}
 
 			HashSet<int> UniqueTiles = new HashSet<int>();
@@ -206,6 +291,7 @@ namespace Disarray.Core.Gardening
 					input = modifier.multiplication ? input * modifier.valueChange : input + modifier.valueChange;
 				}
 			}
+			return input;
 		}
 
 		public sealed override TagCompound Save()
@@ -214,15 +300,12 @@ namespace Disarray.Core.Gardening
 			{
 				{ "GrowthTimer", GrowthTimer % GrowthInfo.GrowthInterval },
 				{ "Growth", Growth },
+				{ "Health", Health },
+				{ "WateringTimer", SetTimeSinceLastWatering >= WateringTimerInfo.Sturdiness ? (SetTimeSinceLastWatering % WateringTimerInfo.CheckInterval) + WateringTimerInfo.Sturdiness : SetTimeSinceLastWatering },
+				{ "LightTimer", SetTimeSinceLightNeedsMet >= LightingTimerInfo.Sturdiness ? (SetTimeSinceLightNeedsMet % LightingTimerInfo.CheckInterval) + LightingTimerInfo.Sturdiness : SetTimeSinceLightNeedsMet },
 				{ "HarvestTimer", SetHarvestTimer >= HarvestableTime ? HarvestableTime : SetHarvestTimer },
 				{ "Extra", SaveExtra() },
 			};
-
-			foreach (PlantNeeds needs in Needs)
-			{
-				data.Add(needs.Name, needs.Save());
-			}
-
 			return data;
 		}
 
@@ -232,23 +315,15 @@ namespace Disarray.Core.Gardening
 		{
 			GrowthTimer = tagCompound.Get<int>("GrowthTimer");
 			GetGrowth = tagCompound.Get<float>("Growth");
+			GetHealth = tagCompound.Get<float>("Health");
+			SetTimeSinceLastWatering = tagCompound.Get<int>("WateringTimer");
+			SetTimeSinceLightNeedsMet = tagCompound.Get<int>("LightTimer");
 			SetHarvestTimer = tagCompound.Get<int>("HarvestTimer");
 			LoadExtra(tagCompound.Get<TagCompound>("Extra"));
-
-			if (Needs is null)
-			{
-				return;
-			}
-
-			foreach (PlantNeeds needs in Needs)
-			{
-				if (tagCompound.ContainsKey(needs.Name))
-				{
-					needs.Load(tagCompound.Get<TagCompound>(needs.Name));
-				}
-			}
 		}
 
 		public virtual void LoadExtra(TagCompound tagCompound) { }
 	}
-}
+}*/
+
+//Saved in case

@@ -43,6 +43,7 @@ namespace Disarray
 			NPCProperty.Load();
 			ProjectileProperty.Load();
 			TileData.Load();
+			PlantNeeds.Load();
 
 			foreach (Type item in Code.GetTypes())
 			{
@@ -72,6 +73,11 @@ namespace Disarray
 					{
 						TileData.LoadType(item);
 					}
+
+					if (item.IsSubclassOf(typeof(PlantNeeds)))
+					{
+						PlantNeeds.LoadType(item);
+					}
 				}
 			}
 
@@ -95,6 +101,7 @@ namespace Disarray
 			ProjectileProperty.Unload();
 			FloraBase.Unload();
 			TileData.Unload();
+			PlantNeeds.Unload();
 		}
 
 		public override void UpdateUI(GameTime gameTime)

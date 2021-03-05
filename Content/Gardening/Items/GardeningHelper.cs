@@ -43,11 +43,11 @@ namespace Disarray.Content.Gardening.Items
 					{
 						GardenEntity gardenEntity = tileData as GardenEntity;
 						Main.NewText("Growth: " + gardenEntity.GetGrowth + " | " + (gardenEntity.GrowthTimer % gardenEntity.GrowthInfo.GrowthInterval) + "/" + gardenEntity.GrowthInfo.GrowthInterval + " @ " + gardenEntity.GrowthInfo.GrowthRate);
-						Main.NewText("Health: " + gardenEntity.GetHealth);
 						Main.NewText("Harvestable: " + gardenEntity.Harvestable + " | Harvest Timer: " + gardenEntity.SetHarvestTimer + "/" + gardenEntity.HarvestableTime);
-						Main.NewText("Time since watering: " + gardenEntity.SetTimeSinceLastWatering + " | Time since last lighting: " + gardenEntity.SetTimeSinceLightNeedsMet);
-						Main.NewText("Maximum time since watering: " + gardenEntity.WateringTimerInfo.Sturdiness + " | Maximum time since lighting: " + gardenEntity.LightingTimerInfo.Sturdiness);
-						Main.NewText(gardenEntity.SetTimeSinceLastWatering % gardenEntity.WateringTimerInfo.CheckInterval);
+						foreach (Core.Gardening.PlantNeeds needs in gardenEntity.Needs)
+						{
+							needs.DisplayInformation(gardenEntity);
+						}
 					}
 				}
 			}

@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI;
-using Terraria.GameContent.UI.Elements;
 using Disarray.Content.Gardening.Items.Watering;
 
 namespace Disarray.Core.Gardening.UI

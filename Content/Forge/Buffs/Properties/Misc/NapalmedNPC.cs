@@ -10,11 +10,11 @@ namespace Disarray.Content.Forge.Buffs.Properties.Misc
 {
     public class NapalmedNPC : NPCProperty
     {
-        public override void PostLoad(NPCProperty npcProperty)
+        public override void PostLoadType()
         {
             if (BuffLoader.GetBuff(ModContent.BuffType<Napalmed>()) is DisarrayBuff buff)
             {
-                buff.NPCProperties = npcProperty;
+                buff.NPCProperties = this;
             }
         }
 

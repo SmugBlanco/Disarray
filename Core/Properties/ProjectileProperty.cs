@@ -1,24 +1,15 @@
 using Disarray.Core.Globals;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace Disarray.Core.Properties
 {
-    public abstract class ProjectileProperty
+    [AutoloadedClass]
+    public class ProjectileProperty : AutoloadedClass
     {
-        public static bool IsLoading => Disarray.Loading;
-
-        public static IList<ProjectileProperty> LoadedProperties;
-
-        public static IDictionary<string, ProjectileProperty> PropertyByName;
-
-        private static int InternalIDCount;
-
-        public ProjectileProperty()
+        /*public ProjectileProperty()
         {
             if (IsLoading)
             {
@@ -31,54 +22,19 @@ namespace Disarray.Core.Properties
                 Type = propertyToMimic.Type;
                 Name = propertyToMimic.Name;
             }
-        }
+        }*/ // A nice alternative to CreateNewInstance
 
-        public static void Load()
-        {
-            LoadedProperties = new List<ProjectileProperty>();
-
-            PropertyByName = new Dictionary<string, ProjectileProperty>();
-
-            InternalIDCount = -1;
-        }
-
-        public static void LoadType(Type item)
+        public static ProjectileProperty CreateNewInstance(ProjectileProperty sourceProperty)
 		{
-            if (item.IsSubclassOf(typeof(ProjectileProperty)))
-            {
-                ProjectileProperty projectileProperty = Activator.CreateInstance(item) as ProjectileProperty;
-                projectileProperty.Type = ++InternalIDCount;
-                projectileProperty.Name = item.Name;
-                LoadedProperties.Add(projectileProperty);
-                PropertyByName.Add(projectileProperty.Name, projectileProperty);
-                projectileProperty.PostLoad(projectileProperty);
-            }
-        }
-
-        public static void Unload()
-        {
-            LoadedProperties?.Clear();
-
-            PropertyByName?.Clear();
-
-            InternalIDCount = 0;
+            ProjectileProperty newProperty = Activator.CreateInstance(sourceProperty.GetType()) as ProjectileProperty;
+            newProperty.Type = sourceProperty.Type;
+            newProperty.Name = sourceProperty.Name;
+            return newProperty;
         }
 
         public Mod Mod => Disarray.GetMod;
 
-        public int Type { get; internal set; }
-
-        public string Name { get; internal set; }
-
-        public override bool Equals(object obj)
-        {
-            if (obj is ProjectileProperty property)
-            {
-                return GetHashCode().Equals(property.GetHashCode());
-            }
-
-            return false;
-        }
+        public override bool Equals(object obj) => obj is ProjectileProperty property && GetHashCode().Equals(property.GetHashCode());
 
         public override int GetHashCode() => Type;
 
@@ -98,26 +54,6 @@ namespace Disarray.Core.Properties
         }
 
         public virtual void Combine(ProjectileProperty newProperty) { }
-
-        public static ProjectileProperty GetProperty(int ID)
-        {
-            if (ID < 0 || ID >= LoadedProperties.Count)
-            {
-                return null;
-            }
-
-            return LoadedProperties[ID];
-        }
-
-        public static ProjectileProperty GetProperty(string name)
-        {
-            if (PropertyByName.TryGetValue(name, out ProjectileProperty property))
-            {
-                return property;
-            }
-
-            return null;
-        }
 
         public virtual void PostLoad(ProjectileProperty projectileProperty) { }
 

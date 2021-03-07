@@ -1,3 +1,5 @@
+using Disarray.Content.Gardening.Needs.PestTypes;
+using Disarray.Core;
 using Disarray.Core.Data;
 using Disarray.Core.Forge.Items;
 using Disarray.Core.Gardening;
@@ -5,6 +7,7 @@ using Disarray.Core.Gardening.Tiles;
 using Disarray.Core.Globals;
 using Disarray.Core.Properties;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -38,12 +41,10 @@ namespace Disarray
 			Loading = true;
 
 			GardeningInformation.Load();
-			PlayerProperty.Load();
 			DisarrayGlobalNPC.Load();
-			NPCProperty.Load();
-			ProjectileProperty.Load();
-			TileData.Load();
 			PlantNeeds.Load();
+			AutoloadedClass.Load();
+
 
 			foreach (Type item in Code.GetTypes())
 			{
@@ -54,32 +55,19 @@ namespace Disarray
 						GardeningInformation.LoadType(item);
 					}
 
-					if (item.IsSubclassOf(typeof(NPCProperty)))
-					{
-						NPCProperty.LoadType(item);
-					}
-
-					if (item.IsSubclassOf(typeof(PlayerProperty)))
-					{
-						PlayerProperty.LoadType(item);
-					}
-
-					if (item.IsSubclassOf(typeof(ProjectileProperty)))
-					{
-						ProjectileProperty.LoadType(item);
-					}
-
-					if (item.IsSubclassOf(typeof(TileData)))
-					{
-						TileData.LoadType(item);
-					}
-
 					if (item.IsSubclassOf(typeof(PlantNeeds)))
 					{
 						PlantNeeds.LoadType(item);
 					}
+
+					if (item.IsSubclassOf(typeof(AutoloadedClass)))
+					{
+						AutoloadedClass.LoadType(item);
+					}
 				}
 			}
+
+			AutoloadedClass.PostLoadType(Code);
 
 			if (!Main.dedServ)
 			{
@@ -95,13 +83,10 @@ namespace Disarray
 		{
 			ForgeBase.Unload();
 			GardeningInformation.Unload();
-			PlayerProperty.Unload();
 			DisarrayGlobalNPC.Unload();
-			NPCProperty.Unload();
-			ProjectileProperty.Unload();
 			FloraBase.Unload();
-			TileData.Unload();
 			PlantNeeds.Unload();
+			AutoloadedClass.Unload();
 		}
 
 		public override void UpdateUI(GameTime gameTime)

@@ -69,22 +69,22 @@ namespace Disarray.Core.Gardening
 
 		public bool UpdateAndCheckNeeds()
 		{
+			bool continueUpdate = true;
 			foreach (PlantNeeds needs in Needs)
 			{
-				needs.Update(this);
-				if (!needs.FulfilledNeeds(this))
+				needs.Update();
+				if (continueUpdate && !needs.FulfilledNeeds())
 				{
-					return false;
+					continueUpdate = false;
 				}
 			}
-			return true;
+			return continueUpdate;
 		}
 
 		//---------------------------------------------------------
 
 		public virtual int TileCheckDistance { get; protected set; }
 		public IDictionary<int, (bool multiplication, float valueChange)> NearbyUniqueTileInfluences = new Dictionary<int, (bool multiplication, float valueChange)>();
-
 
 		public sealed override void AI()
 		{

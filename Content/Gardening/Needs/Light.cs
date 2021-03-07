@@ -15,13 +15,13 @@ namespace Disarray.Content.Gardening.Needs
 
 		public bool HasGottenLight;
 
-		public override void Update(GardenEntity gardenEntity)
+		public override void Update()
 		{
 			GetTimer++;
 
 			if (GetTimer % CheckInterval == 0)
 			{
-				HasGottenLight = LightCheck(gardenEntity, MinimumLight);
+				HasGottenLight = LightCheck(SourcePlant, MinimumLight);
 
 				if (HasGottenLight)
 				{
@@ -30,9 +30,9 @@ namespace Disarray.Content.Gardening.Needs
 			}
 		}
 
-		public override bool FulfilledNeeds(GardenEntity gardenEntity) => GetTimer < Sturdiness;
+		public override bool FulfilledNeeds() => GetTimer < Sturdiness;
 
-		public override bool CanDisplayIcon(GardenEntity gardenEntity) => GetTimer >= Sturdiness;
+		public override bool CanDisplayIcon() => GetTimer >= Sturdiness;
 
 		public static float Average(params float[] input) //lmk if there is better alternative
 		{
@@ -51,7 +51,7 @@ namespace Disarray.Content.Gardening.Needs
 			return Average(light.X, light.Y, light.Z) * forgiveness >= minimumLight;
 		}
 
-		public override void DisplayInformation(GardenEntity gardenEntity)
+		public override void DisplayInformation()
 		{
 			Main.NewText("Light Needs: " + GetTimer + "/" + Sturdiness);
 		}

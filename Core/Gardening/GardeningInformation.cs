@@ -6,6 +6,7 @@ using System.Reflection;
 
 namespace Disarray.Core.Gardening
 {
+	//Needs a refactor later, inhereiting from AutoloadedClass
 	public class GardeningInformation
 	{
 		public GardeningInformation() { }

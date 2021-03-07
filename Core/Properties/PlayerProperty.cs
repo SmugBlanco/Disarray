@@ -1,57 +1,15 @@
 using Disarray.Core.Globals;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace Disarray.Core.Properties
 {
-    public abstract class PlayerProperty
+    [AutoloadedClass]
+    public class PlayerProperty : AutoloadedClass
     {
-        public static IList<PlayerProperty> LoadedProperties;
-
-        public static IDictionary<string, PlayerProperty> PropertyByName;
-
-        private static int InternalIDCount;
-
-        public static void Load()
-		{
-            LoadedProperties = new List<PlayerProperty>();
-
-            PropertyByName = new Dictionary<string, PlayerProperty>();
-
-            InternalIDCount = -1;
-        }
-
-        public static void LoadType(Type item)
-		{
-            if (item.IsSubclassOf(typeof(PlayerProperty)))
-            {
-                PlayerProperty propertyPlayer = Activator.CreateInstance(item) as PlayerProperty;
-                propertyPlayer.Type = ++InternalIDCount;
-                propertyPlayer.Name = item.Name;
-                LoadedProperties.Add(propertyPlayer);
-                PropertyByName.Add(propertyPlayer.Name, propertyPlayer);
-                propertyPlayer.PostLoad(propertyPlayer);
-            }
-        }
-
-        public static void Unload()
-		{
-            LoadedProperties?.Clear();
-
-            PropertyByName?.Clear();
-
-            InternalIDCount = 0;
-        }
-
         public Mod Mod => Disarray.GetMod;
-
-        public int Type { get; internal set; }
-
-        public string Name { get; internal set; }
 
         public override bool Equals(object obj)
         {
@@ -89,28 +47,6 @@ namespace Disarray.Core.Properties
         }
 
         public virtual void Combine(PlayerProperty newProperty) { }
-
-        public static PlayerProperty GetProperty(int ID)
-		{
-            if (ID < 0 || ID >= LoadedProperties.Count)
-			{
-                return null;
-			}
-
-            return LoadedProperties[ID];
-		}
-
-        public static PlayerProperty GetProperty(string name)
-        {
-            if (PropertyByName.TryGetValue(name, out PlayerProperty property))
-			{
-                return property;
-            }
-
-            return null;
-        }
-
-        public virtual void PostLoad(PlayerProperty playerProperty) { }
 
         public virtual void ModifyHitNPC(Player player, Item item, NPC target, ref int damage, ref float knockback, ref bool crit) { }
 

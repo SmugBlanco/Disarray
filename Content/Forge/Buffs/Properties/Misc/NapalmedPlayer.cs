@@ -9,11 +9,11 @@ namespace Disarray.Content.Forge.Buffs.Properties.Misc
 {
     public class NapalmedPlayer : PlayerProperty
     {
-        public override void PostLoad(PlayerProperty playerProperty)
+        public override void PostLoadType()
         {
             if (BuffLoader.GetBuff(ModContent.BuffType<Napalmed>()) is DisarrayBuff buff)
             {
-                buff.PlayerProperties = playerProperty;
+                buff.PlayerProperties = this;
             }
         }
 

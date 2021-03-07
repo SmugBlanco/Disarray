@@ -187,9 +187,9 @@ namespace Disarray.Content.Gardening.Items.Watering
 
 	public class WateringCanProperty : PlayerProperty // Not an elegant solution, but it works. Solved Problem: Can UI not disappearing when held in the mouse slot
 	{
-		public override void PostLoad(PlayerProperty playerProperty)
+		public override void PostLoadType()
 		{
-			DisarrayGlobalPlayer.GlobalProperties.Add(playerProperty);
+			DisarrayGlobalPlayer.GlobalProperties.Add(this);
 		}
 
 		public override void PostUpdateMiscEffects(Player player)

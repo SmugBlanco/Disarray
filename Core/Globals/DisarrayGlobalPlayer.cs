@@ -1,4 +1,5 @@
 using Disarray.Core.Data;
+using Disarray.Core.Gardening;
 using Disarray.Core.Properties;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -44,7 +45,25 @@ namespace Disarray.Core.Globals
             GlobalProperties?.Clear();
         }
 
-        public override void ResetEffects() => AutomaticallyRemovedProperties.Clear();
+		public override void ModifyDrawLayers(List<PlayerLayer> layers)
+		{
+            try
+			{
+                foreach (GardenEntity entity in DisarrayWorld.ActiveEntities)
+				{
+                    foreach (PlantNeeds needs in entity.Needs)
+                    {
+                        needs.DrawExtra(Main.spriteBatch);
+                    }
+				}
+			}
+            catch
+			{
+
+			}
+		}
+
+		public override void ResetEffects() => AutomaticallyRemovedProperties.Clear();
 
 		public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
         {

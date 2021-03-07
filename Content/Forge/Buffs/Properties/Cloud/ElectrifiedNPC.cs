@@ -8,11 +8,11 @@ namespace Disarray.Content.Forge.Buffs.Properties.Cloud
 {
     public class ElectrifiedNPC : NPCProperty
     {
-        public override void PostLoad(NPCProperty npcProperty)
+        public override void PostLoadType()
         {
             if (BuffLoader.GetBuff(ModContent.BuffType<Buffs.Cloud.Electrified>()) is DisarrayBuff buff)
             {
-                buff.NPCProperties = npcProperty;
+                buff.NPCProperties = this;
             }
         }
 

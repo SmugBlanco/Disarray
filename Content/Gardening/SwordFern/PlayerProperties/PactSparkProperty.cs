@@ -21,7 +21,7 @@ namespace Disarray.Content.Gardening.SwordFern.PlayerProperties
 				player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " could not maintain his pact."), 50, -1);
 			}
 
-			player.GetModPlayer<DisarrayGlobalPlayer>().ManuallyRemovedProperties.Remove(LoadedProperties[Type]);
+			player.GetModPlayer<DisarrayGlobalPlayer>().ManuallyRemovedProperties.Remove(GetLoadedData[Type] as PlayerProperty);
 		}
 
 		public override void OnHitByNPC(Player player, NPC npc, int damage, bool crit)
@@ -38,7 +38,7 @@ namespace Disarray.Content.Gardening.SwordFern.PlayerProperties
 				player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " could not maintain his pact."), 50, -1);
 			}
 
-			player.GetModPlayer<DisarrayGlobalPlayer>().ManuallyRemovedProperties.Remove(LoadedProperties[Type]);
+			player.GetModPlayer<DisarrayGlobalPlayer>().ManuallyRemovedProperties.Remove(GetLoadedData[Type] as PlayerProperty);
 		}
 	}
 }

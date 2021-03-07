@@ -8,9 +8,9 @@ namespace Disarray.Content.Forge.DropData
 {
     public class Granite : NPCProperty
     {
-        public override void PostLoad(NPCProperty npcProperty)
+        public override void PostLoadType()
         {
-            DisarrayGlobalNPC.GlobalProperties.Add(npcProperty);
+            DisarrayGlobalNPC.GlobalProperties.Add(this);
         }
 
         public override void NPCLoot(NPC npc, string internalName)

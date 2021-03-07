@@ -44,9 +44,9 @@ namespace Disarray.Content.Gardening.Items
 						GardenEntity gardenEntity = tileData as GardenEntity;
 						Main.NewText("Growth: " + gardenEntity.GetGrowth + " | " + (gardenEntity.GrowthTimer % gardenEntity.GrowthInfo.GrowthInterval) + "/" + gardenEntity.GrowthInfo.GrowthInterval + " @ " + gardenEntity.GrowthInfo.GrowthRate);
 						Main.NewText("Harvestable: " + gardenEntity.Harvestable + " | Harvest Timer: " + gardenEntity.SetHarvestTimer + "/" + gardenEntity.HarvestableTime);
-						foreach (Core.Gardening.PlantNeeds needs in gardenEntity.Needs)
+						foreach (PlantNeeds needs in gardenEntity.Needs)
 						{
-							needs.DisplayInformation(gardenEntity);
+							needs.DisplayInformation();
 						}
 					}
 				}

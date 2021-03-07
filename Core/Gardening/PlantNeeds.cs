@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -5,75 +6,19 @@ using Terraria.ModLoader.IO;
 
 namespace Disarray.Core.Gardening
 {
-	public abstract class PlantNeeds
+	[AutoloadedClass]
+	public class PlantNeeds : AutoloadedClass
 	{
-		public static PlantNeeds CreateNewInstance(PlantNeeds needs)
+		public static PlantNeeds CreateNewInstance(PlantNeeds needs, GardenEntity sourcePlant)
 		{
 			PlantNeeds plantNeeds = Activator.CreateInstance(needs.GetType()) as PlantNeeds;
 			plantNeeds.Name = needs.Name;
 			plantNeeds.Type = needs.Type;
+			plantNeeds.SourcePlant = sourcePlant;
 			return plantNeeds;
 		}
 
-		public static IList<PlantNeeds> LoadedPlantNeeds;
-
-		public static int InternalIDCount;
-
-		public static IDictionary<string, PlantNeeds> PlantNeedsByName;
-
-		public static void Load()
-		{
-			LoadedPlantNeeds = new List<PlantNeeds>();
-
-			InternalIDCount = 0;
-
-			PlantNeedsByName = new Dictionary<string, PlantNeeds>();
-		}
-
-		public static void LoadType(Type item)
-		{
-			if (item.IsSubclassOf(typeof(PlantNeeds)))
-			{
-				PlantNeeds plantNeeds = Activator.CreateInstance(item) as PlantNeeds;
-				plantNeeds.Type = InternalIDCount++;
-				plantNeeds.Name = item.Name;
-				LoadedPlantNeeds.Add(plantNeeds);
-				PlantNeedsByName.Add(plantNeeds.Name, plantNeeds);
-			}
-		}
-
-		public static void Unload()
-		{
-			LoadedPlantNeeds?.Clear();
-
-			InternalIDCount = 0;
-
-			PlantNeedsByName?.Clear();
-		}
-
-		public static PlantNeeds GetPlantNeeds(int ID)
-		{
-			if (ID < 0 || ID >= LoadedPlantNeeds.Count)
-			{
-				return null;
-			}
-
-			return LoadedPlantNeeds[ID];
-		}
-
-		public static PlantNeeds GetPlantNeeds(string name)
-		{
-			if (PlantNeedsByName.TryGetValue(name, out PlantNeeds property))
-			{
-				return property;
-			}
-
-			return null;
-		}
-
-		public int Type { get; internal set; }
-
-		public string Name { get; internal set; }
+		public GardenEntity SourcePlant { get; internal set; }
 
 		public override bool Equals(object obj) => obj is PlantNeeds plantNeeds && plantNeeds.GetHashCode() == GetHashCode();
 
@@ -89,13 +34,15 @@ namespace Disarray.Core.Gardening
 
 		public virtual string DisplayIcon => GetType().FullName.Replace('.', '/');
 
-		public abstract bool FulfilledNeeds(GardenEntity gardenEntity);
+		public virtual bool FulfilledNeeds() => true;
 
-		public virtual void Update(GardenEntity gardenEntity) { }
+		public virtual void Update() { }
 
-		public abstract bool CanDisplayIcon(GardenEntity gardenEntity);
+		public virtual bool CanDisplayIcon() => false;
 
-		public virtual void DisplayInformation(GardenEntity gardenEntity) { }
+		public virtual void DisplayInformation() { }
+
+		public virtual void DrawExtra(SpriteBatch spriteBatch) { }
 
 		public virtual TagCompound Save() => null;
 

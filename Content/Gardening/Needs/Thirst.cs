@@ -8,13 +8,13 @@ namespace Disarray.Content.Gardening.Needs
 	{
 		public override int Sturdiness => 18000;
 
-		public override void Update(GardenEntity gardenEntity) => GetTimer++;
+		public override void Update() => GetTimer++;
 
-		public override bool FulfilledNeeds(GardenEntity gardenEntity) =>  GetTimer < Sturdiness;
+		public override bool FulfilledNeeds() =>  GetTimer < Sturdiness;
 
-		public override bool CanDisplayIcon(GardenEntity gardenEntity) => GetTimer >= Sturdiness;
+		public override bool CanDisplayIcon() => GetTimer >= Sturdiness;
 
-		public override void DisplayInformation(GardenEntity gardenEntity)
+		public override void DisplayInformation()
 		{
 			Main.NewText("Water Needs: " + GetTimer + "/" + Sturdiness);
 		}

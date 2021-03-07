@@ -111,10 +111,12 @@ namespace Disarray.Core.Gardening.Tiles
 
 			foreach (PlantNeeds needs in entity.Needs)
 			{
-				if (needs.CanDisplayIcon(entity))
+				if (needs.CanDisplayIcon())
 				{
 					drawnNeedsTextures.Add(ModContent.GetTexture(needs.DisplayIcon));
 				}
+
+				//needs.DrawExtra(spriteBatch);
 			}
 
 			DrawNeeds(spriteBatch, new Rectangle((int)originDrawPosition.X, (int)originDrawPosition.Y, Width, 5), true, drawnNeedsTextures.ToArray());

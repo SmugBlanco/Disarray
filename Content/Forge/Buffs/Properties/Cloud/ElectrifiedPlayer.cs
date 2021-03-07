@@ -8,11 +8,11 @@ namespace Disarray.Content.Forge.Buffs.Properties.Cloud
 {
 	public class ElectrifiedPlayer : PlayerProperty
 	{
-		public override void PostLoad(PlayerProperty playerProperty)
+		public override void PostLoadType()
 		{
 			if (BuffLoader.GetBuff(ModContent.BuffType<Buffs.Cloud.Electrified>()) is DisarrayBuff buff)
 			{
-                buff.PlayerProperties = playerProperty;
+                buff.PlayerProperties = this;
             }
 		}
 

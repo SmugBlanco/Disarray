@@ -1,58 +1,15 @@
 using Disarray.Core.Gardening;
 using Disarray.Core.Globals;
 using System;
-using System.Collections.Generic;
 using Terraria.DataStructures;
 using Terraria.ModLoader.IO;
 
 namespace Disarray.Core.Data
 {
-	public class TileData
+	[AutoloadedClass]
+	public class TileData : AutoloadedClass
 	{
 		public const int EntityCap = 500;
-
-		private static int InternalIDCount;
-
-		public static IList<TileData> LoadedEntities;
-
-		public static IDictionary<string, TileData> LoadedEntitiesByName;
-
-		public static IDictionary<Point16, TileData> EntityByPosition;
-
-		public int Type { get; internal set; }
-
-		public string Name { get; internal set; }
-
-		public static void Load()
-		{
-			InternalIDCount = -1;
-			LoadedEntities = new List<TileData>();
-			LoadedEntitiesByName = new Dictionary<string, TileData>();
-		}
-
-		public static void LoadType(Type item)
-		{
-			if (item.IsSubclassOf(typeof(TileData)))
-			{
-				TileData entity = Activator.CreateInstance(item) as TileData;
-				entity.Type = ++InternalIDCount;
-				entity.Name = item.Name;
-				LoadedEntities.Add(entity);
-				LoadedEntitiesByName.Add(entity.Name, entity);
-			}
-		}
-
-		public static void Unload()
-		{
-			InternalIDCount = 0;
-			LoadedEntities?.Clear();
-			LoadedEntitiesByName?.Clear();
-			EntityByPosition?.Clear();
-		}
-
-		public static TileData GetTileDara(int Type) => (Type < 0 || Type >= LoadedEntities.Count) ? null : LoadedEntities[Type];
-
-		public static TileData GetTileData(string Name) => LoadedEntitiesByName.TryGetValue(Name, out TileData entity) ? entity : null;
 
 		public static TileData CreateNewEntity(TileData entityType)
 		{
@@ -69,7 +26,7 @@ namespace Disarray.Core.Data
 				return false;
 			}
 
-			TileData newEntity = CreateNewEntity(GetTileData(entityName));
+			TileData newEntity = CreateNewEntity(GetClass<TileData>().GetData<TileData>(entityName));
 			newEntity.Position = position;
 			DisarrayWorld.GardenEntitiesByPosition.Add(position, newEntity);
 			newEntity.OnPlace();

@@ -2,58 +2,16 @@ using Disarray.Core.Globals;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace Disarray.Core.Properties
 {
-    public abstract class NPCProperty
+    [AutoloadedClass]
+    public class NPCProperty : AutoloadedClass
     {
-        public static IList<NPCProperty> LoadedProperties;
-
-        public static IDictionary<string, NPCProperty> PropertyByName;
-
-        private static int InternalIDCount;
-
-        public static void Load()
-        {
-            LoadedProperties = new List<NPCProperty>();
-
-            PropertyByName = new Dictionary<string, NPCProperty>();
-
-            InternalIDCount = -1;
-        }
-
-        public static void LoadType(Type item)
-		{
-            if (item.IsSubclassOf(typeof(NPCProperty)))
-            {
-                NPCProperty npcProperty = Activator.CreateInstance(item) as NPCProperty;
-                npcProperty.Type = ++InternalIDCount;
-                npcProperty.Name = item.Name;
-                LoadedProperties.Add(npcProperty);
-                PropertyByName.Add(npcProperty.Name, npcProperty);
-                npcProperty.PostLoad(npcProperty);
-            }
-        }
-
-        public static void Unload()
-        {
-            LoadedProperties?.Clear();
-
-            PropertyByName?.Clear();
-
-            InternalIDCount = 0;
-        }
-
         public Mod Mod => Disarray.GetMod;
-
-        public int Type { get; internal set; }
-
-        public string Name { get; internal set; }
 
         public override bool Equals(object obj)
         {
@@ -90,28 +48,6 @@ namespace Disarray.Core.Properties
         }
 
         public virtual void Combine(NPCProperty newProperty) { }
-
-        public static NPCProperty GetProperty(int ID)
-        {
-            if (ID < 0 || ID >= LoadedProperties.Count)
-            {
-                return null;
-            }
-
-            return LoadedProperties[ID];
-        }
-
-        public static NPCProperty GetProperty(string name)
-        {
-            if (PropertyByName.TryGetValue(name, out NPCProperty property))
-            {
-                return property;
-            }
-
-            return null;
-        }
-
-        public virtual void PostLoad(NPCProperty npcProperty) { }
 
         public virtual void SetDefaults(NPC npc) { }
 

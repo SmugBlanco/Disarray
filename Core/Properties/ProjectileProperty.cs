@@ -1,6 +1,5 @@
 using Disarray.Core.Autoload;
 using Disarray.Core.Globals;
-using System;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
@@ -25,14 +24,6 @@ namespace Disarray.Core.Properties
             }
         }*/ // A nice alternative to CreateNewInstance
 
-        public static ProjectileProperty CreateNewInstance(ProjectileProperty sourceProperty)
-		{
-            ProjectileProperty newProperty = Activator.CreateInstance(sourceProperty.GetType()) as ProjectileProperty;
-            newProperty.Type = sourceProperty.Type;
-            newProperty.Name = sourceProperty.Name;
-            return newProperty;
-        }
-
         public Mod Mod => Disarray.GetMod;
 
         public override bool Equals(object obj) => obj is ProjectileProperty property && GetHashCode().Equals(property.GetHashCode());
@@ -41,16 +32,21 @@ namespace Disarray.Core.Properties
 
         public static void ImplementProperty(Projectile projectile, ProjectileProperty newProperty)
         {
-            DisarrayGlobalProjectile GlobalProjectile = projectile.GetGlobalProjectile<DisarrayGlobalProjectile>();
-            ProjectileProperty property = GlobalProjectile.ActiveProperties.FirstOrDefault(prop => prop is ProjectileProperty);
+            if (newProperty is null)
+            {
+                return;
+            }
 
-            if (newProperty != null && property is ProjectileProperty oldProperty)
+            DisarrayGlobalProjectile globalProjectile = projectile.GetGlobalProjectile<DisarrayGlobalProjectile>();
+            ProjectileProperty oldProperty = globalProjectile.ActiveProperties.FirstOrDefault(prop => prop.Equals(newProperty));
+
+            if (oldProperty != null)
             {
                 oldProperty.Combine(newProperty);
             }
             else
             {
-                GlobalProjectile.ManuallyRemovedProperties.Add(Activator.CreateInstance(newProperty.GetType()) as ProjectileProperty);
+                globalProjectile.ManuallyRemovedProperties.Add(newProperty);
             }
         }
 

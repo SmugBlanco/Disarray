@@ -2,7 +2,6 @@ using Disarray.Core.Autoload;
 using Disarray.Core.Globals;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
@@ -28,10 +27,15 @@ namespace Disarray.Core.Properties
 
         public static void ImplementProperty(NPC npc, NPCProperty newProperty, bool manualRemoval = true)
         {
-            DisarrayGlobalNPC globalNPC = npc.GetGlobalNPC<DisarrayGlobalNPC>();
-            NPCProperty property = globalNPC.ActiveProperties(npc).FirstOrDefault(prop => prop is NPCProperty);
+            if (newProperty is null)
+            {
+                return;
+            }
 
-            if (newProperty != null && property is NPCProperty oldProperty)
+            DisarrayGlobalNPC globalNPC = npc.GetGlobalNPC<DisarrayGlobalNPC>();
+            NPCProperty oldProperty = globalNPC.ActiveProperties(npc).FirstOrDefault(prop => prop.Equals(newProperty));
+
+            if (oldProperty != null)
             {
                 oldProperty.Combine(newProperty);
             }
@@ -39,11 +43,11 @@ namespace Disarray.Core.Properties
             {
                 if (manualRemoval)
                 {
-                    globalNPC.ManuallyRemovedProperties.Add(Activator.CreateInstance(newProperty.GetType()) as NPCProperty);
+                    globalNPC.ManuallyRemovedProperties.Add(newProperty);
                 }
                 else
                 {
-                    globalNPC.AutomaticallyRemovedProperties.Add(Activator.CreateInstance(newProperty.GetType()) as NPCProperty);
+                    globalNPC.AutomaticallyRemovedProperties.Add(newProperty);
                 }
             }
         }

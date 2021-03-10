@@ -1,4 +1,5 @@
 using Disarray.Content.Forge.Projectiles.Properties;
+using Disarray.Core.Autoload;
 using Disarray.Core.Properties;
 using Terraria;
 using Terraria.ID;
@@ -62,7 +63,7 @@ namespace Disarray.Content.Forge.Items.Cloud
 			item.useAmmo = AmmoID.Arrow;
 		}
 
-		public override void ModifyFiredProjectiles(Projectile projectile) => ProjectileProperty.ImplementProperty(projectile, new Electrified());
+		public override void ModifyFiredProjectiles(Projectile projectile) => ProjectileProperty.ImplementProperty(projectile, AutoloadedClass.CreateNewInstance<Electrified>());
 
         public override void AddRecipes()
 		{

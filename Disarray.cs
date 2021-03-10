@@ -42,9 +42,6 @@ namespace Disarray
 
 			Loading = true;
 
-			Ref<Effect> specialRef = new Ref<Effect>(GetEffect("Effects/TestEffect"));
-			GameShaders.Misc["Disarray:TestEffect"] = new MiscShaderData(specialRef, "ExampleDyePass");
-
 			GardeningInformation.Load();
 			DisarrayGlobalNPC.Load();
 			AutoloadedClass.Load();

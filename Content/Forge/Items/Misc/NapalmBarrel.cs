@@ -1,5 +1,6 @@
 using Disarray.Content.Forge.Dusts.Misc;
 using Disarray.Content.Forge.Projectiles.Properties;
+using Disarray.Core.Autoload;
 using Disarray.Core.Forge.Items;
 using Disarray.Core.Properties;
 using Microsoft.Xna.Framework;
@@ -31,7 +32,12 @@ namespace Disarray.Content.Forge.Items.Misc
 			item.maxStack = 999;
 		}
 
-		public override void ModifyFiredProjectiles(Projectile projectile) => ProjectileProperty.ImplementProperty(projectile, new Napalmed() { InflictChance = ChanceIncrement });
+		public override void ModifyFiredProjectiles(Projectile projectile)
+		{
+			Napalmed napalmed = AutoloadedClass.CreateNewInstance<Napalmed>();
+			napalmed.InflictChance = ChanceIncrement;
+			ProjectileProperty.ImplementProperty(projectile, napalmed);
+		}
 
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {

@@ -1,4 +1,5 @@
 using Disarray.Core.Data;
+using Disarray.Core.Extensions;
 using Disarray.Core.Gardening;
 using Disarray.Core.Properties;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace Disarray.Core.Globals
 {
     public class DisarrayGlobalPlayer : ModPlayer
     {
-        public IEnumerable<PlayerProperty> ActiveProperties => ActiveBuffs.Concat(AutomaticallyRemovedProperties).Concat(ManuallyRemovedProperties).Concat(GlobalProperties).ToList();
+        public IEnumerable<PlayerProperty> ActiveProperties => ActiveBuffs.Concat(AutomaticallyRemovedProperties).Concat(ManuallyRemovedProperties).Concat(GlobalProperties).ToHashSet();
 
         public IEnumerable<PlayerProperty> ActiveBuffs
         {

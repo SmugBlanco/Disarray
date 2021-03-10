@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
+using Disarray.Core.Autoload;
 
 namespace Disarray.Content.Gardening.CouchPotato
 {
@@ -25,16 +26,14 @@ namespace Disarray.Content.Gardening.CouchPotato
 				PlantNeeds.CreateNewInstance(plantNeeds.GetData<Light>(), this)
 			};
 			Pests pest = PlantNeeds.CreateNewInstance(plantNeeds.GetData<Pests>(), this) as Pests;
+			pest.ApplicablePests.Add(GetClass<PestEntity>().GetData<Flies>());
 			newNeeds.Add(pest);
 			Needs = newNeeds.ToArray();
 		}
 
 		public override void OnPlace()
 		{
-			if (Needs.FirstOrDefault(needs => needs is Pests) is Pests pest)
-			{
-				pest.CurrentPests.Add(PestEntity.CreateNewInstance(GetClass<PestEntity>().GetData<Flies>(), this));
-			}
+
 		}
 
 		public override int TileCheckDistance => 0;

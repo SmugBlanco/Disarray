@@ -1,3 +1,4 @@
+using Disarray.Core.Autoload;
 using Disarray.Core.Globals;
 using System;
 using System.Linq;

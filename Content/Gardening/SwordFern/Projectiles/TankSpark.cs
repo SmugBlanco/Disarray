@@ -2,6 +2,7 @@ using Terraria;
 using Disarray.Core.Properties;
 using Disarray.Content.Gardening.SwordFern.PlayerProperties;
 using Disarray.Core.Data;
+using Disarray.Core.Autoload;
 
 namespace Disarray.Content.Gardening.SwordFern.Projectiles
 {
@@ -16,6 +17,6 @@ namespace Disarray.Content.Gardening.SwordFern.Projectiles
 			DisplayName.SetDefault("Tank Spark");
 		}
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => PlayerProperty.ImplementProperty(Main.player[projectile.owner], new TankSparkProperty());
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => PlayerProperty.ImplementProperty(Main.player[projectile.owner], AutoloadedClass.CreateNewInstance<TankSparkProperty>());
 	}
 }

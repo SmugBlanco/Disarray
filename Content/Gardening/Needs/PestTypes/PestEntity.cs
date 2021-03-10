@@ -1,4 +1,5 @@
 using Disarray.Core;
+using Disarray.Core.Autoload;
 using Disarray.Core.Gardening;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,6 +14,10 @@ namespace Disarray.Content.Gardening.Needs.PestTypes
 	{
 		public static PestEntity CreateNewInstance(PestEntity pest, GardenEntity sourcePlant)
 		{
+			if (pest is null)
+			{
+				Disarray.GetMod.Logger.Info("Null bitch lol");
+			}
 			PestEntity pestEntity = Activator.CreateInstance(pest.GetType()) as PestEntity;
 			pestEntity.Name = pest.Name;
 			pestEntity.Type = pest.Type;
@@ -48,6 +53,10 @@ namespace Disarray.Content.Gardening.Needs.PestTypes
 		}
 
 		public virtual void AI() { }
+
+		public virtual bool CanSpawn(Pests pest, int timer) => true;
+
+		public virtual void OnKill() { }
 
 		public virtual void Draw(SpriteBatch spriteBatch)
 		{

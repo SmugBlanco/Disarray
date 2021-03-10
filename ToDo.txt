@@ -1,4 +1,6 @@
 TODO:
-Add a Dead indicator since it may be hard to tell
-Add water level function ie you need to refill the can to use 
-Add manure -> speeds up growth and harvest
+- Add a display UI for pesticide cannister
+- Add in Nutrients, a need, and manure, the item needed to quench that need
+- Finato?!?!??!?! with gardening mechanics that is
+- Add in garden entities for the rest of the plants
+- Add in harvest

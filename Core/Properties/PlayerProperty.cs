@@ -1,3 +1,4 @@
+using Disarray.Core.Autoload;
 using Disarray.Core.Globals;
 using System;
 using System.Linq;
@@ -25,23 +26,27 @@ namespace Disarray.Core.Properties
 
         public static void ImplementProperty(Player player, PlayerProperty newProperty, bool manualRemoval = true)
         {
+            if (newProperty is null)
+			{
+                return;
+			}
+            
             DisarrayGlobalPlayer GlobalPlayer = player.GetModPlayer<DisarrayGlobalPlayer>();
-            PlayerProperty property = GlobalPlayer.ActiveProperties.FirstOrDefault(prop => prop is PlayerProperty);
+            PlayerProperty oldProperty = GlobalPlayer.ActiveProperties.FirstOrDefault(prop => prop.Equals(newProperty));
 
-            if (newProperty != null && property is PlayerProperty oldProperty)
+            if (oldProperty != null)
             {
                 oldProperty.Combine(newProperty);
             }
             else
             {
-                PlayerProperty addedProperty = newProperty is null ? Activator.CreateInstance(newProperty.GetType()) as PlayerProperty : newProperty;
                 if (manualRemoval)
                 {
-                    GlobalPlayer.ManuallyRemovedProperties.Add(addedProperty);
+                    GlobalPlayer.ManuallyRemovedProperties.Add(newProperty);
                 }
                 else
                 {
-                    GlobalPlayer.AutomaticallyRemovedProperties.Add(addedProperty);
+                    GlobalPlayer.AutomaticallyRemovedProperties.Add(newProperty);
                 }
             }
         }

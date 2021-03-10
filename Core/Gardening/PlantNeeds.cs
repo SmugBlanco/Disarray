@@ -1,6 +1,6 @@
+using Disarray.Core.Autoload;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader.IO;
 
@@ -26,7 +26,7 @@ namespace Disarray.Core.Gardening
 
 		//--------------------------------------------------------------------------
 
-		public virtual int Sturdiness { get; protected set; }
+		public virtual int Sturdiness { get; set; }
 
 		public int GetTimer { get => Timer; set => Timer = Utils.Clamp(value, 0, int.MaxValue); }
 
@@ -43,6 +43,7 @@ namespace Disarray.Core.Gardening
 		public virtual void DisplayInformation() { }
 
 		public virtual void DrawExtra(SpriteBatch spriteBatch) { }
+
 
 		public virtual TagCompound Save() => null;
 

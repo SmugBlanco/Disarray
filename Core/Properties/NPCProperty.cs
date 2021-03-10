@@ -1,3 +1,4 @@
+using Disarray.Core.Autoload;
 using Disarray.Core.Globals;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -23,7 +24,7 @@ namespace Disarray.Core.Properties
             return false;
         }
 
-        public override int GetHashCode() => Type;
+		public override int GetHashCode() => Type;
 
         public static void ImplementProperty(NPC npc, NPCProperty newProperty, bool manualRemoval = true)
         {

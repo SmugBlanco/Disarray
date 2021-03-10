@@ -1,16 +1,16 @@
-using Disarray.Content.Gardening.Needs.PestTypes;
-using Disarray.Core;
-using Disarray.Core.Data;
+using Disarray.Core.Autoload;
 using Disarray.Core.Forge.Items;
 using Disarray.Core.Gardening;
 using Disarray.Core.Gardening.Tiles;
 using Disarray.Core.Globals;
-using Disarray.Core.Properties;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Graphics.Effects;
+using Terraria.Graphics.Shaders;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
 
@@ -31,6 +31,8 @@ namespace Disarray
 			GetMod = this;
 		}
 
+		public static Effect npcEffect;
+
 		public override void Load()
 		{
 			if (Code == null)
@@ -40,11 +42,12 @@ namespace Disarray
 
 			Loading = true;
 
+			Ref<Effect> specialRef = new Ref<Effect>(GetEffect("Effects/TestEffect"));
+			GameShaders.Misc["Disarray:TestEffect"] = new MiscShaderData(specialRef, "ExampleDyePass");
+
 			GardeningInformation.Load();
 			DisarrayGlobalNPC.Load();
-			PlantNeeds.Load();
 			AutoloadedClass.Load();
-
 
 			foreach (Type item in Code.GetTypes())
 			{
@@ -53,11 +56,6 @@ namespace Disarray
 					if (item.IsSubclassOf(typeof(GardeningInformation)))
 					{
 						GardeningInformation.LoadType(item);
-					}
-
-					if (item.IsSubclassOf(typeof(PlantNeeds)))
-					{
-						PlantNeeds.LoadType(item);
 					}
 
 					if (item.IsSubclassOf(typeof(AutoloadedClass)))
@@ -71,6 +69,10 @@ namespace Disarray
 
 			if (!Main.dedServ)
 			{
+				Ref<Effect> pestillenceRef = new Ref<Effect>(GetEffect("Effects/Pestillence"));
+				Filters.Scene["Pestillence"] = new Filter(new ScreenShaderData(pestillenceRef, "Pestillence"), EffectPriority.VeryLow);
+				Filters.Scene["Pestillence"].Load();
+
 				ForgeUserInterface = new UserInterface();
 				AlmanacUserInterface = new UserInterface();
 				GardeningInterface = new UserInterface();
@@ -85,7 +87,6 @@ namespace Disarray
 			GardeningInformation.Unload();
 			DisarrayGlobalNPC.Unload();
 			FloraBase.Unload();
-			PlantNeeds.Unload();
 			AutoloadedClass.Unload();
 		}
 

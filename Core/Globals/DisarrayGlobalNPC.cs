@@ -8,6 +8,8 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Disarray.Core.Utilities;
+using Terraria.ID;
+using Terraria.Graphics.Shaders;
 
 namespace Disarray.Core.Globals
 {

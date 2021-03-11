@@ -69,7 +69,12 @@ namespace Disarray.Content.Gardening.Needs
 			}
 
 			Texture2D texture = ModContent.GetTexture("Terraria/Projectile_540");
-			float colorAlpha = (float)(0.33f + Math.Sin(GetTimer / 60f) / 5);
+			float colorSin = (float)(Math.Sin(GetTimer / 60f) / 10);
+			if (colorSin > 0.05f)
+			{
+				colorSin = 0.05f + (colorSin - 0.05f) / 2;
+			}
+			float colorAlpha = (float)(0.1f + colorSin);
 			float scaleSin = (float)(Math.Sin(ScaleTimer / 120f) / 2);
 			float scale = 1.5f + (CurrentPests.Count * 0.5f) + scaleSin;
 			spriteBatch.Draw(texture, SourcePlant.Position.ToWorldCoordinates() - Main.screenPosition, null, new Color(1.15f, 1.6f, 0.5f) * colorAlpha, 0f, texture.Size() / 2, scale, SpriteEffects.None, 0f);
@@ -79,7 +84,7 @@ namespace Disarray.Content.Gardening.Needs
 		{
 			return new TagCompound()
 			{
-				{ "Timer", GetTimer > Sturdiness ? Sturdiness : GetTimer },
+				{ "Timer", GetTimer > 999999 ? 999999 : GetTimer },
 				{ nameof(CurrentPests), CurrentPests.Select(pest => pest.Name).ToList() },
 			};
 		}

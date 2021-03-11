@@ -4,27 +4,19 @@ using Terraria.ModLoader.IO;
 
 namespace Disarray.Content.Gardening.Needs
 {
-	public class Thirst : PlantNeeds
+	public class Hunger : PlantNeeds
 	{
-		public override int Sturdiness { get; set; } = 18000;
+		public override int Sturdiness => 86400;
 
-		public override void Update()
-		{
-			GetTimer++;
+		public override void Update() => GetTimer++;
 
-			if (Main.raining)
-			{
-				GetTimer -= 4;
-			}
-		}
-
-		public override bool FulfilledNeeds() =>  GetTimer < Sturdiness;
+		public override bool FulfilledNeeds() => GetTimer < Sturdiness;
 
 		public override bool CanDisplayIcon() => GetTimer >= Sturdiness;
 
 		public override void DisplayInformation()
 		{
-			Main.NewText("Water Needs: " + GetTimer + "/" + Sturdiness);
+			Main.NewText("Nutrients Needs: " + GetTimer + "/" + Sturdiness);
 		}
 
 		public override TagCompound Save()

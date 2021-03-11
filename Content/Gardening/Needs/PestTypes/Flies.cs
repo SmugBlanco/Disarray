@@ -1,10 +1,8 @@
 using Disarray.Core.Data;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Linq;
 using Terraria;
-using Terraria.ModLoader;
 
 namespace Disarray.Content.Gardening.Needs.PestTypes
 {
@@ -76,8 +74,10 @@ namespace Disarray.Content.Gardening.Needs.PestTypes
 
 		public override bool CanSpawn(Pests pest, int timer)
 		{
-			return (from pestData in pest.CurrentPests where pestData is Flies select pestData).Count() == 0 ? true : false;
+			return timer > 86400 && (from pestData in pest.CurrentPests where pestData is Flies select pestData).Count() == 0;
 		}
+
+		public override bool CanKill(Player player) => true;
 
 		public override void OnKill()
 		{

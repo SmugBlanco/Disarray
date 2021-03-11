@@ -1,5 +1,6 @@
 using Disarray.Content.Gardening.Needs;
 using Disarray.Content.Gardening.Needs.PestTypes;
+using Disarray.Content.Gardening.SwordFern.Items;
 using Disarray.Core.Gardening;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
@@ -7,10 +8,11 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using DustID = Disarray.Core.Data.DustID;
 
-namespace Disarray.Content.Gardening.CouchPotato
+namespace Disarray.Content.Gardening.SwordFern
 {
-	public class CouchPotatoEntity : GardenEntity
+	public class SwordFernEntity : GardenEntity
 	{
 		public override (int GrowthInterval, float GrowthRate) GrowthInfo => (3600, 1f); //100 minutes for full growth
 
@@ -40,20 +42,33 @@ namespace Disarray.Content.Gardening.CouchPotato
 		{
 			for (int indexer = 0; indexer < 12; indexer++)
 			{
-				Dust.NewDustPerfect(Position.ToWorldCoordinates(), Core.Data.DustID.SapphireBolt, new Vector2(Main.rand.NextFloat(-5, 5), Main.rand.NextFloat(-5, 5)));
+				Dust.NewDustPerfect(Position.ToWorldCoordinates(), DustID.Grass, new Vector2(Main.rand.NextFloat(-5, 5), Main.rand.NextFloat(-5, 5))).noGravity = true;
 			}
 
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
-				Item.NewItem(Position.ToWorldCoordinates(), ModContent.ItemType<CouchPotatoSpud>());
+				Item.NewItem(Position.ToWorldCoordinates(), ModContent.ItemType<SwordFernsBlade>());
 
 				if (Elder)
 				{
-					Item.NewItem(Position.ToWorldCoordinates(), ModContent.ItemType<CouchPotatoSeed>());
+					Item.NewItem(Position.ToWorldCoordinates(), ModContent.ItemType<SwordFernSeed>());
+				}
+
+				if (Elder || Main.rand.Next(5) == 0)
+				{
+					Item.NewItem(Position.ToWorldCoordinates(), Utils.SelectRandom(Main.rand, ModContent.ItemType<TheStrike>(), ModContent.ItemType<ThePierce>(), ModContent.ItemType<ThePort>(), ModContent.ItemType<TheDash>(), ModContent.ItemType<TheTank>(), ModContent.ItemType<TheBetrayal>(), ModContent.ItemType<ThePact>()));
+				}
+
+				if (Main.hardMode)
+				{
+					if (Main.rand.Next(3) == 0)
+					{
+						Item.NewItem(Position.ToWorldCoordinates(), Utils.SelectRandom(Main.rand, ItemID.SharpeningStation, ItemID.AmmoBox, ItemID.CrystalBall, ItemID.BewitchingTable));
+					}
 				}
 			}
 		}
 
-		public override bool CanSurvive() => Framing.GetTileSafely(Position).type == ModContent.TileType<CouchPotatoPlant>();
+		public override bool CanSurvive() => Framing.GetTileSafely(Position).type == ModContent.TileType<SwordFernPlant>();
 	}
 }

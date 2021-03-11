@@ -8,7 +8,7 @@ namespace Disarray.Content.Gardening.SwordFern.Items
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("The Pact");
+			DisplayName.SetDefault("The Port");
 			Tooltip.SetDefault("Conjures a shortlived spark that teleports you to it's death spot"
 			+ "\nOnly one spark may exist from a conjurer at a time.");
 			Item.staff[item.type] = true;

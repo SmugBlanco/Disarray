@@ -1,4 +1,3 @@
-using Disarray.Core;
 using Disarray.Core.Autoload;
 using Disarray.Core.Gardening;
 using Microsoft.Xna.Framework;
@@ -55,6 +54,8 @@ namespace Disarray.Content.Gardening.Needs.PestTypes
 		public virtual void AI() { }
 
 		public virtual bool CanSpawn(Pests pest, int timer) => true;
+
+		public virtual bool CanKill(Player player) => true;
 
 		public virtual void OnKill() { }
 

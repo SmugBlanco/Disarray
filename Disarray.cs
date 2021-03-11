@@ -78,6 +78,17 @@ namespace Disarray
 			Loading = false;
 		}
 
+		public override void PostSetupContent()
+		{
+			foreach (AutoloadedClass autoloadedClass in AutoloadedClass.LoadedClasses)
+			{
+				foreach (AutoloadedClass autoloadedData in autoloadedClass.LoadedData)
+				{
+					autoloadedData.PostSetupContent();
+				}
+			}
+		}
+
 		public override void Unload()
 		{
 			ForgeBase.Unload();

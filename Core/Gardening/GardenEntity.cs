@@ -1,6 +1,8 @@
+using Disarray.Content.Gardening.Needs;
 using Disarray.Core.Data;
 using Disarray.Core.Gardening.Tiles;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
@@ -15,8 +17,8 @@ namespace Disarray.Core.Gardening
 		{
 			Seed,
 			Young,
-			Mature,
-			Harvestable,
+			YoungMatured,
+			Matured,
 			Elder
 		}
 
@@ -34,24 +36,21 @@ namespace Disarray.Core.Gardening
 					return Stages.Young;
 				}
 
+				if (Growth < 50)
+				{
+					return Stages.YoungMatured;
+				}
+
 				if (Growth >= 100)
 				{
 					return Stages.Elder;
 				}
 
-				return Harvestable ? Stages.Harvestable : Stages.Mature;
+				return Stages.Matured;
 			}
 		}
 
 		public static int BobbingTimer;
-
-		public bool Harvestable => SetHarvestTimer >= HarvestableTime || GetGrowth >= 100;
-
-		public virtual int HarvestableTime { get; protected set; }
-
-		private int HarvestTimer;
-
-		public int SetHarvestTimer { get => HarvestTimer; set => HarvestTimer = Utils.Clamp(value, 0, int.MaxValue); }
 
 		//-------------------------------------------------------
 
@@ -86,6 +85,20 @@ namespace Disarray.Core.Gardening
 		public virtual int TileCheckDistance { get; protected set; }
 		public IDictionary<int, (bool multiplication, float valueChange)> NearbyUniqueTileInfluences = new Dictionary<int, (bool multiplication, float valueChange)>();
 
+		public virtual void SetUpNeeds() { }
+
+		public GardenEntity()
+		{
+			if (Disarray.Loading)
+			{
+				return;
+			}
+
+			SetUpNeeds();
+		}
+
+		public override void PostSetupContent() => SetUpNeeds();
+
 		public sealed override void AI()
 		{
 			PreAI();
@@ -93,11 +106,6 @@ namespace Disarray.Core.Gardening
 			if (GetGrowth >= 100 || !UpdateAndCheckNeeds())
 			{
 				return;
-			}
-
-			if (Growth >= 20)
-			{
-				SetHarvestTimer++;
 			}
 
 			GrowthTimer++;
@@ -137,17 +145,21 @@ namespace Disarray.Core.Gardening
 					{
 						int offsetX = (X - OriginTile.X) * 18;
 						Tile fullTile = Framing.GetTileSafely(X, Y);
-						if (Growth < 5)
+						if (CurrentStage == Stages.Seed)
 						{
 							fullTile.frameX = (short)(0 + offsetX);
 						}
-						else if (Growth < 20)
+						else if (CurrentStage == Stages.Young)
 						{
 							fullTile.frameX = (short)(floraBase.Width + offsetX);
 						}
+						else if (CurrentStage == Stages.YoungMatured)
+						{
+							fullTile.frameX = (short)(floraBase.Width * 2 + offsetX);
+						}
 						else
 						{
-							fullTile.frameX = (short)((Harvestable ? floraBase.Width * 3 : floraBase.Width * 2) + offsetX);
+							fullTile.frameX = (short)(floraBase.Width * 3 + offsetX);
 						}
 					}
 				}
@@ -160,18 +172,19 @@ namespace Disarray.Core.Gardening
 
 		public void Harvest()
 		{
-			if (!Harvestable || !PreHarvest())
+			Harvest harvest = Needs.FirstOrDefault(needs => needs.Equals(GetClass<PlantNeeds>().GetData<Harvest>())) as Harvest;
+			if (harvest is null || !PreHarvest() || !harvest.CanDisplayIcon())
 			{
 				return;
 			}
 
-			bool Elder = CurrentStage == Stages.Elder;
+			bool elder = CurrentStage == Stages.Elder;
 
-			OnHarvest(Elder);
-			SetHarvestTimer = 0;
+			OnHarvest(elder);
+			harvest.GetTimer = 0;
 			UpdateFraming();
 
-			if (Elder)
+			if (elder)
 			{
 				WorldGen.KillTile(Position.X, Position.Y);
 			}
@@ -213,7 +226,6 @@ namespace Disarray.Core.Gardening
 			{
 				{ "GrowthTimer", GrowthTimer % GrowthInfo.GrowthInterval },
 				{ "Growth", Growth },
-				{ "HarvestTimer", SetHarvestTimer >= HarvestableTime ? HarvestableTime : SetHarvestTimer },
 				{ "Extra", SaveExtra() },
 			};
 
@@ -231,7 +243,6 @@ namespace Disarray.Core.Gardening
 		{
 			GrowthTimer = tagCompound.Get<int>("GrowthTimer");
 			GetGrowth = tagCompound.Get<float>("Growth");
-			SetHarvestTimer = tagCompound.Get<int>("HarvestTimer");
 			LoadExtra(tagCompound.Get<TagCompound>("Extra"));
 
 			if (Needs is null)

@@ -49,12 +49,15 @@ namespace Disarray.Content.Gardening.Items.Pests
 				{
 					pests.GetTimer = 0;
 
-					foreach (PestEntity pestEntity in pests.CurrentPests)
+					foreach (PestEntity pestEntity in pests.CurrentPests.ToArray())
 					{
-						pestEntity.OnKill();
-					}
+						if (pestEntity.CanKill(player))
+						{
+							pestEntity.OnKill();
+						}
 
-					pests.CurrentPests.Clear();
+						pests.CurrentPests.Remove(pestEntity);
+					}
 				}
 			}
 		}

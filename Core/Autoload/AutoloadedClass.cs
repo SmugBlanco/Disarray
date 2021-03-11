@@ -171,5 +171,7 @@ namespace Disarray.Core.Autoload
 		}
 
 		public virtual void PostLoadType() { }
+
+		public virtual void PostSetupContent() { }
 	}
 }

@@ -9,7 +9,7 @@ namespace Disarray.Content.Gardening.Needs
 	{
 		public override int Sturdiness => 54000;
 
-		public int CheckInterval = 3600;
+		public int CheckInterval = 600;
 
 		public float MinimumLight = 0.5f;
 
@@ -25,7 +25,7 @@ namespace Disarray.Content.Gardening.Needs
 
 				if (HasGottenLight)
 				{
-					GetTimer = 0;
+					GetTimer -= CheckInterval * 2;
 				}
 			}
 		}

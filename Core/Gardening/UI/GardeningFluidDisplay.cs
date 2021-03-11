@@ -78,6 +78,8 @@ namespace Disarray.Core.Gardening.UI
 			}
 
 			spriteBatch.Draw(backgroundTexture, drawPosition, null, Color.White * GreaterOpacity);
+
+			PostDraw(spriteBatch);
 		}
 
 		public virtual void PostDraw(SpriteBatch spriteBatch) { }

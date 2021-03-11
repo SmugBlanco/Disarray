@@ -1,10 +1,11 @@
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.ObjectData;
 using Microsoft.Xna.Framework;
 using Disarray.Core.Gardening.Tiles;
-using Disarray.Content.Gardening.SwordFern.Items;
+using Disarray.Core.Data;
+using Terraria.DataStructures;
+using DustID = Disarray.Core.Data.DustID;
 
 namespace Disarray.Content.Gardening.SwordFern
 {
@@ -27,12 +28,10 @@ namespace Disarray.Content.Gardening.SwordFern
 		public override bool CreateDust(int i, int j, ref int type)
 		{
 			Vector2 position = new Vector2(i, j).ToWorldCoordinates();
-			Dust.NewDust(position - new Vector2(Width / 4, Height / 4), Width / 2, Height / 2, 0);
+			Dust.NewDust(position - new Vector2(Width / 4, Height / 4), Width / 2, Height / 2, DustID.Grass);
 			return false;
 		}
 
-		public override short Height => 36;
-
-		public override short Width => 36;
+		public override void PlaceInWorld(int i, int j, Item item) => TileData.PlaceEntity(new Point16(i, j), "SwordFernEntity");
 	}
 }

@@ -9,21 +9,6 @@ namespace Disarray.Core.Properties
     [AutoloadedClass]
     public class ProjectileProperty : AutoloadedClass
     {
-        /*public ProjectileProperty()
-        {
-            if (IsLoading)
-            {
-                return;
-            }
-
-            if (PropertyByName.ContainsKey(GetType().Name))
-            {
-                ProjectileProperty propertyToMimic = PropertyByName[GetType().Name];
-                Type = propertyToMimic.Type;
-                Name = propertyToMimic.Name;
-            }
-        }*/ // A nice alternative to CreateNewInstance
-
         public Mod Mod => Disarray.GetMod;
 
         public override bool Equals(object obj) => obj is ProjectileProperty property && GetHashCode().Equals(property.GetHashCode());

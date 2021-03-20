@@ -1,4 +1,4 @@
-using Disarray.Core.Gardening.Tiles;
+using Disarray.Gardening.Core.Tiles;
 using Terraria.ModLoader;
 
 namespace Disarray.Core.Forge

@@ -1,7 +1,4 @@
 using Disarray.Core.Autoload;
-using Disarray.Core.Forge.Items;
-using Disarray.Core.Gardening;
-using Disarray.Core.Gardening.Tiles;
 using Disarray.Core.Globals;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -10,7 +7,6 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
-using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
 
@@ -26,10 +22,7 @@ namespace Disarray
 
 		public static Disarray GetMod { get; private set; }
 
-		public Disarray()
-		{
-			GetMod = this;
-		}
+		public Disarray() => GetMod = this;
 
 		public static Effect npcEffect;
 
@@ -42,19 +35,15 @@ namespace Disarray
 
 			Loading = true;
 
-			GardeningInformation.Load();
 			DisarrayGlobalNPC.Load();
+			DisarrayGlobalPlayer.Load();
+
 			AutoloadedClass.Load();
 
 			foreach (Type item in Code.GetTypes())
 			{
 				if (!item.IsAbstract && item.GetConstructor(new Type[0]) != null)
 				{
-					if (item.IsSubclassOf(typeof(GardeningInformation)))
-					{
-						GardeningInformation.LoadType(item);
-					}
-
 					if (item.IsSubclassOf(typeof(AutoloadedClass)))
 					{
 						AutoloadedClass.LoadType(item);
@@ -91,10 +80,8 @@ namespace Disarray
 
 		public override void Unload()
 		{
-			ForgeBase.Unload();
-			GardeningInformation.Unload();
 			DisarrayGlobalNPC.Unload();
-			FloraBase.Unload();
+			DisarrayGlobalPlayer.Unload();
 			AutoloadedClass.Unload();
 		}
 

@@ -5,32 +5,33 @@ using Terraria.ModLoader;
 using Terraria.UI;
 using System;
 using System.Collections.Generic;
-using Disarray.Core.Forge.Items;
+using System.Linq;
 
 namespace Disarray.Core.UI
 {
 	public class UIItemSlot : UIElement
 	{
 		public Texture2D ImageBG;
-		public Item item = new Item();
+		public Item item;
 		public Type ValidItemType = typeof(ModItem);
-		public List<UIItemSlot> OthersToAccountFor = new List<UIItemSlot>();
+		public IEnumerable<UIItemSlot> OthersToAccountFor = new List<UIItemSlot>();
 
-		public Player player => Main.LocalPlayer;
+		public Player Player => Main.LocalPlayer;
 
-		public Item heldItem => Main.mouseItem.IsAir ? player.HeldItem : Main.mouseItem;
+		public Item HeldItem => Main.mouseItem.IsAir ? Player.HeldItem : Main.mouseItem;
 
 		public event Action ItemChanged;
 
-		public UIItemSlot(Texture2D image, Type validItemType, List<UIItemSlot> Others = null)
+		public UIItemSlot(Texture2D image, Type validItemType, IEnumerable<UIItemSlot> others = null)
 		{
 			ImageBG = image;
+			item = new Item();
 			item.SetDefaults();
 			ValidItemType = validItemType;
-			OthersToAccountFor = Others;
+			OthersToAccountFor = others;
 		}
 
-		public void ReleaseItem()
+		public virtual void ReleaseItem()
 		{
 			Item newestItem = item.CloneWithModdedDataFrom(item); // DO NOT REMOVE. REMOVAL CAUSES EVERYTHING TO BREAK.
 
@@ -42,26 +43,26 @@ namespace Disarray.Core.UI
 				mouseSpawnedItem.modItem?.SetDefaults();
 				return;
 			}
-			else if (Main.mouseItem.type == item.type && Main.mouseItem.stack < Main.mouseItem.maxStack && !(Main.mouseItem.modItem is ForgeItem))
+			else if (Main.mouseItem.type == item.type && Main.mouseItem.stack < Main.mouseItem.maxStack)
 			{
 				Main.mouseItem.stack++;
 				return;
 			}
 
-			Item spawnedItem = Main.item[Item.NewItem(player.getRect(), item.type)];
+			Item spawnedItem = Main.item[Item.NewItem(Player.getRect(), item.type)];
 			spawnedItem = spawnedItem.CloneWithModdedDataFrom(item);
 			spawnedItem.modItem?.SetDefaults();
 		}
 
 		public bool HoldingValidItem()
         {
-			if (!heldItem.IsAir && heldItem.modItem != null && heldItem.modItem.GetType().IsSubclassOf(ValidItemType))
+			if (!HeldItem.IsAir && HeldItem.modItem != null && HeldItem.modItem.GetType().IsSubclassOf(ValidItemType))
             {
-				if (OthersToAccountFor != null && OthersToAccountFor.Count > 0)
+				if (OthersToAccountFor != null && OthersToAccountFor.Count() > 0)
                 {
 					foreach (UIItemSlot slot in OthersToAccountFor)
                     {
-						if (slot.item.type == heldItem.type)
+						if (slot.item.type == HeldItem.type)
                         {
 							return false;
                         }
@@ -78,7 +79,7 @@ namespace Disarray.Core.UI
 		{
 			if (!item.IsAir)
 			{
-				Item spawnedItem = Main.item[Item.NewItem(player.getRect(), item.type)];
+				Item spawnedItem = Main.item[Item.NewItem(Player.getRect(), item.type)];
 				spawnedItem = spawnedItem.CloneWithModdedDataFrom(item);
 				spawnedItem.modItem?.SetDefaults();
 			}
@@ -95,7 +96,7 @@ namespace Disarray.Core.UI
         {
 			if (Main.mouseItem.IsAir)
 			{
-				player.ConsumeItem(heldItem.type, true);
+				Player.ConsumeItem(HeldItem.type, true);
 			}
 			else
 			{
@@ -119,8 +120,8 @@ namespace Disarray.Core.UI
 
 			if (HoldingValidItem())
 			{
-				item.SetDefaults(heldItem.type);
-				item = item.CloneWithModdedDataFrom(heldItem);
+				item.SetDefaults(HeldItem.type);
+				item = item.CloneWithModdedDataFrom(HeldItem);
 				item.modItem?.SetDefaults();
 
 				HandleConsuming();
@@ -152,14 +153,6 @@ namespace Disarray.Core.UI
 			if (!item.IsAir)
 			{
 				Texture2D texture = Main.itemTexture[item.type];
-				if (item.modItem is ForgeItem forgeItem)
-				{
-					if (forgeItem.ForgedTemplate != null)
-					{
-						texture = ForgeBase.ItemTextureData.TryGetValue(forgeItem.ForgedTemplate.item.type, out Texture2D actualTexture) ? actualTexture : Main.itemTexture[forgeItem.ForgedTemplate.item.type];
-					}
-				}
-
 				int DrawSize = 60;
 				float Scale = ReturnBigger(DrawSize, texture.Width, texture.Height);
 				Rectangle sourceRect = new Rectangle(0, 0, texture.Width, texture.Height);

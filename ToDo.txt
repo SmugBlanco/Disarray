@@ -1,6 +1,0 @@
-TODO:
-- Add a display UI for pesticide cannister
-- Add in Nutrients, a need, and manure, the item needed to quench that need
-- Finato?!?!??!?! with gardening mechanics that is
-- Add in garden entities for the rest of the plants
-- Add in harvest

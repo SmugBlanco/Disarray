@@ -1,7 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Disarray.Core.Properties;
 using System.Linq;
 
@@ -19,15 +18,9 @@ namespace Disarray.Core.Globals
 
         public static ICollection<ProjectileProperty> GlobalProperties = new HashSet<ProjectileProperty>();
 
-        public static void Load()
-        {
-            GlobalProperties = new HashSet<ProjectileProperty>();
-        }
+        public static void Load() => GlobalProperties = new HashSet<ProjectileProperty>();
 
-        public static void Unload()
-        {
-            GlobalProperties.Clear();
-        }
+        public static void Unload() => GlobalProperties.Clear();
 
         public override void PostAI(Projectile projectile)
         {

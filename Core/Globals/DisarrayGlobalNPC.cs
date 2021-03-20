@@ -1,15 +1,12 @@
 using Terraria;
 using Terraria.ModLoader;
 using System.Collections.Generic;
-using Disarray.Core.Data;
 using System.Collections.ObjectModel;
 using Disarray.Core.Properties;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Disarray.Core.Utilities;
-using Terraria.ID;
-using Terraria.Graphics.Shaders;
+using Disarray.Utility;
 
 namespace Disarray.Core.Globals
 {
@@ -26,7 +23,7 @@ namespace Disarray.Core.Globals
             ICollection<NPCProperty> activeBuffs = new Collection<NPCProperty>();
             for (int indexer = 0; indexer < npc.buffType.Length; indexer++)
             {
-                if (ModContent.GetModBuff(npc.buffType[indexer]) is DisarrayBuff buff && buff.NPCProperties != null)
+                if (ModContent.GetModBuff(npc.buffType[indexer]) is BuffProperties buff && buff.NPCProperties != null)
                 {
                     activeBuffs.Add(buff.NPCProperties);
                 }
@@ -40,15 +37,9 @@ namespace Disarray.Core.Globals
 
         public static ICollection<NPCProperty> GlobalProperties = new HashSet<NPCProperty>();
 
-        public static void Load()
-		{
-            GlobalProperties = new Collection<NPCProperty>();
-        }
+        public static void Load() => GlobalProperties = new Collection<NPCProperty>();
 
-        public static void Unload()
-		{
-            GlobalProperties?.Clear();
-        }
+        public static void Unload() => GlobalProperties?.Clear();
 
         public override void SetDefaults(NPC npc)
         {

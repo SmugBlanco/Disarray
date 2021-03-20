@@ -41,6 +41,7 @@ namespace Disarray.Core.UI
 		}
 
 		private Vector2 offset = Vector2.Zero;
+
 		public bool isDragging = false;
 
         public override void MouseDown(UIMouseEvent evt)

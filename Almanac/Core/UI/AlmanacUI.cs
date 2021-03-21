@@ -45,6 +45,7 @@ namespace Disarray.Almanac.Core.UI
 		{
 			SecondPage = null;
 			ItemSlot.ReleaseItem();
+			PlantSlot.ReleaseItem();
 			ItemSlot = null;
 		}
 

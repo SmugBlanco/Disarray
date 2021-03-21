@@ -12,7 +12,11 @@ namespace Disarray.Gardening.Content.CouchPotato
 			DisplayName.SetDefault("Couch Potato Seed");
 		}
 
-		public override GardeningInformation GeneralInformation { get; protected set; } = new GardeningInformation("Disarray/Gardening/Content/CouchPotato/CouchPotato", "Couch Potato", "Testing", 0.5f, 2, (0, 5));
+		public const string InfoTexture = "Disarray/Gardening/Content/CouchPotato/CouchPotato";
+
+		public const string Information = "Noted for it's lazy nature, it can be found chillaxing at the beach.";
+
+		public override GardeningInformation GeneralInformation { get; protected set; } = new GardeningInformation(InfoTexture, "Couch Potato", Information, 0.5f, 0.5f, (0, 0.5f));
 
 		public override void SetDefaults()
 		{

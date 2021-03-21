@@ -168,7 +168,7 @@ namespace Disarray.Almanac.Core.UI
 		{
 			if (ItemSlot.expressedItem.modItem != null && ItemSlot.expressedItem.modItem is IAlmanacable almanacable)
 			{
-				ItemName = ItemSlot.expressedItem.Name + (almanacable is ForgeItem ? string.Empty : " - x" + (from bases in (ItemSlot.item.modItem as ForgeItem).AllBases where bases.Name.Equals(ItemSlot.expressedItem.Name) select bases).Count());
+				ItemName = ItemSlot.expressedItem.Name + (almanacable is ForgeItem ? string.Empty : " - x" + (from bases in (ItemSlot.item.modItem as ForgeItem).AllBases where bases.item.Name == ItemSlot.expressedItem.Name select bases).Count());
 				DescriptionTextbox.CurrentText = "Description:\n" + almanacable.GeneralDescription;
 				StatisticTextbox.CurrentText = "Statistics:\n" + almanacable.ItemStatistics;
 				ObtainingTextbox.CurrentText = "Obtaining:\n" + almanacable.ObtainingGuide;

@@ -12,7 +12,11 @@ namespace Disarray.Gardening.Content.CaveMaize
 			DisplayName.SetDefault("Cave Maize Seed");
 		}
 
-		public override GardeningInformation GeneralInformation { get; protected set; } = new GardeningInformation("Disarray/Gardening/Content/CaveMaize/CaveMaize", "Cave Maize", "Testing", 1f, 0, (0, 5));
+		public const string InfoTexture = "Disarray/Gardening/Content/CaveMaize/CaveMaize";
+
+		public const string Information = "A species native to the undergrounds, it bears a striking resemblence to the maize that we eat. Also, the plant seems to have evolutionary discarded it's need for light.";
+
+		public override GardeningInformation GeneralInformation { get; protected set; } = new GardeningInformation(InfoTexture, "Cave Maize", Information, 0.4f, 0, (0, 0.75f));
 
 		public override void SetDefaults()
 		{

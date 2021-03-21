@@ -12,7 +12,11 @@ namespace Disarray.Gardening.Content.PricklyPearBear
 			DisplayName.SetDefault("Prickly Pear Bear Seed");
 		}
 
-		public override GardeningInformation GeneralInformation { get; protected set; } = new GardeningInformation("Disarray/Gardening/Content/PricklyPearBear/PricklyPearBear", "Prickly Pear Bear", "Testing", 5f, 7.5f, (0, 1f));
+		public const string InfoTexture = "Disarray/Gardening/Content/PricklyPearBear/PricklyPearBear";
+
+		public const string Information = "An unique cacti species with resilence to droughts.";
+
+		public override GardeningInformation GeneralInformation { get; protected set; } = new GardeningInformation(InfoTexture, "Prickly Pear Bear", Information, 0.4f, 0.5f, (0, 0.1f));
 
 		public override void SetDefaults()
 		{

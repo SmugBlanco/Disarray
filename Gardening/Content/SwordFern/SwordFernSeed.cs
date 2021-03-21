@@ -12,7 +12,11 @@ namespace Disarray.Gardening.Content.SwordFern
 			DisplayName.SetDefault("Sword Fern Seed");
 		}
 
-		public override GardeningInformation GeneralInformation { get; protected set; } = new GardeningInformation("Disarray/Gardening/Content/SwordFern/SwordFern", "Sword Fern", "Testing", 5f, 7.5f, (0, 1f));
+		public const string InfoTexture = "Disarray/Gardening/Content/SwordFern/SwordFern";
+
+		public const string Information = "Found commonly in forests, it's evolved to defend itself against pests with weaponry.";
+
+		public override GardeningInformation GeneralInformation { get; protected set; } = new GardeningInformation(InfoTexture, "Sword Fern", Information, 0.5f, 0.5f, (0, 0.5f));
 
 		public override void SetDefaults()
 		{

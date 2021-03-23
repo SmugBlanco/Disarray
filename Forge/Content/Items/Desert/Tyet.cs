@@ -9,18 +9,18 @@ using Terraria.ModLoader;
 
 namespace Disarray.Forge.Content.Items.Desert
 {
-	public class Ankh : Materials
+	public class Tyet : Materials
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Ankh");
+			DisplayName.SetDefault("Tyet");
 			Tooltip.SetDefault("Allows attacks to grant 'Secrets of the Sand'"
-			+ "\nWhile 'Secrets of the Sand' is active your defense increases by 2.");
+			+ "\nWhile 'Secrets of the Sand' is active your defense increases by 2%.");
 		}
 
 		public override void SetDefaults()
 		{
-			item.width = 18;
+			item.width = 14;
 			item.height = 30;
 			item.rare = ItemRarityID.Orange;
 			item.maxStack = 999;
@@ -29,14 +29,14 @@ namespace Disarray.Forge.Content.Items.Desert
 
 		public override string GeneralDescription => "It seems the artifact had magical properties";
 
-		public override string ItemStatistics => "Allows attacks a default 10% ( 20% while in a desert ) chance to imbue you with 'Secrets of the Sands' for 6 ( 10 while in a desert ) seconds" + "\nWhile 'Secrets of the Sands' is active, you'll be resistant to sandstorms and find a movement speed buff of 10%" + "\nIncreases defense by 2 while 'Secrets of the Sands' is in effect";
+		public override string ItemStatistics => "Allows attacks a default 10% ( 20% while in a desert ) chance to imbue you with 'Secrets of the Sands' for 6 ( 10 while in a desert ) seconds" + "\nWhile 'Secrets of the Sands' is active, you'll be resistant to sandstorms and find a movement speed buff of 10%" + "\nIncreases defense by 2% while 'Secrets of the Sands' is in effect";
 
 		public override string ObtainingGuide => "Obtained by uncovering the secrets of an artifact...";
 
 		public override void ApplyToAllScenarios(Player player)
 		{
 			Artifacts artifacts = AutoloadedClass.CreateNewInstance<Artifacts>();
-			artifacts.DefenseIncreaseFlat += 2;
+			artifacts.DefenseIncrease += 0.02f;
 			PlayerProperty.ImplementProperty(player, artifacts, false);
 		}
 

@@ -15,6 +15,8 @@ namespace Disarray.Forge.Content.Items.Snow
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Small Icicle");
+			Tooltip.SetDefault("Allows attacks to inflict 'Frostburn'."
+			+ "Increases damage on enemies afflicted by 'Frostburn'.");
 		}
 
 		public override string GeneralDescription => "Often found on the roofs of houses";

@@ -9,19 +9,19 @@ using Terraria.ModLoader;
 
 namespace Disarray.Forge.Content.Items.Desert
 {
-	public class Ankh : Materials
+	public class Amenta : Materials
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Ankh");
+			DisplayName.SetDefault("Amenta");
 			Tooltip.SetDefault("Allows attacks to grant 'Secrets of the Sand'"
-			+ "\nWhile 'Secrets of the Sand' is active your defense increases by 2.");
+			+ "\nWhile 'Secrets of the Sand' is active you release short lived sparks on getting hit.");
 		}
 
 		public override void SetDefaults()
 		{
-			item.width = 18;
-			item.height = 30;
+			item.width = 22;
+			item.height = 24;
 			item.rare = ItemRarityID.Orange;
 			item.maxStack = 999;
 			item.value = 10000;
@@ -29,14 +29,14 @@ namespace Disarray.Forge.Content.Items.Desert
 
 		public override string GeneralDescription => "It seems the artifact had magical properties";
 
-		public override string ItemStatistics => "Allows attacks a default 10% ( 20% while in a desert ) chance to imbue you with 'Secrets of the Sands' for 6 ( 10 while in a desert ) seconds" + "\nWhile 'Secrets of the Sands' is active, you'll be resistant to sandstorms and find a movement speed buff of 10%" + "\nIncreases defense by 2 while 'Secrets of the Sands' is in effect";
+		public override string ItemStatistics => "Allows attacks a default 10% ( 20% while in a desert ) chance to imbue you with 'Secrets of the Sands' for 6 ( 10 while in a desert ) seconds" + "\nWhile 'Secrets of the Sands' is active, you'll be resistant to sandstorms and find a movement speed buff of 10%" + "\nAllows the release of fiery sparks when attacked." + "\nIncreases released sparks by 1.";
 
 		public override string ObtainingGuide => "Obtained by uncovering the secrets of an artifact...";
 
 		public override void ApplyToAllScenarios(Player player)
 		{
 			Artifacts artifacts = AutoloadedClass.CreateNewInstance<Artifacts>();
-			artifacts.DefenseIncreaseFlat += 2;
+			artifacts.AmentaSparkCount++;
 			PlayerProperty.ImplementProperty(player, artifacts, false);
 		}
 

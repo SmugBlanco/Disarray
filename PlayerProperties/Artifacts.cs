@@ -1,6 +1,9 @@
 using Disarray.Core.Properties;
 using Disarray.Forge.Content.Buffs.Desert;
+using Disarray.Forge.Content.Projectiles.Desert;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace Disarray.PlayerProperties
@@ -33,6 +36,16 @@ namespace Disarray.PlayerProperties
 
         public float DamageReduction;
 
+        public int LifeRegenerationIncrease;
+
+        public int ManaRegenerationIncrease;
+
+        public int DjedLifeRegeneration;
+
+        public float ShenApplyChance;
+
+        public int AmentaSparkCount;
+
         public override void Combine(PlayerProperty newProperty)
         {
             if (newProperty is Artifacts property)
@@ -48,6 +61,11 @@ namespace Disarray.PlayerProperties
                 DefenseIncrease += property.DefenseIncrease;
                 DefenseIncreaseFlat += property.DefenseIncreaseFlat;
                 DamageReduction += property.DamageReduction;
+                LifeRegenerationIncrease += property.LifeRegenerationIncrease;
+                ManaRegenerationIncrease += property.ManaRegenerationIncrease;
+                DjedLifeRegeneration += property.DjedLifeRegeneration;
+                ShenApplyChance += property.ShenApplyChance;
+                AmentaSparkCount += property.AmentaSparkCount;
             }
         }
 
@@ -59,12 +77,19 @@ namespace Disarray.PlayerProperties
                 player.statLifeMax2 += (int)(player.statDefense * (1 + DefenseIncrease) + DefenseIncreaseFlat);
                 player.statDefense = (int)(player.statDefense * (1 + DefenseIncrease) + DefenseIncreaseFlat);
                 player.endurance += DamageReduction;
+                player.lifeRegen += LifeRegenerationIncrease;
+                player.manaRegen += ManaRegenerationIncrease;
+
+                if (player.statLife < player.statLifeMax2 * 0.2f)
+				{
+                    player.lifeRegen += DjedLifeRegeneration;
+				}
             }
         }
 
         public override void OnHitNPC(Player player, Item item, NPC target, int damage, float knockback, bool crit)
         {
-            if (Main.rand.NextFloat(1) < InnateApplyChance(player) + ApplyChance)
+            if (Main.rand.NextFloat(1) < InnateApplyChance(player) + ApplyChance + (player.HasBuff(ModContent.BuffType<SecretsOfTheSands>()) ? ShenApplyChance : 0))
             {
                 player.AddBuff(ModContent.BuffType<SecretsOfTheSands>(), InnateApplyDuration(player) + ApplyDuration);
             }
@@ -72,7 +97,7 @@ namespace Disarray.PlayerProperties
 
         public override void OnHitNPCWithProj(Player player, Projectile proj, NPC target, int damage, float knockback, bool crit)
         {
-            if (Main.rand.NextFloat(1) < InnateApplyChance(player) + ApplyChance)
+            if (Main.rand.NextFloat(1) < InnateApplyChance(player) + ApplyChance + (player.HasBuff(ModContent.BuffType<SecretsOfTheSands>()) ? ShenApplyChance : 0))
             {
                 player.AddBuff(ModContent.BuffType<SecretsOfTheSands>(), InnateApplyDuration(player) + ApplyDuration);
             }
@@ -80,7 +105,7 @@ namespace Disarray.PlayerProperties
 
         public override void OnHitPvp(Player player, Item item, Player target, int damage, bool crit)
         {
-            if (Main.rand.NextFloat(1) < InnateApplyChance(player) + ApplyChance)
+            if (Main.rand.NextFloat(1) < InnateApplyChance(player) + ApplyChance + (player.HasBuff(ModContent.BuffType<SecretsOfTheSands>()) ? ShenApplyChance : 0))
             {
                 player.AddBuff(ModContent.BuffType<SecretsOfTheSands>(), InnateApplyDuration(player) + ApplyDuration);
             }
@@ -88,7 +113,7 @@ namespace Disarray.PlayerProperties
 
         public override void OnHitPvpWithProj(Player player, Projectile proj, Player target, int damage, bool crit)
         {
-            if (Main.rand.NextFloat(1) < InnateApplyChance(player) + ApplyChance)
+            if (Main.rand.NextFloat(1) < InnateApplyChance(player) + ApplyChance + (player.HasBuff(ModContent.BuffType<SecretsOfTheSands>()) ? ShenApplyChance : 0))
             {
                 player.AddBuff(ModContent.BuffType<SecretsOfTheSands>(), InnateApplyDuration(player) + ApplyDuration);
             }
@@ -127,5 +152,37 @@ namespace Disarray.PlayerProperties
                 damage += DamageIncreaseFlat;
             }
         }
-    }
+
+		public override void OnHitByNPC(Player player, NPC npc, int damage, bool crit)
+		{
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+			{
+                return;
+			}
+
+            if (player.HasBuff(ModContent.BuffType<SecretsOfTheSands>()))
+            {
+                for (int count = 0; count < AmentaSparkCount; count++)
+				{
+                    Projectile.NewProjectile(player.Center, new Vector2(Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(-3, 3)), ModContent.ProjectileType<AmentaSpark>(), player.HeldItem.damage, 0f, player.whoAmI);
+				}
+            }
+        }
+
+		public override void OnHitByProjectile(Player player, Projectile proj, int damage, bool crit)
+		{
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+            {
+                return;
+            }
+
+            if (player.HasBuff(ModContent.BuffType<SecretsOfTheSands>()))
+            {
+                for (int count = 0; count < AmentaSparkCount; count++)
+                {
+                    Projectile.NewProjectile(player.Center, new Vector2(Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(-3, 3)), ModContent.ProjectileType<AmentaSpark>(), player.HeldItem.damage, 0f, player.whoAmI);
+                }
+            }
+        }
+	}
 }

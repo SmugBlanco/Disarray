@@ -15,6 +15,7 @@ namespace Disarray.Forge.Content.Items.Snow
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Frosted Spark");
+			Tooltip.SetDefault("Allows attacks to inflict 'Frostburn'.");
 		}
 
 		public override string GeneralDescription => "The sparks to a begin a frosted inferno...";

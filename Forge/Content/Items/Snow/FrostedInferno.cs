@@ -15,7 +15,7 @@ namespace Disarray.Forge.Content.Items.Snow
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Frosted Inferno");
-			Tooltip.SetDefault("Allows forged weapons to inflict 'Frostburn'.");
+			Tooltip.SetDefault("Allows attacks to inflict 'Frostburn'.");
 		}
 
 		public override string GeneralDescription => "A frosted inferno...";

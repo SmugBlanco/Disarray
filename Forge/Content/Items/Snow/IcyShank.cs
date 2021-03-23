@@ -15,6 +15,8 @@ namespace Disarray.Forge.Content.Items.Snow
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Icy Shank");
+			Tooltip.SetDefault("Allows attacks to inflict 'Frostburn'."
+			+ "Increases flat damage on enemies afflicted by 'Frostburn'.");
 		}
 
 		public override string GeneralDescription => "'Oi it's bloody sharp innit mate'";

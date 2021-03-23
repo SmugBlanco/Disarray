@@ -15,6 +15,7 @@ namespace Disarray.Forge.Content.Items.Snow
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Frostburn Fuel");
+			Tooltip.SetDefault("Allows attacks to extend the duration of 'Frostburn'.");
 		}
 
 		public override string GeneralDescription => "Often found on the roofs of houses";

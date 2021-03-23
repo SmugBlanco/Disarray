@@ -14,6 +14,8 @@ namespace Disarray.Forge.Content.Items.Snow
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Frozen Fist");
+			Tooltip.SetDefault("Allows attacks to inflict 'Frostburn'."
+			+ "Increases knockback on enemies afflicted by 'Frostburn'.");
 		}
 
 		public override string GeneralDescription => "A fist made of ice, this is sure to be a long term investment!";

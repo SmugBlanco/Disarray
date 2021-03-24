@@ -32,7 +32,7 @@ namespace Disarray.Forge.Content.Items.Cloud
 
 			if (Main.numClouds > 80)
 			{
-				DamageOutgoing property = AutoloadedClass.CreateNewInstance<DamageOutgoing>();
+				BasicStats property = AutoloadedClass.CreateNewInstance<BasicStats>();
 				property.DamageIncreaseFlat += 1;
 				PlayerProperty.ImplementProperty(player, property, false);
 			}

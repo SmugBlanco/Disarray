@@ -1,6 +1,7 @@
+using Disarray.Core.Autoload;
 using Disarray.Core.Properties;
-using Disarray.Forge.Content.PlayerProperties;
 using Disarray.Forge.Core.Items;
+using Disarray.PlayerProperties;
 using Terraria;
 using Terraria.ID;
 
@@ -21,7 +22,12 @@ namespace Disarray.Forge.Content.Items.Rusty
 			item.maxStack = 999;
 		}
 
-		public override void ApplyToAllScenarios(Player player) => PlayerProperty.ImplementProperty(player, new DamageIncrementChance() { Chance = 0.2f }, false);
+		public override void ApplyToAllScenarios(Player player)
+		{
+			BasicStats stat = AutoloadedClass.CreateNewInstance<BasicStats>();
+			stat.DamageIncreaseChance += 0.2f;
+			PlayerProperty.ImplementProperty(player, stat, false);
+		}
 
 		public override string GeneralDescription => "Seems like it use to be a multi-purpose chain. It's current condition is... poor but it may have some uses in 'The Forge'.";
 

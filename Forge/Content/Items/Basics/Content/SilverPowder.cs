@@ -10,7 +10,9 @@ namespace Disarray.Forge.Content.Items.Basics.Content
 
 		public override int Value => 3000;
 
-		public override float EffectStrength => 0.045f;
+		public override bool AutomaticallyCalculateStrength => true;
+
+		public override float EffectStrength => 4;
 
 		public override int CraftingMaterial => ItemID.SilverBar;
 

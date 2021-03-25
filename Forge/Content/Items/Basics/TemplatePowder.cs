@@ -15,7 +15,11 @@ namespace Disarray.Forge.Content.Items.Basics
 
 		public abstract int Value { get; }
 
+		public virtual bool AutomaticallyCalculateStrength { get; } = false;
+
 		public abstract float EffectStrength { get; }
+
+		public float ActualEffectStrength => AutomaticallyCalculateStrength ? 0.05f + (EffectStrength * 0.0025f) : EffectStrength;
 
 		public abstract int CraftingMaterial { get; }
 
@@ -39,14 +43,14 @@ namespace Disarray.Forge.Content.Items.Basics
 
 		public override string GeneralDescription => "The label also includes the production location: 'Made in Russia'";
 
-		public override string ItemStatistics => "Increases outgoing knockback by " + (EffectStrength * 100f) + "% ";
+		public override string ItemStatistics => "Increases outgoing knockback by " + (ActualEffectStrength * 100f) + "% ";
 
 		public override string ObtainingGuide => "Grind 8 " + Material.ToLower() + " bars into powder at an anvil.";
 
 		public override void ApplyToAllScenarios(Player player)
 		{
 			BasicStats stat = AutoloadedClass.CreateNewInstance<BasicStats>();
-			stat.KnockbackIncreaseFlat += EffectStrength;
+			stat.KnockbackIncreaseFlat += ActualEffectStrength;
 			PlayerProperty.ImplementProperty(player, stat, false);
 		}
 

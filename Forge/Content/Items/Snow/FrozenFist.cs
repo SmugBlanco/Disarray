@@ -48,6 +48,7 @@ namespace Disarray.Forge.Content.Items.Snow
 			recipe.AddIngredient(ModContent.ItemType<IceCrystal>(), 5);
 			recipe.needWater = true;
 			recipe.SetResult(this);
+			recipe.AddRecipe();
 		}
 	}
 }

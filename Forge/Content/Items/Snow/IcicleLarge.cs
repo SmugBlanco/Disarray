@@ -50,6 +50,7 @@ namespace Disarray.Forge.Content.Items.Snow
 			recipe.AddIngredient(ModContent.ItemType<FrozenMist>(), 100);
 			recipe.needWater = true;
 			recipe.SetResult(this);
+			recipe.AddRecipe();
 		}
 	}
 }

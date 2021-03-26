@@ -60,6 +60,7 @@ namespace Disarray.Forge.Content.Items.Basics
 			recipe.AddIngredient(CraftingMaterial, 8);
 			recipe.AddTile(CraftingStation);
 			recipe.SetResult(this);
+			recipe.AddRecipe();
 		}
 	}
 }

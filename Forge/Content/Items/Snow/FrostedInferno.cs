@@ -48,6 +48,7 @@ namespace Disarray.Forge.Content.Items.Snow
 			recipe.AddIngredient(ModContent.ItemType<Embers>(), 100);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
+			recipe.AddRecipe();
 
 			recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<FrostedFlame>(), 3);
@@ -55,6 +56,7 @@ namespace Disarray.Forge.Content.Items.Snow
 			recipe.AddIngredient(ModContent.ItemType<Embers>(), 80);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
+			recipe.AddRecipe();
 
 			recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<FrostedSpark>(), 9);
@@ -62,6 +64,7 @@ namespace Disarray.Forge.Content.Items.Snow
 			recipe.AddIngredient(ModContent.ItemType<Embers>(), 80);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
+			recipe.AddRecipe();
 		}
 	}
 }

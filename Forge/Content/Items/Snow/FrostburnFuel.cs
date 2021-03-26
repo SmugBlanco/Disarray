@@ -47,6 +47,7 @@ namespace Disarray.Forge.Content.Items.Snow
 			recipe.AddIngredient(ModContent.ItemType<Barrel>());
 			recipe.AddIngredient(ModContent.ItemType<FrozenMist>(), 25);
 			recipe.SetResult(this);
+			recipe.AddRecipe();
 		}
 	}
 }

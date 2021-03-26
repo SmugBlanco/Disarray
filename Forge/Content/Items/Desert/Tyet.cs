@@ -46,12 +46,14 @@ namespace Disarray.Forge.Content.Items.Desert
 			recipe.AddIngredient(ModContent.ItemType<Artifact>());
 			recipe.AddIngredient(ModContent.ItemType<Fulgurite>());
 			recipe.SetResult(this);
+			recipe.AddRecipe();
 
 			recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<Artifact>());
 			recipe.AddIngredient(ModContent.ItemType<DustDevil>(), 25);
 			recipe.needWater = true;
 			recipe.SetResult(this);
+			recipe.AddRecipe();
 		}
 	}
 }

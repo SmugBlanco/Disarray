@@ -47,7 +47,7 @@ namespace Disarray.Forge.Content.Items.Basics
 		public override void ApplyToAllScenarios(Player player)
 		{
 			BasicStats stat = AutoloadedClass.CreateNewInstance<BasicStats>();
-			stat.DamageIncreaseChance += 0.50f;
+			stat.DamageIncreaseChance += EffectStrength;
 			PlayerProperty.ImplementProperty(player, stat, false);
 		}
 
@@ -57,6 +57,7 @@ namespace Disarray.Forge.Content.Items.Basics
 			recipe.AddIngredient(CraftingMaterial, 8);
 			recipe.AddTile(CraftingStation);
 			recipe.SetResult(this);
+			recipe.AddRecipe();
 		}
 	}
 }

@@ -1,4 +1,4 @@
-using Disarray.Forge.Content.Items.Desert;
+//using Disarray.Forge.Content.Items.Desert;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -55,7 +55,7 @@ namespace Disarray.Content.Reagents.Desert
 
 			if (player.itemAnimation == 1)
 			{
-				player.QuickSpawnItem(Utils.SelectRandom(Main.rand, ModContent.ItemType<Ankh>(), ModContent.ItemType<Wadjet>(), ModContent.ItemType<Djed>(), ModContent.ItemType<Tyet>(), ModContent.ItemType<Lotus>(), ModContent.ItemType<Shen>(), ModContent.ItemType<Seba>(), ModContent.ItemType<Amenta>(), ModContent.ItemType<Iteru>()));
+				//player.QuickSpawnItem(Utils.SelectRandom(Main.rand, ModContent.ItemType<Ankh>(), ModContent.ItemType<Wadjet>(), ModContent.ItemType<Djed>(), ModContent.ItemType<Tyet>(), ModContent.ItemType<Lotus>(), ModContent.ItemType<Shen>(), ModContent.ItemType<Seba>(), ModContent.ItemType<Amenta>(), ModContent.ItemType<Iteru>()));
 				return true;
 			}
 			return false;

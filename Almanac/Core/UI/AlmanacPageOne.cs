@@ -124,12 +124,12 @@ namespace Disarray.Almanac.Core.UI
 			FirstPage.Append(PlantImage);
 
 			Texture2D itemSlotTexture = ModContent.GetTexture(AssetDirectory + "Almanac_SeedSlot");
-			PlantSlot = new UIItemSlot(itemSlotTexture, typeof(SeedItem), null);
+			PlantSlot = new UIItemSlot(itemSlotTexture, (oldItem, item) => item.modItem is SeedItem);
 			PlantSlot.Left.Set(300, 0f);
 			PlantSlot.Top.Set(312, 0f);
 			PlantSlot.Width.Set(itemSlotTexture.Width, 0);
 			PlantSlot.Height.Set(itemSlotTexture.Height, 0);
-            PlantSlot.ItemChanged += PlantSlot_ItemChanged;
+            PlantSlot.OnItemChange += PlantSlot_ItemChanged;
 			FirstPage.Append(PlantSlot);
 
 			DifficultyDisplay = new PlantInformationDisplay("Difficulty:", 0.25f, 1, Color.Red);
@@ -179,7 +179,7 @@ namespace Disarray.Almanac.Core.UI
         {
 			GardeningInformation information = new GardeningInformation(string.Empty, string.Empty, string.Empty, 0, 0, (0, 0));
 
-			if (!PlantSlot.item.IsAir && PlantSlot.item?.modItem is SeedItem seed)
+			if (!PlantSlot.Item.IsAir && PlantSlot.Item?.modItem is SeedItem seed)
             {
 				information = seed.GeneralInformation;
 			}

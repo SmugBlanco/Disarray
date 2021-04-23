@@ -51,11 +51,19 @@ namespace Disarray.Forge.Content.Tiles
 
 		public override bool NewRightClick(int i, int j)
 		{
-			Main.PlaySound(SoundID.MenuOpen);
-			Tile tile = Framing.GetTileSafely(i, j);
-			Vector2 SpawnTile = new Vector2(i, j).ToWorldCoordinates() - new Vector2(tile.frameX, tile.frameY) + new Vector2(8, 8);
-			Main.playerInventory = true;
-			ModContent.GetInstance<Disarray>().ForgeUserInterface.SetState(new ForgeUI(SpawnTile));
+			if (ModContent.GetInstance<Disarray>().ForgeUserInterface.CurrentState is null)
+			{
+				Main.PlaySound(SoundID.MenuOpen);
+				Main.playerInventory = true;
+				Tile tile = Framing.GetTileSafely(i, j);
+				Vector2 instanceLocation = new Vector2(i, j).ToWorldCoordinates() - new Vector2(tile.frameX, tile.frameY) + new Vector2(8, 8);
+				ModContent.GetInstance<Disarray>().ForgeUserInterface.SetState(new ForgeUI(instanceLocation));
+			}
+			else
+			{
+				Main.PlaySound(SoundID.MenuClose);
+				ModContent.GetInstance<Disarray>().ForgeUserInterface.SetState(null);
+			}
 			return true;
 		}
 

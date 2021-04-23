@@ -16,7 +16,7 @@ namespace Disarray.Almanac.Core.UI
 		public string ItemName = string.Empty;
 		public ExpressableItemSlot ItemSlot;
 		public int CurrentSlot;
-		public IList<ForgeBase> SlotItemData = new List<ForgeBase>();
+		public IList<ForgeCore> SlotItemData = new List<ForgeCore>();
 		public UIImageButton SlotCycleLeft;
 		public UIImageButton SlotCycleRight;
 
@@ -42,13 +42,13 @@ namespace Disarray.Almanac.Core.UI
 			SecondPage.Height.Set(bgTexture.Height, 0);
 
 			Texture2D itemSlotTexture = ModContent.GetTexture(AssetDirectory + "Almanac_ItemSlot");
-			ItemSlot = new ExpressableItemSlot(itemSlotTexture, typeof(ForgeBase), null);
+			ItemSlot = new ExpressableItemSlot(itemSlotTexture, (oldItem, item) => item.modItem is ForgeCore);
 			ItemSlot.Left.Set(318, 0f);
 			ItemSlot.Top.Set(50, 0f);
 			ItemSlot.Width.Set(itemSlotTexture.Width, 0);
 			ItemSlot.Height.Set(itemSlotTexture.Height, 0);
-			ItemSlot.ItemChanged += ItemSlot_ItemChanged;
-			ItemSlot.ExpressedItemChanged += ItemSlot_ExpressedItemChanged;
+			ItemSlot.OnItemChange += ItemSlot_ItemChanged;
+			ItemSlot.OnExpressedItemChange += ItemSlot_ExpressedItemChanged;
 			SecondPage.Append(ItemSlot);
 
 			Texture2D cycleLeft = ModContent.GetTexture(AssetDirectory + "ArrowLeft");
@@ -136,7 +136,7 @@ namespace Disarray.Almanac.Core.UI
 
 		private void ItemSlot_ItemChanged()
 		{
-			if (ItemSlot.item.IsAir || ItemSlot.item.modItem == null)
+			if (ItemSlot.Item.IsAir || ItemSlot.Item.modItem == null)
 			{
 				ItemName = string.Empty;
 				DescriptionTextbox.CurrentText = "Description:\nInsert an item into the Item Slot to view it's description!";
@@ -146,9 +146,9 @@ namespace Disarray.Almanac.Core.UI
 				SlotItemData.Clear();
 			}
 
-			if (ItemSlot.item.modItem != null && ItemSlot.item.modItem is IAlmanacable almanacable)
+			if (ItemSlot.Item.modItem != null && ItemSlot.Item.modItem is IAlmanacable almanacable)
 			{
-				ItemName = ItemSlot.item.Name;
+				ItemName = ItemSlot.Item.Name;
 				DescriptionTextbox.CurrentText = "Description:\n" + almanacable.GeneralDescription;
 				StatisticTextbox.CurrentText = "Statistics:\n" + almanacable.ItemStatistics;
 				ObtainingTextbox.CurrentText = "Obtaining:\n" + almanacable.ObtainingGuide;
@@ -157,18 +157,18 @@ namespace Disarray.Almanac.Core.UI
 
 				if (almanacable is ForgeItem forgeItem)
 				{
-					ItemSlot.item.modItem?.SetDefaults();
-					SlotItemData = forgeItem.UniqueBases.ToList();
-					SlotItemData.Insert(0, ItemSlot.item.modItem as ForgeBase);
+					ItemSlot.Item.modItem?.SetDefaults();
+					SlotItemData = forgeItem.AllBases.Distinct().ToList();
+					SlotItemData.Insert(0, ItemSlot.Item.modItem as ForgeCore);
 				}
 			}
 		}
 
 		private void ItemSlot_ExpressedItemChanged()
 		{
-			if (ItemSlot.expressedItem.modItem != null && ItemSlot.expressedItem.modItem is IAlmanacable almanacable)
+			if (ItemSlot.ExpressedItem.modItem != null && ItemSlot.ExpressedItem.modItem is IAlmanacable almanacable)
 			{
-				ItemName = ItemSlot.expressedItem.Name + (almanacable is ForgeItem ? string.Empty : " - x" + (from bases in (ItemSlot.item.modItem as ForgeItem).AllBases where bases.item.Name == ItemSlot.expressedItem.Name select bases).Count());
+				ItemName = ItemSlot.ExpressedItem.Name + (almanacable is ForgeItem ? string.Empty : " - x" + (from bases in (ItemSlot.Item.modItem as ForgeItem).AllBases where bases.item.Name == ItemSlot.ExpressedItem.Name select bases).Count());
 				DescriptionTextbox.CurrentText = "Description:\n" + almanacable.GeneralDescription;
 				StatisticTextbox.CurrentText = "Statistics:\n" + almanacable.ItemStatistics;
 				ObtainingTextbox.CurrentText = "Obtaining:\n" + almanacable.ObtainingGuide;

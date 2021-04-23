@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.UI;
 using System;
-using System.Collections.Generic;
 using Disarray.Core.UI;
 using Disarray.Forge.Core.Items;
 
@@ -11,90 +10,67 @@ namespace Disarray.Almanac.Core.UI
 {
 	public class ExpressableItemSlot : UIItemSlot
 	{
-		public Item expressedItem;
+		public Item ExpressedItem { get; private set; }
 
-		public event Action ExpressedItemChanged;
+		public event Action OnExpressedItemChange;
 
-		public ExpressableItemSlot(Texture2D image, Type validItemType, List<UIItemSlot> Others = null) : base(image, validItemType, Others)
+		public ExpressableItemSlot(Texture2D image, Func<Item, Item, bool> preInsert, int drawSize = -1) : base(image, preInsert, drawSize)
 		{
-			expressedItem = new Item();
-			expressedItem.SetDefaults();
+			ExpressedItem = new Item();
+			ExpressedItem.SetDefaults();
 		}
 
 		public void ChangeExpressed(Item refItem)
         {
-			expressedItem.SetDefaults(refItem.type);
-			expressedItem = expressedItem.CloneWithModdedDataFrom(refItem);
-			expressedItem.modItem?.SetDefaults();
-			ExpressedItemChanged?.Invoke();
+			ExpressedItem.SetDefaults(refItem.type);
+			ExpressedItem = ExpressedItem.CloneWithModdedDataFrom(refItem);
+			ExpressedItem.modItem?.SetDefaults();
+			OnExpressedItemChange?.Invoke();
 		}
 
 		public override void Click(UIMouseEvent evt)
 		{
-			if (!item.IsAir)
+			if (!Item.IsAir)
 			{
 				ReleaseItem();
-				item.SetDefaults();
-				expressedItem.SetDefaults();
-				InvokeItemChanged();
+				Item.SetDefaults();
+				ExpressedItem.SetDefaults();
+				InvokeItemChange();
 				return;
 			}
 
-			if (HoldingValidItem())
+			if (PreInsert == null || PreInsert(Item, HeldItem))
 			{
-				item.SetDefaults(HeldItem.type);
-				item = item.CloneWithModdedDataFrom(HeldItem);
-				item.modItem?.SetDefaults();
+				Item.SetDefaults(HeldItem.type);
+				Item = Item.CloneWithModdedDataFrom(HeldItem);
+				Item.modItem?.SetDefaults();
 
-				expressedItem.SetDefaults(HeldItem.type);
-				expressedItem = expressedItem.CloneWithModdedDataFrom(HeldItem);
-				expressedItem.modItem?.SetDefaults();
+				ExpressedItem.SetDefaults(HeldItem.type);
+				ExpressedItem = ExpressedItem.CloneWithModdedDataFrom(HeldItem);
+				ExpressedItem.modItem?.SetDefaults();
 
 				HandleConsuming();
 
-				InvokeItemChanged();
+				InvokeItemChange();
 			}
 		}
 
         protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
-			float ReturnBigger(int MaximumSize, int GivenWidth, int GivenHeight)
-			{
-				if (GivenWidth > GivenHeight)
-				{
-					return MaximumSize / GivenWidth;
-				}
-				else
-				{
-					return MaximumSize / GivenHeight;
-				}
-			}
+			spriteBatch.Draw(Background, GetDimensions().ToRectangle(), Color.White);
 
-			CalculatedStyle dimensions = GetDimensions();
-			Point DrawPos = new Point((int)dimensions.X, (int)dimensions.Y);
-			int width = (int)Math.Ceiling(dimensions.Width);
-			int height = (int)Math.Ceiling(dimensions.Height);
-			spriteBatch.Draw(ImageBG, new Rectangle(DrawPos.X, DrawPos.Y, width, height), Color.White);
-
-			if (!item.IsAir)
+			if (!Item.IsAir)
 			{
-				Item refItem = expressedItem.IsAir ? item : expressedItem;
+				Item refItem = ExpressedItem.IsAir ? Item : ExpressedItem;
 				Texture2D texture = Main.itemTexture[refItem.type];
 				if (refItem.modItem is ForgeItem forgeItem)
 				{
-					if (forgeItem.ForgedTemplate != null)
+					if (forgeItem.GetTemplate != null)
 					{
-						texture = ForgeBase.ItemTextureData.TryGetValue(forgeItem.ForgedTemplate.item.type, out Texture2D actualTexture) ? actualTexture : Main.itemTexture[forgeItem.ForgedTemplate.item.type];
+						texture = ForgeCore.ItemTextureData.TryGetValue(forgeItem.GetTemplate.item.type, out Texture2D actualTexture) ? actualTexture : Main.itemTexture[forgeItem.GetTemplate.item.type];
 					}
 				}
-
-				int DrawSize = 60;
-				float Scale = ReturnBigger(DrawSize, texture.Width, texture.Height);
-				Rectangle sourceRect = new Rectangle(0, 0, texture.Width, texture.Height);
-				Vector2 origin = sourceRect.Size() / 2f;
-				Vector2 DrawOffset = new Vector2(DrawSize / 2 - (texture.Width * Scale) / 2, DrawSize / 2 - (texture.Height * Scale) / 2);
-				Rectangle DestinationRectangle = new Rectangle((int)(DrawPos.X + DrawOffset.X), (int)(DrawPos.Y + DrawOffset.Y), (int)(texture.Width * Scale), (int)(texture.Height * Scale));
-				spriteBatch.Draw(texture, new Vector2(DrawPos.X + (ImageBG.Width / 2 - (sourceRect.Width / 2)), DrawPos.Y + (ImageBG.Height / 2 - (sourceRect.Height / 2))), sourceRect, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 1f);
+				DrawItem(spriteBatch, texture);
 			}
 		}
 	}

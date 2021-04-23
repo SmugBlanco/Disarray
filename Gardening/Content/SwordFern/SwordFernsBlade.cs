@@ -1,13 +1,14 @@
 using Disarray.Core.Autoload;
 using Disarray.Core.Properties;
-using Disarray.Forge.Content.PlayerProperties;
+//using Disarray.Forge.Content.PlayerProperties;
 using Disarray.Forge.Core.Items;
 using Disarray.PlayerProperties;
 using Terraria;
+using Terraria.ModLoader;
 
 namespace Disarray.Gardening.Content.SwordFern
 {
-	public class SwordFernsBlade : Materials
+	public class SwordFernsBlade : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
@@ -21,7 +22,7 @@ namespace Disarray.Gardening.Content.SwordFern
 			item.maxStack = 999;
 		}
 
-		public override void ApplyToAllScenarios(Player player)
+		/*public override void ApplyToAllScenarios(Player player)
 		{
 			BasicStats stat = AutoloadedClass.CreateNewInstance<BasicStats>();
 			stat.DamageIncreaseChance += 0.25f;
@@ -34,6 +35,6 @@ namespace Disarray.Gardening.Content.SwordFern
 
 		public override string ObtainingGuide => "Obtained from Sword Ferns at harvest.";
 
-		public override string Miscellaneous => " ";
+		public override string Miscellaneous => " ";*/
 	}
 }

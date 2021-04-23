@@ -1,6 +1,6 @@
 using Disarray.Core.Properties;
-using Disarray.Forge.Content.Buffs.Desert;
-using Disarray.Forge.Content.Projectiles.Desert;
+//using Disarray.Forge.Content.Buffs.Desert;
+//using Disarray.Forge.Content.Projectiles.Desert;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -69,7 +69,7 @@ namespace Disarray.PlayerProperties
             }
         }
 
-        public override void PostUpdateMiscEffects(Player player)
+       /* public override void PostUpdateMiscEffects(Player player)
         {
             if (player.HasBuff(ModContent.BuffType<SecretsOfTheSands>()))
             {
@@ -183,6 +183,6 @@ namespace Disarray.PlayerProperties
                     Projectile.NewProjectile(player.Center, new Vector2(Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(-3, 3)), ModContent.ProjectileType<AmentaSpark>(), player.HeldItem.damage, 0f, player.whoAmI);
                 }
             }
-        }
+        } */
 	}
 }

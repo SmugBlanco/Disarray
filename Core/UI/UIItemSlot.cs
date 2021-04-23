@@ -1,102 +1,82 @@
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.UI;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using Terraria.ID;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace Disarray.Core.UI
 {
 	public class UIItemSlot : UIElement
 	{
-		public Texture2D ImageBG;
-		public Item item;
-		public Type ValidItemType = typeof(ModItem);
-		public IEnumerable<UIItemSlot> OthersToAccountFor = new List<UIItemSlot>();
+		public Texture2D Background { get; protected set; }
 
-		public Player Player => Main.LocalPlayer;
+		public Func<Item, Item, bool> PreInsert { get; protected set; }
 
-		public Item HeldItem => Main.mouseItem.IsAir ? Player.HeldItem : Main.mouseItem;
+		public Item Item { get; internal set; }
 
-		public event Action ItemChanged;
+		public event Action OnItemChange;
 
-		public UIItemSlot(Texture2D image, Type validItemType, IEnumerable<UIItemSlot> others = null)
+		public int DrawSize { get; }
+
+		public Item HeldItem => Main.mouseItem.IsAir ? Main.LocalPlayer.HeldItem : Main.mouseItem;
+
+		public UIItemSlot(Texture2D background, Func<Item, Item, bool> preInsert, int drawSize = -1)
 		{
-			ImageBG = image;
-			item = new Item();
-			item.SetDefaults();
-			ValidItemType = validItemType;
-			OthersToAccountFor = others;
+			Background = background;
+			PreInsert = preInsert;
+			Item = new Item();
+			Item.SetDefaults();
+			DrawSize = drawSize <= 0 ? (background.Width > background.Height ? background.Height : background.Width) - 10 : drawSize;
 		}
 
-		public virtual void ReleaseItem()
+		public virtual void ReleaseItem(bool disregardMouse = false)
 		{
-			Item newestItem = item.CloneWithModdedDataFrom(item); // DO NOT REMOVE. REMOVAL CAUSES EVERYTHING TO BREAK.
+			if (Item.IsAir)
+			{
+				return;
+			}
+
+			if (Main.keyState.IsKeyDown(Keys.LeftShift) || Main.keyState.IsKeyDown(Keys.RightShift) || disregardMouse)
+			{
+				goto SpawnInWorld;
+			}
 
 			if (Main.mouseItem.IsAir)
 			{
-				Main.mouseItem.SetDefaults(item.type);
+				Main.mouseItem.SetDefaults(Item.type);
 				Item mouseSpawnedItem = Main.mouseItem;
-				mouseSpawnedItem = mouseSpawnedItem.CloneWithModdedDataFrom(item);
+				mouseSpawnedItem = mouseSpawnedItem.CloneWithModdedDataFrom(Item);
 				mouseSpawnedItem.modItem?.SetDefaults();
 				return;
 			}
-			else if (Main.mouseItem.type == item.type && Main.mouseItem.stack < Main.mouseItem.maxStack)
+			else if (Main.mouseItem.type == Item.type && Main.mouseItem.stack < Main.mouseItem.maxStack)
 			{
 				Main.mouseItem.stack++;
 				return;
 			}
 
-			Item spawnedItem = Main.item[Item.NewItem(Player.getRect(), item.type)];
-			spawnedItem = spawnedItem.CloneWithModdedDataFrom(item);
+			SpawnInWorld:
+
+			int newItem = Item.NewItem(Main.LocalPlayer.getRect(), Item.type);
+
+			Item spawnedItem = Main.item[newItem];
+			spawnedItem = spawnedItem.CloneWithModdedDataFrom(Item);
 			spawnedItem.modItem?.SetDefaults();
-		}
 
-		public bool HoldingValidItem()
-        {
-			if (!HeldItem.IsAir && HeldItem.modItem != null && HeldItem.modItem.GetType().IsSubclassOf(ValidItemType))
-            {
-				if (OthersToAccountFor != null && OthersToAccountFor.Count() > 0)
-                {
-					foreach (UIItemSlot slot in OthersToAccountFor)
-                    {
-						if (slot.item.type == HeldItem.type)
-                        {
-							return false;
-                        }
-                    }
-                }
-
-				return true;
-            }
-
-			return false;
-		}
-
-		public void ForceChange(Item refItem)
-		{
-			if (!item.IsAir)
+			if (Main.netMode == NetmodeID.Server)
 			{
-				Item spawnedItem = Main.item[Item.NewItem(Player.getRect(), item.type)];
-				spawnedItem = spawnedItem.CloneWithModdedDataFrom(item);
-				spawnedItem.modItem?.SetDefaults();
+				NetMessage.SendData(MessageID.SyncItem, -1, -1, null, newItem);
+				Main.item[newItem].FindOwner(newItem);
 			}
-
-			item.SetDefaults(refItem.type);
-			item = item.CloneWithModdedDataFrom(refItem);
-			item.modItem?.SetDefaults();
-			ItemChanged?.Invoke();
 		}
-
-		public void InvokeItemChanged() => ItemChanged?.Invoke();
 
 		public void HandleConsuming()
-        {
+		{
 			if (Main.mouseItem.IsAir)
 			{
-				Player.ConsumeItem(HeldItem.type, true);
+				Main.LocalPlayer.ConsumeItem(HeldItem.type, true);
 			}
 			else
 			{
@@ -108,59 +88,50 @@ namespace Disarray.Core.UI
 			}
 		}
 
+		protected void InvokeItemChange() => OnItemChange?.Invoke();
+
 		public override void Click(UIMouseEvent evt)
 		{
-			if (!item.IsAir)
+			if (!Item.IsAir)
 			{
 				ReleaseItem();
-				item.SetDefaults();
-				ItemChanged?.Invoke();
+				Item.SetDefaults();
+				InvokeItemChange();
 				return;
 			}
 
-			if (HoldingValidItem())
+			if (PreInsert == null || PreInsert(Item, HeldItem))
 			{
-				item.SetDefaults(HeldItem.type);
-				item = item.CloneWithModdedDataFrom(HeldItem);
-				item.modItem?.SetDefaults();
+				Item.SetDefaults(HeldItem.type);
+				Item = Item.CloneWithModdedDataFrom(HeldItem);
+				Item.modItem?.SetDefaults();
 
 				HandleConsuming();
 
-				ItemChanged?.Invoke();
+				InvokeItemChange();
 			}
 		}
 
-        protected override void DrawSelf(SpriteBatch spriteBatch)
+		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
-			float ReturnBigger(int MaximumSize, int GivenWidth, int GivenHeight)
-			{
-				if (GivenWidth > GivenHeight)
-				{
-					return MaximumSize / GivenWidth;
-				}
-				else
-				{
-					return MaximumSize / GivenHeight;
-				}
-			}
+			spriteBatch.Draw(Background, GetDimensions().ToRectangle(), Color.White);
 
-			CalculatedStyle dimensions = GetDimensions();
-			Point DrawPos = new Point((int)dimensions.X, (int)dimensions.Y);
-			int width = (int)Math.Ceiling(dimensions.Width);
-			int height = (int)Math.Ceiling(dimensions.Height);
-			spriteBatch.Draw(ImageBG, new Rectangle(DrawPos.X, DrawPos.Y, width, height), Color.White);
-
-			if (!item.IsAir)
+			if (!Item.IsAir)
 			{
-				Texture2D texture = Main.itemTexture[item.type];
-				int DrawSize = 60;
-				float Scale = ReturnBigger(DrawSize, texture.Width, texture.Height);
-				Rectangle sourceRect = new Rectangle(0, 0, texture.Width, texture.Height);
-				Vector2 origin = sourceRect.Size() / 2f;
-				Vector2 DrawOffset = new Vector2(DrawSize / 2 - (texture.Width * Scale) / 2, DrawSize / 2 - (texture.Height * Scale) / 2);
-				Rectangle DestinationRectangle = new Rectangle((int)(DrawPos.X + DrawOffset.X), (int)(DrawPos.Y + DrawOffset.Y), (int)(texture.Width * Scale), (int)(texture.Height * Scale));
-				spriteBatch.Draw(texture, new Vector2(DrawPos.X + (ImageBG.Width / 2 - (sourceRect.Width / 2)), DrawPos.Y + (ImageBG.Height / 2 - (sourceRect.Height / 2))), sourceRect, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 1f);
+				Texture2D texture = Main.itemTexture[Item.type];
+				DrawItem(spriteBatch, texture);
 			}
+		}
+
+		public void DrawItem(SpriteBatch spriteBatch, Texture2D itemTexture, (float lower, float upper)? scaleClamp = null)
+		{
+			float scale = DrawSize / (float)(itemTexture.Width >= itemTexture.Height ? itemTexture.Width : itemTexture.Height);
+			if (scaleClamp != null)
+			{
+				scale = Utils.Clamp(scale, scaleClamp.Value.lower, scaleClamp.Value.upper);
+			}
+			Vector2 origin = itemTexture.Size() / 2f;
+			spriteBatch.Draw(itemTexture, GetDimensions().Center(), null, Color.White, 0f, origin, scale, SpriteEffects.None, 0);
 		}
 	}
 }

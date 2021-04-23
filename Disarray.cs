@@ -1,5 +1,6 @@
 using Disarray.Core.Autoload;
 using Disarray.Core.Globals;
+using Disarray.Forge.Core.Items;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -83,6 +84,7 @@ namespace Disarray
 			DisarrayGlobalNPC.Unload();
 			DisarrayGlobalPlayer.Unload();
 			AutoloadedClass.Unload();
+			ForgeCore.Unload();
 		}
 
 		public override void UpdateUI(GameTime gameTime)

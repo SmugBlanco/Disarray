@@ -4,49 +4,50 @@ using Terraria.ID;
 
 namespace Disarray.Forge.Content.Items.Blacksmith
 {
-	public class SwordMold : BlacksmithItem
+	public class ShortswordMold : BlacksmithItem
 	{
 		public override bool Autoload(ref string name) => AutoloadWeapon(name, item, null, null);
 
 		public override IReadOnlyDictionary<string, float> MaterialTypeInfluence { get; } = new Dictionary<string, float> { { "Metal", 1f } };
 
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Shortsword Mold");
+
 		public override string ItemStatistics
 		{
 			get
 			{
-				string statistic = "12 base damage, 15 max damage"
+				string statistic = "8 base damage, 11 max damage"
 				+ "\n4 base critical strike chance"
-				+ "\n5 base knockback ( average )"
-				+ "\n28 base use time and animation ( average )";
+				+ "\n2 base knockback ( very weak )"
+				+ "\n15 base use time and animation ( very fast )";
 				return statistic + "\n" + StatTooltip;
 			}
 		}
 
-		public override void SetStaticDefaults() => DisplayName.SetDefault("Sword Mold");
-
 		public override void NonProductDefaults()
-        {
+		{
 			item.width = 36;
 			item.height = 36;
 			item.maxStack = 999;
+
 			item.useStyle = 0;
 		}
 
 		public override void SafeDefaults(Item item, float quality)
 		{
-			item.width = 50;
-			item.height = 50;
+			item.width = 34;
+			item.height = 34;
 			item.rare = ItemRarityID.Blue;
 			item.UseSound = SoundID.Item1;
 
 			item.melee = true;
-			item.damage = 12 + (int)(3f * quality);
+			item.damage = 8 + (int)(3f * quality);
+			item.knockBack = 2;
 			item.crit = 4;
-			item.knockBack = 5;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 28;
-			item.useAnimation = 28;
+			item.useStyle = ItemUseStyleID.Stabbing;
+			item.useTime = 15;
+			item.useAnimation = 15;
 		}
 	}
 }

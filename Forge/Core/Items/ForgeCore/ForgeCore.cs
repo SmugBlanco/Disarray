@@ -14,5 +14,7 @@ namespace Disarray.Forge.Core.Items
 		public virtual bool PreDrawAnimation(ref Texture2D texture, ref Vector2 drawPosition, ref Rectangle sourceRectangle, ref Color drawColor, ref float rotation, ref Vector2 drawOrigin, ref float scale, ref SpriteEffects spriteEffects) => true;
 
 		public virtual void NonProductDefaults() { }
+
+		
 	}
 }

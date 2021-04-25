@@ -52,6 +52,10 @@ namespace Disarray.Forge.Core.Items
 			{
 				AutoloadItem(item, altItemTexturePath);
 			}
+			else
+			{
+				AutoloadItem(item, texturePath);
+			}
 			return false;
 		}
 

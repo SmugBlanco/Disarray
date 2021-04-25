@@ -258,5 +258,9 @@ namespace Disarray.Forge.Core.Items
 			Quality = tag.Get<float>("Quality");
 			SetDefaults();
 		}
+
+		public override bool Equals(object obj) => obj is ForgeItem forgeItem && item.type == forgeItem.item.type && EqualityComparer<ICollection<ForgeCore>>.Default.Equals(AllBases, forgeItem.AllBases);
+		
+		public override int GetHashCode() => 1425257430 + EqualityComparer<ICollection<ForgeCore>>.Default.GetHashCode(AllBases) + item.type;
 	}
 }

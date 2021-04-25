@@ -11,7 +11,7 @@ namespace Disarray.Forge.Core
 {
 	public class ForgeItemPlayerLayers : ModPlayer
 	{
-        /*public float ItemUseProgress => 1 - (player.itemAnimationMax > 0 ? (float)player.itemAnimation / (float)player.itemAnimationMax : 0); // 1 = end, 0 = beginning
+        public float ItemUseProgress => 1 - (player.itemAnimationMax > 0 ? (float)player.itemAnimation / (float)player.itemAnimationMax : 0); // 1 = end, 0 = beginning
 
         public static void HandleSwingThrow(Player player, Item item, ref Texture2D texture, ref Vector2 drawPosition, ref Rectangle sourceRectangle, ref Color drawColor, ref float rotation, ref Vector2 drawOrigin, ref float scale, ref SpriteEffects spriteEffects)
         {
@@ -90,7 +90,7 @@ namespace Disarray.Forge.Core
 
             Item item = drawPlayer.HeldItem;
             ForgeItem forgeItem = item.modItem as ForgeItem;
-            if (forgeItem.GetTemplate is Crossbow crossbow)
+            /*if (forgeItem.GetTemplate is Crossbow crossbow)
 			{
                 float ClampRot(float Rot, float ClampRange)
                 {
@@ -115,7 +115,7 @@ namespace Disarray.Forge.Core
                 DrawData data = new DrawData(crossbow.HeldTexture, DrawPosition, sourceRect, drawColor, Rotation, origin, 1f, drawPlayer.direction > 0 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0);
                 Main.playerDrawData.Add(data);
                 return;
-			}
+			}*/
 
             if (drawPlayer.itemAnimation > 0)
             {
@@ -124,7 +124,7 @@ namespace Disarray.Forge.Core
                     return;
                 }
 
-                Texture2D newTexture = OldForgeBase.WeaponTextureData.TryGetValue(forgeItem.GetTemplate.item.type, out Texture2D WeaponTexture) ? WeaponTexture : OldForgeBase.ItemTextureData.TryGetValue(forgeItem.GetTemplate.item.type, out Texture2D ItemTexture) ? ItemTexture : Main.itemTexture[forgeItem.GetTemplate.item.type];
+                Texture2D newTexture = ForgeCore.WeaponTextureData.TryGetValue(forgeItem.GetTemplate.item.type, out Texture2D WeaponTexture) ? WeaponTexture : ForgeCore.ItemTextureData.TryGetValue(forgeItem.GetTemplate.item.type, out Texture2D ItemTexture) ? ItemTexture : Main.itemTexture[forgeItem.GetTemplate.item.type];
                 Vector2 drawPosition = drawPlayer.Center - Main.screenPosition;
                 Rectangle sourceRect = new Rectangle(0, 0, newTexture.Width, newTexture.Height);
                 Color drawColor = Color.White;
@@ -148,9 +148,9 @@ namespace Disarray.Forge.Core
                         break;
                 }
 
-                foreach (OldForgeBase bases in forgeItem.AllBases)
+                foreach (ForgeCore forgeCore in forgeItem.AllBases)
                 {
-                    bases.PreDrawWeaponAnimation(ref newTexture, ref drawPosition, ref sourceRect, ref drawColor, ref rotation, ref origin, ref itemScale, ref spriteEffects);
+                    forgeCore.PreDrawAnimation(ref newTexture, ref drawPosition, ref sourceRect, ref drawColor, ref rotation, ref origin, ref itemScale, ref spriteEffects);
                 }
 
                 DrawData data = new DrawData(newTexture, drawPosition, sourceRect, drawColor, rotation, origin, itemScale, spriteEffects, 0);
@@ -169,7 +169,7 @@ namespace Disarray.Forge.Core
             }
         }
 
-        public override void PostUpdate()
+       /* public override void PostUpdate()
         {
             if (player.HeldItem.modItem is ForgeItem forgeItem && forgeItem.GetTemplate is Crossbow)
             {

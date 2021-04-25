@@ -30,7 +30,7 @@ namespace Disarray.Forge.Core.UI
 
 		public UIDraggableImage Background { get; private set; }
 
-		public UIImageButton ForgeButton;
+		public UIImageButton ForgeButton { get; private set; }
 
 		public ForgeItemSlot GetTemplateSlot => TemplateSlot;
 
@@ -41,6 +41,14 @@ namespace Disarray.Forge.Core.UI
 		public ForgeItemSlot[] ComponentSlots { get; private set; }
 
 		public ForgeItemSlot[] ModifierSlots { get; private set; }
+
+		public UIImageButton CloseButton { get; private set; }
+
+		public bool Locked { get; set; } = true;
+
+		public UIImageButton LockButton { get; private set; }
+
+		public UIImageButton ResetButton { get; private set; }
 
 		public override void OnInitialize()
 		{
@@ -153,6 +161,34 @@ namespace Disarray.Forge.Core.UI
 			ForgeButton.Height.Set(forgeButtonTexture.Height, 0);
 			ForgeButton.OnClick += OnForge;
 
+			Texture2D closeButtonTexture = ModContent.GetTexture("Disarray/Assets/UI/Close");
+			CloseButton = new UIImageButton(closeButtonTexture);
+			CloseButton.Left.Set(328, 0f);
+			CloseButton.Top.Set(2, 0f);
+			CloseButton.Width.Set(closeButtonTexture.Width, 0);
+			CloseButton.Height.Set(closeButtonTexture.Height, 0);
+			CloseButton.OnClick += (UIMouseEvent evt, UIElement listeningElement) => Close();
+			Background.Append(CloseButton);
+
+			Texture2D lockButtonTexture = ModContent.GetTexture("Disarray/Assets/UI/Locked");
+			LockButton = new UIImageButton(lockButtonTexture);
+			LockButton.Left.Set(328, 0f);
+			LockButton.Top.Set(22, 0f);
+			LockButton.Width.Set(lockButtonTexture.Width, 0);
+			LockButton.Height.Set(lockButtonTexture.Height, 0);
+			LockButton.OnClick += ToggleLocking;
+			Background.Append(LockButton);
+			Background.PreDrag = (evt) => !Locked && !LockButton.ContainsPoint(evt.MousePosition);
+
+			Texture2D resetButtonTexture = ModContent.GetTexture("Disarray/Assets/UI/Reset");
+			ResetButton = new UIImageButton(resetButtonTexture);
+			ResetButton.Left.Set(326, 0f);
+			ResetButton.Top.Set(42, 0f);
+			ResetButton.Width.Set(resetButtonTexture.Width, 0);
+			ResetButton.Height.Set(resetButtonTexture.Height, 0);
+			ResetButton.OnClick += (UIMouseEvent evt, UIElement listeningElement) => ToAllSlots(slot => { slot.ReleaseItem(true); slot.Item.SetDefaults(); });
+			Background.Append(ResetButton);
+
 			Append(Background);
 		}
 
@@ -237,11 +273,11 @@ namespace Disarray.Forge.Core.UI
 				{
 					ForgeTemplate template = forgeItem.GetTemplate;
 					ForgeMaterial material = forgeCore as ForgeMaterial;
-					foreach (string materialType in template.MaterialTypeInfluence.Keys)
+					foreach ((string identity, float qualityInfluence) materialType in material.MaterialIdentity)
 					{
-						if (template.MaterialTypeInfluence.TryGetValue(materialType, out float influence))
+						if (template.MaterialTypeInfluence.TryGetValue(materialType.identity, out float influence))
 						{
-							forgeItem.Quality += influence * material.QualityInfluence;
+							forgeItem.Quality += influence * materialType.qualityInfluence;
 						}
 					}
 				}
@@ -270,9 +306,41 @@ namespace Disarray.Forge.Core.UI
 		{
 			if (!Main.playerInventory)
 			{
-				Main.PlaySound(SoundID.MenuClose);
-				ModContent.GetInstance<Disarray>().ForgeUserInterface?.SetState(null);
+				Close();
 				return;
+			}
+		}
+
+		private void Close()
+		{
+			Main.PlaySound(SoundID.MenuClose);
+			ModContent.GetInstance<Disarray>().ForgeUserInterface?.SetState(null);
+		}
+
+		private void ToggleLocking(UIMouseEvent evt, UIElement listeningElement)
+		{
+			Locked = !Locked;
+			LockButton.SetImage(ModContent.GetTexture("Disarray/Assets/UI/" + (Locked ? "Locked" : "Unlocked")));
+		}
+
+		protected override void DrawSelf(SpriteBatch spriteBatch)
+		{
+			if (CloseButton.ContainsPoint(Main.MouseScreen))
+			{
+				Main.mouseText = true;
+				Main.instance.MouseText("Close");
+			}
+
+			if (LockButton.ContainsPoint(Main.MouseScreen))
+			{
+				Main.mouseText = true;
+				Main.instance.MouseText(Locked ? "Unlock" : "Lock");
+			}
+
+			if (ResetButton.ContainsPoint(Main.MouseScreen))
+			{
+				Main.mouseText = true;
+				Main.instance.MouseText("Reset");
 			}
 		}
 	}

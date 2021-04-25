@@ -70,7 +70,7 @@ namespace Disarray.Almanac.Core.UI
 						texture = ForgeCore.ItemTextureData.TryGetValue(forgeItem.GetTemplate.item.type, out Texture2D actualTexture) ? actualTexture : Main.itemTexture[forgeItem.GetTemplate.item.type];
 					}
 				}
-				DrawItem(spriteBatch, texture);
+				DrawItem(spriteBatch, texture, (0f, 1f));
 			}
 		}
 	}

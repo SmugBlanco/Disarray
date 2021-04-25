@@ -244,29 +244,17 @@ namespace Disarray.Forge.Core.Items
 				return null;
 			}
 
-			List<string> SavedData = new List<string>();
-			foreach (ForgeCore bases in AllBases)
-			{
-				SavedData.Add(bases.Name);
-			}
-
 			return new TagCompound
 			{
-				{ "ForgedBases", SavedData },
+				{ "AllBases", AllBases.Select(forgeCore => forgeCore.Name).ToList() },
 				{ "Quality", Quality },
 			};
 		}
 
 		public override void Load(TagCompound tag)
 		{
-			AllBases = new List<ForgeCore>();
-			List<string> SavedData = tag.Get<List<string>>("ForgedBases");
-			List<ForgeCore> allBases = new List<ForgeCore>();
-			foreach (string bases in SavedData)
-			{
-				allBases.Add(mod.GetItem(bases) as ForgeCore);
-			}
-			AllBases = allBases.ToList();
+			IList<string> savedData = tag.Get<List<string>>("AllBases");
+			AllBases = savedData.Select(data => mod.GetItem(data) as ForgeCore).ToList();
 			Quality = tag.Get<float>("Quality");
 			SetDefaults();
 		}

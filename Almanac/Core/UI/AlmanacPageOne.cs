@@ -58,7 +58,7 @@ namespace Disarray.Almanac.Core.UI
 			Title.HAlign = 0.5f;
 			FirstPage.Append(Title);
 
-			Texture2D lockTexture = ModContent.GetTexture(AssetDirectory + "Locked");
+			Texture2D lockTexture = ModContent.GetTexture("Disarray/Assets/UI/Locked");
 			LockedMovement = new UIImageButton(lockTexture);
 			LockedMovement.Left.Set(bgTexture.Width - lockTexture.Width - 18, 0f);
 			LockedMovement.Top.Set(14, 0f);
@@ -209,7 +209,7 @@ namespace Disarray.Almanac.Core.UI
 		{
 			Lock = !Lock;
 			string LockTexture = Lock ? "Locked" : "Unlocked";
-			LockedMovement.SetImage(ModContent.GetTexture("Disarray/Almanac/Core/UI/Textures/" + LockTexture));
+			LockedMovement.SetImage(ModContent.GetTexture("Disarray/Assets/UI/" + LockTexture));
 		}
 
 		public void UpdateFirstPage() => DisplayCurrentTime.SetText(DateTime.Today.DayOfWeek + ", " + DateTime.Now);

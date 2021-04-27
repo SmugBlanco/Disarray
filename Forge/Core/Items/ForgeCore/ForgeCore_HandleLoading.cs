@@ -11,23 +11,30 @@ namespace Disarray.Forge.Core.Items
 		/// <summary>
 		/// type, texture
 		/// </summary>
-		public static IDictionary<int, int> SlotData = new Dictionary<int, int>();
+		public static IDictionary<int, int> SlotData;
 
 		/// <summary>
 		/// type, texture
 		/// </summary>
-		public static IDictionary<int, Texture2D> WeaponTextureData = new Dictionary<int, Texture2D>();
+		public static IDictionary<int, Texture2D> WeaponTextureData;
 
 		/// <summary>
 		/// type, texture
 		/// </summary>
-		public static IDictionary<int, Texture2D> ItemTextureData = new Dictionary<int, Texture2D>();
+		public static IDictionary<int, Texture2D> ItemTextureData;
+
+		public static void Load()
+		{
+			SlotData = new Dictionary<int, int>();
+			WeaponTextureData = new Dictionary<int, Texture2D>();
+			ItemTextureData = new Dictionary<int, Texture2D>();
+		}
 
 		public static void Unload()
 		{
-			SlotData.Clear();
-			WeaponTextureData.Clear();
-			ItemTextureData.Clear();
+			SlotData?.Clear();
+			WeaponTextureData?.Clear();
+			ItemTextureData?.Clear();
 		}
 
 		public static bool AutoloadArmor(string name, Item item, EquipType equipType, string altItemTexturePath = null)
@@ -37,7 +44,7 @@ namespace Disarray.Forge.Core.Items
 			SlotData.Add(item.type, Disarray.GetMod.AddEquipTexture(item.modItem, equipType, item.Name, texturePath + "_" + equipType, texturePath + "_Arms", texturePath + "_FemaleBody"));
 			if (altItemTexturePath != null)
 			{
-				AutoloadItem(item, altItemTexturePath);
+				AutoloadItem(name, item, altItemTexturePath, false);
 			}
 			return false;
 		}
@@ -50,18 +57,25 @@ namespace Disarray.Forge.Core.Items
 			WeaponTextureData.Add(item.type, ModContent.GetTexture(texturePath));
 			if (altItemTexturePath != null)
 			{
-				AutoloadItem(item, altItemTexturePath);
+				AutoloadItem(name, item, altItemTexturePath, false);
 			}
 			else
 			{
-				AutoloadItem(item, texturePath);
+				AutoloadItem(name, item, texturePath, false);
 			}
 			return false;
 		}
 
-		public static bool AutoloadItem(Item item, string altItemTexturePath = "")
+		public static bool AutoloadItem(string name, Item item, string altItemTexturePath = null, bool addItem = true)
 		{
-			ItemTextureData.Add(item.type, ModContent.GetTexture(altItemTexturePath));
+			if (addItem)
+			{
+				Disarray.GetMod.AddItem(name, item.modItem);
+			}
+
+			string texture = altItemTexturePath is null ? item.modItem.Texture : altItemTexturePath;
+			Disarray.GetMod.Logger.Info("Autoloading item texture for: " + item.modItem.Name + " | " + item.type + ". Given path: " + texture);
+			ItemTextureData.Add(item.type, ModContent.GetTexture(texture));
 			return false;
 		}
 	}

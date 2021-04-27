@@ -1,0 +1,14 @@
+Rusty Weapon DPS - Balanced around Iron, offering a powerful start to new players.
+Melee - 30 
+Range - 17.5
+Magic - 27.5
+
+Blacksmith Steel Weapon DPS - Balanced around Silver. An easy no work alternative, albeit weaker, to gold and platinum
+Melee - 37
+Range - 24
+Magic - 34
+
+Vitalium Weapon DPS - Balanced around Demonite and Crimtane, offering a nice alternatice
+Melee - 55 
+Range - 37.5
+Magic - 50

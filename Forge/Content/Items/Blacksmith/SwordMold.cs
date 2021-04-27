@@ -1,3 +1,4 @@
+using Disarray.Utility;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -10,19 +11,18 @@ namespace Disarray.Forge.Content.Items.Blacksmith
 
 		public override IReadOnlyDictionary<string, float> MaterialTypeInfluence { get; } = new Dictionary<string, float> { { "Metal", 1f } };
 
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Sword Mold");
+
 		public override string ItemStatistics
 		{
 			get
 			{
-				string statistic = "12 base damage, 15 max damage"
-				+ "\n4 base critical strike chance"
-				+ "\n5 base knockback ( average )"
-				+ "\n28 base use time and animation ( average )";
+				string statistic = "17 base damage, 21 max damage"
+				+ "\n5 base knockback ( " + ItemUtilities.GetKnockbackDescriptor(5f, true) + " )"
+				+ "\n28 base use time and animation ( " + ItemUtilities.GetSpeedDescriptor(28, true) + " )";
 				return statistic + "\n" + StatTooltip;
 			}
 		}
-
-		public override void SetStaticDefaults() => DisplayName.SetDefault("Sword Mold");
 
 		public override void NonProductDefaults()
         {
@@ -40,8 +40,7 @@ namespace Disarray.Forge.Content.Items.Blacksmith
 			item.UseSound = SoundID.Item1;
 
 			item.melee = true;
-			item.damage = 12 + (int)(3f * quality);
-			item.crit = 4;
+			item.damage = 17 + (int)(4f * quality);
 			item.knockBack = 5;
 
 			item.useStyle = ItemUseStyleID.SwingThrow;

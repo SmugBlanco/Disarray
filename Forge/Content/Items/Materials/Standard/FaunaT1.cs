@@ -30,6 +30,6 @@ namespace Disarray.Forge.Content.Items.Materials.Standard
 
 		public override string Miscellaneous => string.Empty;
 
-		public override IEnumerable<(string identity, float qualityInfluence)> MaterialIdentity { get; } = new Collection<(string, float)>() { { ("Fauna", 0.1f) } };
+		public override IEnumerable<(string identity, float qualityInfluence)> MaterialIdentity { get; } = new Collection<(string, float)>() { { ("Fauna", 0.05f) } };
 	}
 }

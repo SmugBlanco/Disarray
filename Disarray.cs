@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
@@ -27,6 +28,15 @@ namespace Disarray
 
 		public static Effect npcEffect;
 
+		public override bool LoadResource(string path, int length, Func<Stream> getStream)
+		{
+			DisarrayGlobalNPC.Load();
+			DisarrayGlobalPlayer.Load();
+			ForgeCore.Load();
+			AutoloadedClass.Load();
+			return base.LoadResource(path, length, getStream);
+		}
+
 		public override void Load()
 		{
 			if (Code == null)
@@ -35,11 +45,6 @@ namespace Disarray
 			}
 
 			Loading = true;
-
-			DisarrayGlobalNPC.Load();
-			DisarrayGlobalPlayer.Load();
-
-			AutoloadedClass.Load();
 
 			foreach (Type item in Code.GetTypes())
 			{

@@ -1,3 +1,4 @@
+using Disarray.Utility;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -20,12 +21,12 @@ namespace Disarray.Forge.Content.Items.Blacksmith
 		{
 			get
 			{
-				string statistic = "12 base damage, 15 max damage"
-				+ "\n4 base critical strike chance"
-				+ "\n3 base knockback ( very weak )"
-				+ "\n32 base use time and animation ( slow )"
+				string statistic = "8 base damage, 10 max damage"
+				+ "\n3 base knockback ( " + ItemUtilities.GetKnockbackDescriptor(3f, true) + " )"
+				+ "\n14 base use time and animation ( " + ItemUtilities.GetSpeedDescriptor(14, true) + " )"
 				+ "\n8 base shoot speed"
-				+ "\n2 mana consumption on use";
+				+ "\n3 mana consumption on use"
+				+ "\nConjures piercing stars";
 				return statistic + "\n" + StatTooltip;
 			}
 		}
@@ -47,17 +48,16 @@ namespace Disarray.Forge.Content.Items.Blacksmith
 			item.UseSound = SoundID.Item7;
 
 			item.magic = true;
-			item.damage = 12 + (int)(3f * quality);
-			item.crit = 4;
+			item.damage = 8 + (int)(2f * quality);
 			item.knockBack = 3;
 
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useTime = 32;
-			item.useAnimation = 32;
+			item.useTime = 14;
+			item.useAnimation = 14;
 
 			item.shoot = ProjectileID.HallowStar;
 			item.shootSpeed = 8;
-			item.mana = 2;
+			item.mana = 3;
 		}
 	}
 }

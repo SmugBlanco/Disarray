@@ -3,56 +3,63 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 
-namespace Disarray.Forge.Content.Items.Blacksmith
+namespace Disarray.Forge.Content.Items.Rusty
 {
-	public class BowMold : BlacksmithItem
+	public class RustyBow : RustyItem
 	{
 		public override bool Autoload(ref string name) => AutoloadWeapon(name, item, null, null);
 
 		public override IReadOnlyDictionary<string, float> MaterialTypeInfluence { get; } = new Dictionary<string, float> { { "Metal", 1f } };
 
-		public override void SetStaticDefaults() => DisplayName.SetDefault("Bow Mold");
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Rusty Bow");
+			Tooltip.SetDefault(GeneralDescription);
+		}
 
 		public override string ItemStatistics
 		{
 			get
 			{
-				string statistic = "11 base damage, 14 max damage"
+				string statistic = "8 base damage, 10 max damage"
+				+ "\n6 base critical strike chance"
 				+ "\n1 base knockback ( " + ItemUtilities.GetKnockbackDescriptor(1f, true) + " )"
-				+ "\n29 base use time and animation ( " + ItemUtilities.GetSpeedDescriptor(29, true) + " )"
-				+ "\n7 base shoot speed";
+				+ "\n30 base use time and animation ( " + ItemUtilities.GetSpeedDescriptor(30, true) + " )"
+				+ "\n6.5 base shoot speed";
 				return statistic + "\n" + StatTooltip;
 			}
 		}
 
 		public override void NonProductDefaults()
 		{
-			item.width = 36;
-			item.height = 36;
+			item.width = 20;
+			item.height = 40;
 			item.maxStack = 999;
 
 			item.useStyle = 0;
 
+			item.shoot = ProjectileID.None;
 			item.useAmmo = AmmoID.None;
 		}
 
 		public override void SafeDefaults(Item item, float quality)
 		{
 			item.width = 22;
-			item.height = 42;
-			item.rare = ItemRarityID.Blue;
+			item.height = 40;
+			item.rare = ItemRarityID.White;
 			item.UseSound = SoundID.Item5;
 
 			item.ranged = true;
-			item.damage = 11 + (int)(3f * quality);
-			item.knockBack = 1;
+			item.damage = 8 + (int)(2f * quality);
+			item.knockBack = 1f;
+			item.crit = 6;
 
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useTime = 29;
-			item.useAnimation = 29;
+			item.useTime = 30;
+			item.useAnimation = 30;
 
 			item.shoot = ProjectileID.WoodenArrowFriendly;
-			item.shootSpeed = 7;
+			item.shootSpeed = 6.5f;
 			item.useAmmo = AmmoID.Arrow;
 		}
 	}

@@ -1,3 +1,4 @@
+using Disarray.Utility;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -16,10 +17,9 @@ namespace Disarray.Forge.Content.Items.Blacksmith
 		{
 			get
 			{
-				string statistic = "8 base damage, 11 max damage"
-				+ "\n4 base critical strike chance"
-				+ "\n2 base knockback ( very weak )"
-				+ "\n15 base use time and animation ( very fast )";
+				string statistic = "10 base damage, 13 max damage"
+				+ "\n2 base knockback ( " + ItemUtilities.GetKnockbackDescriptor(2f, true) + " )"
+				+ "\n15 base use time and animation ( " + ItemUtilities.GetSpeedDescriptor(15, true) + " )";
 				return statistic + "\n" + StatTooltip;
 			}
 		}
@@ -41,9 +41,8 @@ namespace Disarray.Forge.Content.Items.Blacksmith
 			item.UseSound = SoundID.Item1;
 
 			item.melee = true;
-			item.damage = 8 + (int)(3f * quality);
+			item.damage = 10 + (int)(3f * quality);
 			item.knockBack = 2;
-			item.crit = 4;
 
 			item.useStyle = ItemUseStyleID.Stabbing;
 			item.useTime = 15;

@@ -15,6 +15,8 @@ namespace Disarray.Forge.Core.Items
 
 		public virtual void NonProductDefaults() { }
 
-		
+		public override bool Equals(object obj) => obj is ModItem item ? GetHashCode() == item.GetHashCode() : false;
+
+		public override int GetHashCode() => item.type;
 	}
 }

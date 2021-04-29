@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace Disarray.Forge.Core
+namespace Disarray.Forge.Core.GlobalPlayers
 {
 	public class PoisonPlayer : ModPlayer
 	{

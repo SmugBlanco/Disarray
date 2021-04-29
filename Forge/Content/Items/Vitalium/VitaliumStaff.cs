@@ -1,3 +1,4 @@
+using Disarray.Forge.Core.GlobalPlayers;
 using Disarray.Utility;
 using System.Collections.Generic;
 using Terraria;
@@ -51,6 +52,16 @@ namespace Disarray.Forge.Content.Items.Vitalium
 			item.shoot = ModContent.ProjectileType<VitaliumStaffProjectile>();
 			item.shootSpeed = 8;
 			item.mana = 5;
+		}
+
+		public override void HoldItem(Player player)
+		{
+			if (ImplementedItem != null && ImplementedItem.Quality >= 0.5f)
+			{
+				player.GetModPlayer<PoisonPlayer>().PoisonousAttackChance += 0.33f;
+
+				player.GetModPlayer<PoisonPlayer>().PoisonousAttackDuration += 180;
+			}
 		}
 	}
 }

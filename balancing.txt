@@ -12,3 +12,8 @@ Vitalium Weapon DPS - Balanced around Demonite and Crimtane, offering a nice alt
 Melee - 55 
 Range - 37.5
 Magic - 50
+
+Huntsman Weapon DPS - Balanced around Hellstone, offering a nice alternative
+Melee - 90
+Range - 80
+Magic - 90

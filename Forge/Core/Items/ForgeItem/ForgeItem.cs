@@ -128,13 +128,16 @@ namespace Disarray.Forge.Core.Items
 		{
 			foreach (ForgeCore forgeBase in AllBases)
 			{
-				Projectile newProjectile = forgeBase.ShootButBetter(player, item, forgeBase.item, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
+				IEnumerable<Projectile> newProjectile = forgeBase.ShootButBetter(player, item, forgeBase.item, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
 
 				if (newProjectile != null)
 				{
 					foreach (ForgeCore forgeBaseAgain in AllBases)
 					{
-						forgeBaseAgain.ModifyFiredProjectiles(newProjectile);
+						foreach (Projectile projectile in newProjectile)
+						{
+							forgeBaseAgain.ModifyFiredProjectiles(projectile);
+						}
 					}
 				}
 			}

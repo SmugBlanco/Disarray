@@ -37,7 +37,7 @@ namespace Disarray.Forge.Content.Items.Huntsman
 			item.accessory = true;
 		}
 
-		public override void UpdateEquip(Player player)
+		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
 			HemorrhagePlayer hemorrhagePlayer = player.GetModPlayer<HemorrhagePlayer>();
 			hemorrhagePlayer.HeartBeatSensor = true;

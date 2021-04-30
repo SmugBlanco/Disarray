@@ -50,6 +50,7 @@ namespace Disarray
 			Loading = true;
 
 			On.Terraria.Main.DrawMap += Main_DrawMap;
+			On.Terraria.Item.IsTheSameAs += Item_IsTheSameAs;
 
 			foreach (Type item in Code.GetTypes())
 			{
@@ -76,6 +77,21 @@ namespace Disarray
 			}
 
 			Loading = false;
+		}
+
+		private bool Item_IsTheSameAs(On.Terraria.Item.orig_IsTheSameAs orig, Item self, Item compareItem)
+		{
+			if (self?.modItem is null || compareItem?.modItem is null)
+			{
+				return orig(self, compareItem);
+			}
+
+			if (self.modItem is ForgeItem forgeItem && compareItem.modItem is ForgeItem comparedForgeItem)
+			{
+				return forgeItem.Equals(comparedForgeItem);
+			}
+
+			return orig(self, compareItem);
 		}
 
 		public override void PostSetupContent()

@@ -31,6 +31,6 @@ namespace Disarray.Forge.Content.Items.Vitalium
 			item.defense = 3;
 		}
 
-		public override void UpdateEquip(Player player) => player.buffImmune[BuffID.Poisoned] = true;
+		public override void UpdateAccessory(Player player, bool hideVisual) => player.buffImmune[BuffID.Poisoned] = true;
 	}
 }

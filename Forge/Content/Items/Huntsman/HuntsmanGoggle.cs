@@ -33,6 +33,6 @@ namespace Disarray.Forge.Content.Items.Huntsman
 			item.accessory = true;
 		}
 
-		public override void UpdateEquip(Player player) => player.GetModPlayer<HemorrhagePlayer>().HuntersMark = true;
+		public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<HemorrhagePlayer>().HuntersMark = true;
 	}
 }

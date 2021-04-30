@@ -53,8 +53,6 @@ namespace Disarray.Forge.Core.Items
 			{
 				Main.NewText("Error. Boo Hoo.");
 			}
-			item.maxStack = 1;
-			item.consumable = false;
 		}
 
 		public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)

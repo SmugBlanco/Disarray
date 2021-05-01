@@ -1,8 +1,10 @@
+using Disarray.Forge.Content.Items.Materials.Standard;
 using Disarray.Forge.Core.GlobalPlayers;
 using Disarray.Utility;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace Disarray.Forge.Content.Items.Huntsman
 {
@@ -61,6 +63,16 @@ namespace Disarray.Forge.Content.Items.Huntsman
 					player.GetModPlayer<HemorrhagePlayer>().HemorrhageDamageBoost += 0.1f;
 				}
 			}
+		}
+
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.Bone, 50);
+			recipe.AddIngredient(ModContent.ItemType<FaunaT2>());
+			recipe.AddTile(TileID.Anvils);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
 		}
 	}
 }

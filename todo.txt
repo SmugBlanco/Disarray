@@ -1,5 +1,0 @@
-- Make the blacksmith depicted in the new Forge UI a seperate sprite. Recolor to grey. Draw said sprite in player skin color.
-- Animate ForgeUI lava and make streams seperate sprites. Consider drawing streams with a shader for a shine effect?
-- Port existing templates and create new materials for the new forge system.
-
-- ...TemplateSmith. Allows players to further customize their templates. One for one ripoff of various CoD title's gunsmith

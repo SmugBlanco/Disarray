@@ -1,3 +1,4 @@
+using Disarray.Forge.Content.Items.Materials.Standard;
 using Disarray.Forge.Core.GlobalPlayers;
 using Disarray.Utility;
 using Microsoft.Xna.Framework;
@@ -5,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace Disarray.Forge.Content.Items.Huntsman
 {
@@ -78,6 +80,16 @@ namespace Disarray.Forge.Content.Items.Huntsman
 				firedProjectiles.Add(Projectile.NewProjectileDirect(player.Center + muzzleOffset, new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(5)), type, damage, knockBack, player.whoAmI));
 			}
 			return firedProjectiles;
+		}
+
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.Bone, 50);
+			recipe.AddIngredient(ModContent.ItemType<FaunaT2>());
+			recipe.AddTile(TileID.Anvils);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
 		}
 	}
 }

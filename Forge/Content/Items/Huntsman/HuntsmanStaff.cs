@@ -1,3 +1,4 @@
+using Disarray.Forge.Content.Items.Materials.Standard;
 using Disarray.Forge.Core.GlobalPlayers;
 using Disarray.Utility;
 using Microsoft.Xna.Framework;
@@ -107,6 +108,16 @@ namespace Disarray.Forge.Content.Items.Huntsman
 				firedProjectiles.Add(Projectile.NewProjectileDirect(spawnPosition, velocity, type, damage, knockBack, player.whoAmI));
 			}
 			return firedProjectiles;
+		}
+
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.Bone, 50);
+			recipe.AddIngredient(ModContent.ItemType<FaunaT2>());
+			recipe.AddTile(TileID.Anvils);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
 		}
 	}
 }

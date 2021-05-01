@@ -9,5 +9,5 @@ namespace Disarray.Almanac.Core
         string ObtainingGuide { get; set; }
 
         string Miscellaneous { get; set; }
-    }
+	}
 }

@@ -42,6 +42,27 @@ namespace Disarray.Forge.Core.GlobalNPCs
 					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, SpeedY: 3f);
 				}
 			}
+
+			if (npc.HasBuff(ModContent.BuffType<BattleMarked>()))
+			{
+				drawColor = new Color(2.55f, 0.5f, 0.5f);
+			}
+		}
+
+		public override void ModifyHitByItem(NPC npc, Player player, Item item, ref int damage, ref float knockback, ref bool crit)
+		{
+			if (npc.HasBuff(ModContent.BuffType<BattleMarked>()))
+			{
+				damage = (int)(damage * 1.1f);
+			}
+		}
+
+		public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			if (npc.HasBuff(ModContent.BuffType<BattleMarked>()))
+			{
+				damage = (int)(damage * 1.1f);
+			}
 		}
 
 		public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Color drawColor)

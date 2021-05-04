@@ -55,7 +55,7 @@ namespace Disarray.Forge.Content.Items.Huntsman
 
 				if (ImplementedItem.Quality >= 0.5f)
 				{
-					player.GetModPlayer<HemorrhagePlayer>().HemorrhageDamageBoost += 0.25f;
+					player.GetModPlayer<HemorrhagePlayer>().HemorrhageDamageBoost += 0.1f;
 				}
 			}
 		}

@@ -11,6 +11,8 @@ using System.IO;
 using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
+using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
 
@@ -67,9 +69,11 @@ namespace Disarray
 
 			if (!Main.dedServ)
 			{
-				Ref<Effect> pestillenceRef = new Ref<Effect>(GetEffect("Effects/Pestillence"));
-				Filters.Scene["Pestillence"] = new Filter(new ScreenShaderData(pestillenceRef, "Pestillence"), EffectPriority.VeryLow);
+				Filters.Scene["Pestillence"] = new Filter(new ScreenShaderData(new Ref<Effect>(GetEffect("Effects/Pestillence")), "Pestillence"), EffectPriority.VeryLow);
 				Filters.Scene["Pestillence"].Load();
+
+				Filters.Scene["ProtectiveSights"] = new Filter(new ScreenShaderData(new Ref<Effect>(GetEffect("Effects/ProtectiveSights")), "ProtectiveSights"), EffectPriority.Medium);
+				Filters.Scene["ProtectiveSights"].Load();
 
 				ForgeUserInterface = new UserInterface();
 				AlmanacUserInterface = new UserInterface();
@@ -103,6 +107,21 @@ namespace Disarray
 					autoloadedData.PostSetupContent();
 				}
 			}
+		}
+
+		public override void AddRecipeGroups() // OOPize later
+		{
+			RecipeGroup recipeGroup = new RecipeGroup(() =>  "Copper or Tin Bars", new int[] { ItemID.CopperBar, ItemID.TinBar });
+			RecipeGroup.RegisterGroup("Disarray:CopperBar", recipeGroup);
+
+			recipeGroup = new RecipeGroup(() => "Silver or Tungsten Bars", new int[] { ItemID.SilverBar, ItemID.TungstenBar });
+			RecipeGroup.RegisterGroup("Disarray:SilverBar", recipeGroup);
+
+			recipeGroup = new RecipeGroup(() => "Gold or Platinum Bars", new int[] { ItemID.GoldBar, ItemID.PlatinumBar });
+			RecipeGroup.RegisterGroup("Disarray:GoldBar", recipeGroup);
+
+			recipeGroup = new RecipeGroup(() => "Demonite or Crimtane Bars", new int[] { ItemID.DemoniteBar, ItemID.CrimtaneBar });
+			RecipeGroup.RegisterGroup("Disarray:DemoniteBar", recipeGroup);
 		}
 
 		public override void Unload()

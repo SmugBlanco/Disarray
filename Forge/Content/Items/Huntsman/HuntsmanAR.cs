@@ -10,13 +10,13 @@ using Terraria.ModLoader;
 
 namespace Disarray.Forge.Content.Items.Huntsman
 {
-	public class HuntsmanRifle : HuntsmanItem
+	public class HuntsmanAR : HuntsmanItem
 	{
 		public override IReadOnlyDictionary<string, float> MaterialTypeInfluence { get; } = new Dictionary<string, float> { { "Fauna", 1f } };
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Huntsman's Rifle");
+			DisplayName.SetDefault("Huntsman's Assault Rifle");
 			Tooltip.SetDefault("A powerful double barreled assault rifle, capable of lethal close range damage and substantial distance accuracy.");
 		}
 

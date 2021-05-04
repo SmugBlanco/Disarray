@@ -32,7 +32,7 @@ namespace Disarray.Forge.Content.Items.Fire
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddRecipeGroup(ItemID.Wood, 50);
+			recipe.AddRecipeGroup(RecipeGroupID.Wood, 50);
 			recipe.AddTile(TileID.Furnaces);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

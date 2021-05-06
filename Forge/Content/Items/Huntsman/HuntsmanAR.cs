@@ -1,5 +1,5 @@
 using Disarray.Forge.Content.Items.Materials.Standard;
-using Disarray.Forge.Core.GlobalPlayers;
+using Disarray.Core.GlobalPlayers;
 using Disarray.Utility;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;

@@ -1,6 +1,6 @@
 using Terraria.ModLoader;
 
-namespace Disarray.Forge.Core.GlobalPlayers
+namespace Disarray.Core.GlobalPlayers
 {
 	public class SpeedPlayer : ModPlayer
 	{

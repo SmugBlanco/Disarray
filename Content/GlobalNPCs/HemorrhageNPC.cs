@@ -4,7 +4,7 @@ using Disarray.Content.Buffs;
 using Microsoft.Xna.Framework;
 using Terraria.ID;
 using Microsoft.Xna.Framework.Graphics;
-using Disarray.Forge.Core.GlobalPlayers;
+using Disarray.Core.GlobalPlayers;
 using System;
 
 namespace Disarray.Forge.Core.GlobalNPCs

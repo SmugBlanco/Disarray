@@ -1,4 +1,4 @@
-using Disarray.Forge.Core.GlobalPlayers;
+using Disarray.Core.GlobalPlayers;
 using Disarray.Forge.Core.Items;
 using Terraria;
 using Terraria.ID;

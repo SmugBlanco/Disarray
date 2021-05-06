@@ -1,4 +1,4 @@
-using Disarray.Forge.Core.GlobalPlayers;
+using Disarray.Core.GlobalPlayers;
 using Disarray.Utility;
 using System.Collections.Generic;
 using Terraria;

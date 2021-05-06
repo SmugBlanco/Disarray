@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace Disarray.Forge.Core.GlobalPlayers
+namespace Disarray.Core.GlobalPlayers
 {
 	public class FirePlayer : ModPlayer
 	{

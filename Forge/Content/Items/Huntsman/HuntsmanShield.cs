@@ -1,5 +1,5 @@
 using Disarray.Forge.Content.Items.Materials.Standard;
-using Disarray.Forge.Core.GlobalPlayers;
+using Disarray.Core.GlobalPlayers;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;

@@ -7,7 +7,7 @@ using Disarray.Core.Map;
 using System;
 using Disarray.Forge.Core.GlobalNPCs;
 
-namespace Disarray.Forge.Core.GlobalPlayers
+namespace Disarray.Core.GlobalPlayers
 {
 	public class HemorrhagePlayer : ModPlayer
 	{

@@ -24,12 +24,6 @@ float2 point1;
 float2 point2;
 float2 point3;
 
-float4 Tint(float4 oldColor, float4 refColor, float tintProgress)
-{
-    float4 colorDifference = (refColor - oldColor) * tintProgress;
-    return oldColor + colorDifference;
-}
-
 bool PointInTriangle(float2 A, float2 B, float2 C, float2 P)
 {
     double s1 = C.y - A.y;

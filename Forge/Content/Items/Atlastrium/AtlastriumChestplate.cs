@@ -1,5 +1,4 @@
-using Disarray.Forge.Core.GlobalPlayers;
-using Disarray.Forge.Core.Items;
+using Disarray.Core.GlobalPlayers;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -51,7 +50,7 @@ namespace Disarray.Forge.Content.Items.Atlastrium
 		public override void UpdateEquip(Player player)
 		{
 			player.GetModPlayer<SpeedPlayer>().MovementSpeedMultiplier *= 0.85f;
-			player.GetModPlayer<ArmorPlayer>().ManOfStone = true;
+			player.GetModPlayer<AtlastriumPlayer>().ManOfStone = true;
 		}
 
 		public override void AddRecipes()

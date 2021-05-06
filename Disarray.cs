@@ -75,6 +75,9 @@ namespace Disarray
 				Filters.Scene["ProtectiveSights"] = new Filter(new ScreenShaderData(new Ref<Effect>(GetEffect("Effects/ProtectiveSights")), "ProtectiveSights"), EffectPriority.Medium);
 				Filters.Scene["ProtectiveSights"].Load();
 
+				Filters.Scene["Flashbang"] = new Filter(new ScreenShaderData(new Ref<Effect>(GetEffect("Effects/Flashbang")), "Flashbang"), EffectPriority.VeryHigh);
+				Filters.Scene["Flashbang"].Load();
+
 				ForgeUserInterface = new UserInterface();
 				AlmanacUserInterface = new UserInterface();
 				GardeningInterface = new UserInterface();

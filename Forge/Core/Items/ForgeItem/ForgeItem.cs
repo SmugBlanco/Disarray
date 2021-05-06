@@ -236,6 +236,16 @@ namespace Disarray.Forge.Core.Items
 			}
 		}
 
+		public override void UpdateArmorSet(Player player)
+		{
+			foreach (ForgeCore forgeBase in AllBases)
+			{
+				forgeBase.UpdateArmorSet(player);
+			}
+		}
+
+		public override bool IsArmorSet(Item head, Item body, Item legs) => GetTemplate.IsArmorSet(item, body, legs);
+
 		public override bool NewPreReforge() => false;
 
 		public override TagCompound Save()

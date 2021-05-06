@@ -1,4 +1,4 @@
-using Disarray.Forge.Core.GlobalPlayers;
+using Disarray.Core.GlobalPlayers;
 using Disarray.Forge.Core.Items;
 using System.Collections.Generic;
 using Terraria;
@@ -15,7 +15,7 @@ namespace Disarray.Forge.Content.Items.Atlastrium
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("AtlastriumHelmet");
+			DisplayName.SetDefault("Atlastrium Helmet");
 			Tooltip.SetDefault("Reduces movement speed by 10%"
 			+ "\n'Protective Sights' - Double equipment defense but severly limits vision.");
 		}
@@ -48,13 +48,13 @@ namespace Disarray.Forge.Content.Items.Atlastrium
 		public override void UpdateEquip(Player player)
 		{
 			player.GetModPlayer<SpeedPlayer>().MovementSpeedMultiplier *= 0.9f;
-			player.GetModPlayer<ArmorPlayer>().ProtectiveSights = true;
+			player.GetModPlayer<AtlastriumPlayer>().ProtectiveSights = true;
 		}
 
 		public override bool IsArmorSet(Item head, Item body, Item legs)
 		{
 			bool forgedChestplate = body.modItem is ForgeItem chestPlate && chestPlate.GetTemplate != null && chestPlate.GetTemplate.item.type == ModContent.ItemType<AtlastriumChestplate>();
-			bool forgedLeggings = body.modItem is ForgeItem legging && legging.GetTemplate != null && legging.GetTemplate.item.type == ModContent.ItemType<AtlastriumLeggings>();
+			bool forgedLeggings = legs.modItem is ForgeItem legging && legging.GetTemplate != null && legging.GetTemplate.item.type == ModContent.ItemType<AtlastriumLeggings>();
 			return (body.type == ModContent.ItemType<AtlastriumChestplate>() || forgedChestplate) && (legs.type == ModContent.ItemType<AtlastriumLeggings>() || forgedLeggings);
 		}
 

@@ -1,5 +1,4 @@
-using Disarray.Forge.Core.GlobalPlayers;
-using Disarray.Forge.Core.Items;
+using Disarray.Core.GlobalPlayers;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -51,7 +50,7 @@ namespace Disarray.Forge.Content.Items.Atlastrium
 		{
 			player.GetModPlayer<SpeedPlayer>().MovementSpeedMultiplier *= 0.85f;
 			player.noKnockback = true;
-			player.GetModPlayer<ArmorPlayer>().Steadfast = true;
+			player.GetModPlayer<AtlastriumPlayer>().Steadfast = true;
 		}
 
 		public override void AddRecipes()

@@ -2,14 +2,13 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace Disarray.Forge.Core.GlobalPlayers
+namespace Disarray.Core.GlobalPlayers
 {
-	public class ArmorPlayer : ModPlayer
+	public class AtlastriumPlayer : ModPlayer
 	{
 		public bool ProtectiveSights = false;
 

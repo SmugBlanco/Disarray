@@ -1,5 +1,3 @@
-//Terraria already provides these parameters for us, otherwise we can just set them when using the shaders
-
 sampler uImage0 : register(s0);
 sampler uImage1 : register(s1);
 sampler uImage2 : register(s2);
@@ -50,7 +48,6 @@ float Clamp(float value, float minimum, float maximum)
 
 float4 Pestillence(float4 position : SV_POSITION, float2 coords : TEXCOORD0) : COLOR0
 {
-    //float2 targetCoords = (uTargetPosition - uScreenPosition) / uScreenResolution - float2(0.5, 0.5);
     float4 currentPixel = tex2D(uImage0, coords);
     float multiplierBasedOnDistance = Clamp(DistanceSQ(coords, float2(0.5, 0.5)) * 2, 0, 1);
     float tintMultiplier = uProgress * (1 - uIntensity) * multiplierBasedOnDistance;
